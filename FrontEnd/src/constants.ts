@@ -8,7 +8,8 @@ export const badges = [
       earned: true,
       progress: 100,
       points: 50,
-      category: "Writing"
+      category: "Writing",
+      file: "risingblogger.png"
     },
     { 
       name: "Pro Contributor", 
@@ -17,7 +18,8 @@ export const badges = [
       earned: false,
       progress: 4,
       points: 100,
-      category: "Writing"
+      category: "Writing",
+      file: "procontributer.png"
     },
     { 
       name: "Tech Guru", 
@@ -26,7 +28,8 @@ export const badges = [
       earned: false,
       progress: 12,
       points: 250,
-      category: "Writing"
+      category: "Writing",
+      file: "techguru.png"
     },
     { 
       name: "Avid Reader", 
@@ -35,7 +38,8 @@ export const badges = [
       earned: true,
       progress: 100,
       points: 75,
-      category: "Reading"
+      category: "Reading",
+      file: "avidreader.png"
     },
     { 
       name: "Deep Diver", 
@@ -44,7 +48,8 @@ export const badges = [
       earned: false,
       progress: 40,
       points: 150,
-      category: "Reading"
+      category: "Reading" ,
+      file: "deepdiver.png"
     },
     { 
       name: "Top Critic", 
@@ -53,7 +58,8 @@ export const badges = [
       earned: false,
       progress: 6,
       points: 200,
-      category: "Community"
+      category: "Community",
+      file: "topcritic.png"
     },
     { 
       name: "Community Builder", 
@@ -62,7 +68,8 @@ export const badges = [
       earned: true,
       progress: 100,
       points: 125,
-      category: "Community"
+      category: "Community",
+      file: "communitybuilder.png"
     },
     { 
       name: "Helper", 
@@ -71,7 +78,8 @@ export const badges = [
       earned: false,
       progress: 2,
       points: 100,
-      category: "Community"
+      category: "Community",
+      file: "help.png"
     },
     { 
       name: "First Steps", 
@@ -80,7 +88,8 @@ export const badges = [
       earned: true,
       progress: 100,
       points: 25,
-      category: "Milestone"
+      category: "Milestone",
+      file: "firststeps.png"
     },
     { 
       name: "Streak Keeper", 
@@ -89,7 +98,8 @@ export const badges = [
       earned: false,
       progress: 3,
       points: 175,
-      category: "Milestone"
+      category: "Milestone",
+      file: "streakkeeper.png"
     }
   ];
   
