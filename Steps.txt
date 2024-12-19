@@ -1,0 +1,8 @@
+1- create a user signup page with
+	name
+	email
+	dob
+	password
+	confirm password
+2- create profile section
+	name, email, dob, date of joining, avatar(change allowed), interests, socials, bookmarks, contributions.	
