@@ -38,7 +38,7 @@ const Login = () => {
       }
       if (res.ok) {
         const { token, rest } = await res.json();
-        login(token, rest._doc);
+        login(token, rest._doc._id);
         toast.success("Login successful!", {
           position: "top-right",
           autoClose: 4000,

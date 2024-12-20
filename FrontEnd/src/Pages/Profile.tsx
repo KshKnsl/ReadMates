@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   Mail,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { INTERESTS } from "../constants";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 const dummyData: UserData = {
   id: "67613652de5b440ea1d71979",
@@ -55,6 +56,7 @@ interface UserData {
 }
 
 function Profile() {
+  const auth = useContext(AuthContext);
   const { id } = useParams<{ id: string }>();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,7 @@ function Profile() {
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const userId = id || "6762cb51b7f9c82d51d49cef";
+  const userId = id || (auth.user ? auth.user._id : null);
 
   useEffect(() => {
     const fetchUserData = async () => {
