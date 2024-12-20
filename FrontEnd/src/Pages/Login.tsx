@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Mail,
   Lock,
@@ -11,31 +11,46 @@ import {
   Github,
   Twitter,
 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../context/AuthContext.tsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setIsLoading(true);
-    try {
-      // Simulating API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Mock login logic
-      if (email === "user@example.com" && password === "password") {
-        console.log("Login successful");
-        // Here you would typically set user state and redirect
-      } else {
-        toast.error("Invalid email or password");
+    const credentials = { email, password };
+    try {
+      const res = await fetch("/api/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+      if (!res.ok) {
+        toast.error("Invalid Credentials");
+        console.log(res);
+      }
+      if (res.ok) {
+        const { token, rest } = await res.json();
+        login(token, rest._doc);
+        toast.success("Login successful!", {
+          position: "top-right",
+          autoClose: 4000,
+        });
+        navigate("/profile");
       }
     } catch (err) {
-      toast.error("An error occurred. Please try again.");
+      console.error(err); // Log the error to console
+      toast.error("An error occurred. Please try again.", {
+        position: "top-right",
+        autoClose: 4000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +62,7 @@ const Login = () => {
         <div>
           <ScanFace className="mx-auto h-24 w-auto text-amber-600" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-900">
-            Sign in to ReadMates
+            Log in to ReadMates
           </h2>
           <p className="mt-2 text-center text-sm text-amber-700">
             Or{" "}
@@ -211,6 +226,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

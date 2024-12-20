@@ -1,4 +1,7 @@
 import User from "../models/User.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
 
 async function createUser(data) {
   try {
@@ -14,7 +17,9 @@ async function createUser(data) {
 
     await newUser.save();
     return { success: true, message: "User created successfully" };
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     return { success: false, message: `Error while creating user ${error}` };
   }
 }
@@ -53,4 +58,34 @@ async function updateUser(data)
   }
 }
 
-export { createUser, findUser, updateUser };
+async function loginUser(data) {
+  try 
+  {
+    const { email, password } = data;
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) 
+    {
+      return { success: false, message: "User not found" };
+    }
+    const isRight = await bcrypt.compare(password, user.password);
+    if (!isRight) 
+    {
+      return { success: false, message: "Invalid credentials" };
+    }
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    const { password: pass, ...rest } = user;
+    return { success: true, token, rest};
+  }
+  catch (error) 
+  {
+    return { success: false, message: `Error while logging in ${error}` };
+  }
+}
+
+
+
+
+
+export { createUser, findUser, updateUser, loginUser };

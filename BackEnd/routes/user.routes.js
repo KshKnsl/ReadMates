@@ -4,7 +4,7 @@ const uploadImage  = require("../utils/uploadImage");
 const {
   createUser,
   findUser,
-  updateUser,
+  updateUser, loginUser
 } = require("../controllers/user.controllers");
 
 const router = express.Router();
@@ -15,6 +15,17 @@ router.post("/addUser", async (req, res) => {
   else
     res.status(400).send(result);
 });
+
+router.post("/login", async (req, res) => {
+  let result = await loginUser(req.body);
+  if (result.success) 
+    res.status(200).send(result);
+  else
+    res.status(404).send({message: "User not found"});
+});
+
+
+
 
 router.put("/updateUser", async (req, res) => {
   let result = await updateUser(req.body);

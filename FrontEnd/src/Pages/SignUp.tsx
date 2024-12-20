@@ -1,5 +1,5 @@
 import { useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {INTERESTS} from "../constants"
 import {
   Mail,
@@ -14,8 +14,8 @@ import {
   Search,
 } from "lucide-react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-
 const SignUp = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -67,6 +67,7 @@ const SignUp = () => {
           hideProgressBar: false,
           closeOnClick: true,
         });
+        navigate("/login");
       } 
       else 
       {

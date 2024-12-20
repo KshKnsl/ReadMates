@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { UserCircle, BookOpen, PenTool, Users, Award, Menu, X, LogIn, UserPlus } from 'lucide-react';
+import { UserCircle, BookOpen, PenTool, Users, Award, Menu, X, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -64,6 +66,14 @@ const Navbar = () => {
             >
               <UserCircle className="w-6 h-6" />
             </Link>
+            <button
+              onClick={() => {logout()}}
+              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
+            >
+              <LogOut className="w-5 h-5 mr-2" />
+              Logout
+            </button>
+            
           </div>
           <div className="flex items-center md:hidden">
             <button
@@ -123,6 +133,13 @@ const Navbar = () => {
           >
             <UserCircle className="w-6 h-6 mr-3" />
             <span>Your Profile</span>
+          </Link>
+          <Link
+            to="/logout"
+            className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+          >
+            <LogOut className="w-6 h-6 mr-3" />
+            <span>Logout</span>
           </Link>
         </div>
       </div>

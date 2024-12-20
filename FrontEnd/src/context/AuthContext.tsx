@@ -1,45 +1,52 @@
-// src/context/AuthContext.tsx
-import { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface AuthContextType {
-  isLoggedIn: boolean;
-  userId: string | null;
-  login: (id: string) => void;
-  logout: () => void;
-}
+type User = {
+  token: string;
+  _id:string;
+};
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<{user: User | null; loading: boolean;login: (token: string, _id: string) => void;logout: () => void;}>({
+  user: null,
+  loading: true,
+  login: () => {},
+  logout: () => {},
+});
 
-// Create the AuthProvider component
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(null); 
-  
-  const login = (id: string) => 
-    {
-    setUserId(id);
-    localStorage.setItem("userId", id); // Persist user ID in localStorage
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null); 
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const _id = localStorage.getItem("_id");
+    if (token && _id) setUser({ token, _id });
+    setLoading(false);
+  }, []);
+
+  // Login function
+  const login = (token: string, _id:string) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("_id", _id);
+    setUser({ token, _id });
+    navigate("/profile");
   };
 
-  // Function to log out the user
+  // Logout function
   const logout = () => {
-    setUserId(null);
-    localStorage.removeItem("userId"); // Remove user ID from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("_id");
+    setUser(null);
+    navigate("/login");
   };
-
-  const isLoggedIn = !!userId;
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook for consuming the AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+// Export context and provider
+export { AuthContext, AuthProvider };
