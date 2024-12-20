@@ -110,7 +110,7 @@ function Profile() {
   };
 
   async function updateEditData() {
-    console.log("Updating user data with:", user);
+    // console.log("Updating user data with:", user);
     setEditMode(false);
     try {
       const res = await fetch("/api/user/updateUser", {
@@ -266,20 +266,20 @@ function Profile() {
             {" "}
             {/* Improved layout */}
             <div>
-              <dt className="text-sm font-medium text-gray-500 flex items-center">
+              <div className="text-sm font-medium text-gray-500 flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-amber-600" />
                 Email
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900">{user.email}</dd>
+              </div>
+              <div className="mt-1 text-sm text-gray-900">{user.email}</div>
             </div>
             <div>
-              <dt className="text-sm font-medium text-gray-500 flex items-center">
+              <div className="text-sm font-medium text-gray-500 flex items-center">
                 <Calendar className="w-5 h-5 mr-2 text-amber-600" />
                 Date of Birth
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900">
+              </div>
+              <div className="mt-1 text-sm text-gray-900">
                 {!editMode ? (
-                  new Date(user.dob).toLocaleDateString()
+                  isNaN(new Date(user.dob).getTime()) ? "N/A" : new Date(user.dob).toLocaleDateString()
                 ) : (
                   <input
                     type="date"
@@ -290,7 +290,7 @@ function Profile() {
                     }
                   />
                 )}
-              </dd>
+              </div>
             </div>
           </dl>
         </div>
@@ -306,32 +306,32 @@ function Profile() {
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
               {" "}
               {/* Improved padding */}
-              <dt className="text-sm font-medium text-gray-500 truncate">
+              <div className="text-sm font-medium text-gray-500 truncate">
                 Total Points
-              </dt>
-              <dd className="mt-1 text-3xl font-semibold text-amber-900">
+              </div>
+              <div className="mt-1 text-3xl font-semibold text-amber-900">
                 {user.points}
-              </dd>
+              </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
               {" "}
               {/* Improved padding */}
-              <dt className="text-sm font-medium text-gray-500 truncate">
+              <div className="text-sm font-medium text-gray-500 truncate">
                 Contributions
-              </dt>
-              <dd className="mt-1 text-3xl font-semibold text-amber-900">
+              </div>
+              <div className="mt-1 text-3xl font-semibold text-amber-900">
                 {user.contributions.length}
-              </dd>
+              </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
               {" "}
               {/* Improved padding */}
-              <dt className="text-sm font-medium text-gray-500 truncate">
+              <div className="text-sm font-medium text-gray-500 truncate">
                 Saved Articles
-              </dt>
-              <dd className="mt-1 text-3xl font-semibold text-amber-900">
+              </div>
+              <div className="mt-1 text-3xl font-semibold text-amber-900">
                 {user.savedArticles.length}
-              </dd>
+              </div>
             </div>
           </div>
         </div>

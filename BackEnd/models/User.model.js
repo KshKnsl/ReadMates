@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", async function (next) 
 {
+  if(this.password === undefined || this.password.length==0) this.password= "GooGleAuthAccount";
   if (!this.isModified("password"))
     next();
   const salt = await bcrypt.genSalt(10);

@@ -1,7 +1,7 @@
 import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { validationResult } from "express-validator";
+import { OAuth2Client } from "google-auth-library";
 
 async function createUser(data) {
   try {
@@ -85,7 +85,45 @@ async function loginUser(data) {
 }
 
 
+const client = new OAuth2Client(process.env.client_id);
 
 
+async function googleLogin(token) 
+{
+  try 
+  {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.client_id,
+    });
 
-export { createUser, findUser, updateUser, loginUser };
+    const payload = ticket.getPayload();
+    // console.log(payload);
+    const email = payload.email;
+    const name = payload.name;
+    const avatar = payload.picture;
+
+    let user = await User.findOne({ email });
+    if (!user) 
+    {
+      user = new User({
+        name,
+        email,
+        avatar,
+        password: "GooGleAuthAccount",
+      });
+      await user.save();
+    }
+
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    
+    const { ...userWithoutPassword } = user.toObject();
+    return { success: true, token: jwtToken, user: userWithoutPassword };
+  } catch (error) {
+    console.error("Error verifying Google token:", error);
+    return { success: false, message: "Error during Google login" };
+  }
+}
+export { createUser, findUser, updateUser, loginUser, googleLogin  };

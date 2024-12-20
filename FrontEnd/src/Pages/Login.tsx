@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -34,7 +36,7 @@ const Login = () => {
       });
       if (!res.ok) {
         toast.error("Invalid Credentials");
-        console.log(res);
+        // console.log(res);
       }
       if (res.ok) {
         const { token, rest } = await res.json();
@@ -53,6 +55,36 @@ const Login = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async (response: any) => {
+    try {
+      // console.log(response);
+      const res = await fetch("/api/user/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.credential }),
+      });
+      if (res.ok) {
+        const { token, ...rest } = await res.json();
+        // console.log(rest);
+        login(token, rest.user._id);
+        toast.success("Google login successful!", {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      } else {
+        toast.error(`Google login failed. Please try again.${await res.text()}`, {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred during Google login.", {
+        position: "top-right",
+        autoClose: 4000,
+      });
     }
   };
 
@@ -194,34 +226,15 @@ const Login = () => {
 
           <div className="mt-6 flex justify-center space-x-6">
             <div className="w-full">
-              <a
-                href="#"
-                className="w-full inline-flex justify-center py-2 px-4 border border-amber-300 rounded-md shadow-sm bg-white text-sm font-medium text-amber-700 hover:bg-amber-50 transition-colors duration-300"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 48 48"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fill="#4285F4"
-                    d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.9C34.7 3.5 29.9 1.5 24 1.5 14.8 1.5 7.3 7.9 4.7 16.1l6.9 5.4C13.1 15.1 18 9.5 24 9.5z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3.2-2.5 5.9-5.2 7.7l6.9 5.4c4-3.7 6.3-9.1 6.3-15.6z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M10.6 28.5c-1-3.2-1-6.8 0-10l-6.9-5.4c-2.5 5.1-2.5 11.3 0 16.4l6.9-5.4z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M24 46.5c5.9 0 10.7-1.9 14.3-5.2l-6.9-5.4c-2 1.4-4.5 2.2-7.4 2.2-6 0-10.9-4.1-12.7-9.6l-6.9 5.4c3.6 7.2 10.9 12.6 19.6 12.6z"
-                  />
-                </svg>
-                <span className="sr-only">Sign in with Google</span>
-              </a>
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() =>
+                  toast.error("Google login failed. Please try again.", {
+                    position: "top-right",
+                    autoClose: 4000,
+                  })
+                }
+              />
             </div>
           </div>
         </div>
