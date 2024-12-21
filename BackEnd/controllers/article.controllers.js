@@ -25,7 +25,7 @@ async function createArticle(data)
   }
 }
 
-async function findArticle(id) 
+async function getArticleById(id) 
 {
   try 
   {
@@ -75,4 +75,46 @@ async function deleteArticle(id)
   }
 }
 
-module.exports = { createArticle, findArticle, updateArticle, deleteArticle };
+async function getArticlesByTags(tags) 
+{
+  try 
+  {
+    const articles = await articleSchema.find({ tags: { $in: tags } });
+    return articles;
+  } 
+  catch (error) 
+  {
+    return null;
+  }
+}
+
+async function getArticlesByAuthor(author)
+{
+  try 
+  {
+    const articles = await articleSchema.find({ author: author });
+    return articles;
+  } 
+  catch (error) 
+  {
+    return null;
+  }
+}
+
+async function getArticlesAll()
+{
+  try 
+  {
+    const articles = await articleSchema.find();
+    return articles;
+  } 
+  catch (error) 
+  {
+    return null;
+  }
+}
+
+
+
+
+module.exports = { createArticle, getArticleById, updateArticle, deleteArticle , getArticlesByTags, getArticlesByAuthor, getArticlesAll};
