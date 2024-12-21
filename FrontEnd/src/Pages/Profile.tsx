@@ -16,6 +16,7 @@ import {
 import { INTERESTS } from "../constants";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
+import { badges as badgeData } from "../constants";
 
 const dummyData: UserData = {
   id: "67613652de5b440ea1d71979",
@@ -31,7 +32,7 @@ const dummyData: UserData = {
     "instagrap/iej",
   ],
   points: 100,
-  badges: ["Bookworm", "Prolific Writer"],
+  badges: ["Rising Blogger", "Helper"],
   interests: ["Science Fiction", "Technology", "Writing"],
   savedArticles: ["article1", "article2"],
   contributions: [
@@ -163,16 +164,10 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden p-6">
-        {" "}
-        {/* Improved layout */}
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8 flex gap-4 mx-auto justify-center md:flex-row flex-col">
+      <div className="max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-6">
         <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
-          {" "}
-          {/* Improved layout */}
           <div className="md:w-48">
-            {" "}
-            {/* Improved layout */}
             <img
               className="h-48 w-48 rounded-full border-4 border-white shadow-lg object-cover"
               src={user.avatar}
@@ -279,7 +274,11 @@ function Profile() {
               </div>
               <div className="mt-1 text-sm text-gray-900">
                 {!editMode ? (
-                  isNaN(new Date(user.dob).getTime()) ? "N/A" : new Date(user.dob).toLocaleDateString()
+                  isNaN(new Date(user.dob).getTime()) ? (
+                    "N/A"
+                  ) : (
+                    new Date(user.dob).toLocaleDateString()
+                  )
                 ) : (
                   <input
                     type="date"
@@ -295,17 +294,11 @@ function Profile() {
           </dl>
         </div>
         <div className="mt-8">
-          {" "}
-          {/* Improved spacing */}
           <h3 className="text-lg leading-6 font-medium text-amber-900">
             User Statistics
           </h3>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {" "}
-            {/* Improved layout */}
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
-              {" "}
-              {/* Improved padding */}
               <div className="text-sm font-medium text-gray-500 truncate">
                 Total Points
               </div>
@@ -314,8 +307,6 @@ function Profile() {
               </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
-              {" "}
-              {/* Improved padding */}
               <div className="text-sm font-medium text-gray-500 truncate">
                 Contributions
               </div>
@@ -324,8 +315,6 @@ function Profile() {
               </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg p-4">
-              {" "}
-              {/* Improved padding */}
               <div className="text-sm font-medium text-gray-500 truncate">
                 Saved Articles
               </div>
@@ -371,43 +360,58 @@ function Profile() {
           </div>
         </div>
         <div className="mt-8">
-            <h3 className="text-lg leading-6 font-medium text-amber-900">
+          <h3 className="text-lg leading-6 font-medium text-amber-900">
             Social Links
-            </h3>
-            <div className="ml-4 mt-2 flex flex-col items-start gap-2">
+          </h3>
+          <div className="ml-4 mt-2 flex flex-col items-start gap-2">
             {user.socialLinks.map((url, index) => (
-                <div key={index} className="flex gap-2 items-center hover:text-amber-800">
+              <div
+                key={index}
+                className="flex gap-2 items-center hover:text-amber-800"
+              >
                 {url.includes("github") && <Github />}
                 {url.includes("twitter") && <Twitter />}
                 {url.includes("linkedin") && <Linkedin />}
                 {url.includes("insta") && <Instagram />}
-                {!url.includes("github") && !url.includes("twitter") && !url.includes("linkedin") && !url.includes("insta") && <Paperclip />}
+                {!url.includes("github") &&
+                  !url.includes("twitter") &&
+                  !url.includes("linkedin") &&
+                  !url.includes("insta") && <Paperclip />}
                 {!editMode ? (
-                <a href={url} target="_blank">{url}</a>
+                  <a href={url} target="_blank">
+                    {url}
+                  </a>
                 ) : (
-                <input
-                  type="url"
-                  className="w-full p-2 rounded-md border border-amber-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  value={url}
-                  onChange={(e) => {
-                  const newSocialLinks = [...user.socialLinks];
-                  newSocialLinks[index] = e.target.value;
-                  setUserData({ ...user, socialLinks: newSocialLinks });
-                  }}
-                />
+                  <input
+                    type="url"
+                    className="w-full p-2 rounded-md border border-amber-300 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    value={url}
+                    onChange={(e) => {
+                      const newSocialLinks = [...user.socialLinks];
+                      newSocialLinks[index] = e.target.value;
+                      setUserData({ ...user, socialLinks: newSocialLinks });
+                    }}
+                  />
                 )}
-                </div>
+              </div>
             ))}
             {editMode && (
-              <button className="mt-2 bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-full text-sm"
-              onClick={() => setUserData({ ...user, socialLinks: [...user.socialLinks, ""], }) }>Add Social Link</button>
+              <button
+                className="mt-2 bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-full text-sm"
+                onClick={() =>
+                  setUserData({
+                    ...user,
+                    socialLinks: [...user.socialLinks, ""],
+                  })
+                }
+              >
+                Add Social Link
+              </button>
             )}
-            </div>
+          </div>
         </div>
         {!id && (
           <div className="mt-8">
-            {" "}
-            {/* Improved spacing */}
             <button
               className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-full flex items-center justify-center transition duration-300"
               onClick={() => {
@@ -425,6 +429,34 @@ function Profile() {
           </div>
         )}
       </div>
+
+      {userData?.badges.length && userData?.badges.length > 0 && (
+        <div className="pt-6 pb-6 pr-6 md:pl-6 bg-orange-500 rounded-lg flex gap-2 items-center justify-start md:flex-col">
+          <p className="text-white text-center font-extrabold text-lg -rotate-90 md:rotate-0">
+            Badges
+          </p>
+          <div className="flex flex-row md:flex-col gap-4 items-center justify-center">
+            {userData?.badges.map((badge) => {
+              const badgeInfo = badgeData.find((b) => b.name === badge);
+              if (!badgeInfo) return null;
+              return (
+                <div className="flex flex-col items-center transition-transform duration-300 ease-in-out transform hover:scale-110">
+                  <img
+                    key={badgeInfo.name}
+                    src={`/assets/${badgeInfo.file}`}
+                    alt={badgeInfo.name}
+                    className="w-24 h-24 rounded-full shadow-2xl"
+                  />
+                  <p className="text-white text-center text-sm font-medium">
+                    {badgeInfo.name}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
