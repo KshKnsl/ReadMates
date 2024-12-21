@@ -6,6 +6,8 @@ import { AuthContext } from '../context/AuthContext';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useContext(AuthContext);
+  
+  const auth = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -46,6 +48,7 @@ const Navbar = () => {
             ))}
           </div>
           <div className="hidden md:flex md:items-center md:space-x-4">
+            {!auth.user ? (<>
             <Link
               to="/login"
               className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
@@ -59,7 +62,7 @@ const Navbar = () => {
             >
               <UserPlus className="w-5 h-5 mr-2" />
               Sign Up
-            </Link>
+            </Link></>):(<>
             <Link
               to="/profile"
               className="p-2 rounded-full text-amber-600 hover:text-amber-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200"
@@ -72,8 +75,8 @@ const Navbar = () => {
             >
               <LogOut className="w-5 h-5 mr-2" />
               Logout
-            </button>
-            
+            </button></>)
+            }
           </div>
           <div className="flex items-center md:hidden">
             <button

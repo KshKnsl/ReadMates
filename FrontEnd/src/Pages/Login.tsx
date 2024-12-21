@@ -1,16 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Mail,
-  Lock,
-  LogIn,
-  ScanFace,
-  EyeOff,
-  Eye,
-  AlertCircle,
-  Github,
-  Twitter,
-} from "lucide-react";
+import { Mail, Lock, LogIn, ScanFace, EyeOff, Eye } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
@@ -75,10 +65,13 @@ const Login = () => {
           autoClose: 4000,
         });
       } else {
-        toast.error(`Google login failed. Please try again.${await res.text()}`, {
-          position: "top-right",
-          autoClose: 4000,
-        });
+        toast.error(
+          `Google login failed. Please try again.${await res.text()}`,
+          {
+            position: "top-right",
+            autoClose: 4000,
+          }
+        );
       }
     } catch (error) {
       toast.error("An error occurred during Google login.", {
@@ -234,6 +227,10 @@ const Login = () => {
                     autoClose: 4000,
                   })
                 }
+                type="standard"
+                theme="filled_black"
+                size="large"
+                text="signin_with"
               />
             </div>
           </div>

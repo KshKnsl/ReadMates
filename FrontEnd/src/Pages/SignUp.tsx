@@ -1,6 +1,6 @@
-import { useState} from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {INTERESTS} from "../constants"
+import { INTERESTS } from "../constants";
 import {
   Mail,
   Lock,
@@ -14,6 +14,9 @@ import {
   Search,
 } from "lucide-react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../context/AuthContext.tsx";
+import { GoogleLogin } from "@react-oauth/google";
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -59,8 +62,7 @@ const SignUp = () => {
         body: JSON.stringify(user),
       });
 
-      if (res.ok) 
-      {
+      if (res.ok) {
         toast.success("Signup successful!", {
           position: "top-right",
           autoClose: 4000,
@@ -68,9 +70,7 @@ const SignUp = () => {
           closeOnClick: true,
         });
         navigate("/login");
-      } 
-      else 
-      {
+      } else {
         toast.error(`Signup failed! Please try again.${await res.text()}`, {
           position: "top-right",
           autoClose: 4000,
@@ -82,6 +82,40 @@ const SignUp = () => {
       console.error("Error during signup:", error);
     } finally {
       setLoading(false);
+    }
+  };
+  const { login } = useContext(AuthContext);
+
+  const handleGoogleLogin = async (response: any) => {
+    try {
+      // console.log(response);
+      const res = await fetch("/api/user/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.credential }),
+      });
+      if (res.ok) {
+        const { token, ...rest } = await res.json();
+        // console.log(rest);
+        login(token, rest.user._id);
+        toast.success("Google login successful!", {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      } else {
+        toast.error(
+          `Google login failed. Please try again.${await res.text()}`,
+          {
+            position: "top-right",
+            autoClose: 4000,
+          }
+        );
+      }
+    } catch (error) {
+      toast.error("An error occurred during Google login.", {
+        position: "top-right",
+        autoClose: 4000,
+      });
     }
   };
 
@@ -105,6 +139,38 @@ const SignUp = () => {
             </Link>
           </p>
         </div>
+
+        <div className="mt-6 flex justify-center space-x-6">
+            <div className="w-full">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() =>
+              toast.error("Google login failed. Please try again.", {
+                position: "top-right",
+                autoClose: 4000,
+              })
+              }
+              type="standard"
+              theme="filled_black"
+              size="large"
+              text="signin_with"
+              shape="pill"
+              locale="en"
+            />
+            </div>
+        </div>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-amber-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-amber-700">
+              or continue manually
+            </span>
+          </div>
+        </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
