@@ -116,6 +116,7 @@ const Navbar = () => {
           ))}
         </div>
         <div className="pt-4 pb-3 border-t border-amber-200">
+        {!auth.user ? (<>
           <Link
             to="/login"
             className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
@@ -130,6 +131,7 @@ const Navbar = () => {
             <UserPlus className="w-6 h-6 mr-3" />
             <span>Sign Up</span>
           </Link>
+          </>):(<>
           <Link
             to="/profile"
             className="flex items-center px-4 py-2 mt-1 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
@@ -137,13 +139,15 @@ const Navbar = () => {
             <UserCircle className="w-6 h-6 mr-3" />
             <span>Your Profile</span>
           </Link>
-          <Link
-            to="/logout"
+            <button
+              onClick={() => {logout()}}
             className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
           >
             <LogOut className="w-6 h-6 mr-3" />
             <span>Logout</span>
-          </Link>
+          </button>
+          </>)
+          }
         </div>
       </div>
     </nav>
