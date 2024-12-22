@@ -3,6 +3,7 @@ const {
   getArticlesByAuthor,
   getArticlesAll,
   getArticleById,
+  getArticlesByTitle,
 } = require("../controllers/article.controllers");
 
 const express = require("express");

@@ -2,6 +2,7 @@ import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../utils/mail.util.js";
 
 async function createUser(data) {
   try {
@@ -16,6 +17,7 @@ async function createUser(data) {
     });
 
     await newUser.save();
+    await sendMail(data.name, data.email, 'CreateAccount');
     return { success: true, message: "User created successfully" };
   } 
   catch (error) 
@@ -76,6 +78,8 @@ async function loginUser(data) {
       expiresIn: "1d",
     });
     const { password: pass, ...rest } = user;
+    
+    await sendMail(data.name, data.email, 'Login');
     return { success: true, token, rest};
   }
   catch (error) 
@@ -112,6 +116,7 @@ async function googleLogin(token)
         avatar,
         password: "GooGleAuthAccount",
       });
+      await sendMail(name, email, 'CreateAccount');   
       await user.save();
     }
 
@@ -120,6 +125,7 @@ async function googleLogin(token)
     });
     
     const { ...userWithoutPassword } = user.toObject();
+    await sendMail(name, email, 'Login');
     return { success: true, token: jwtToken, user: userWithoutPassword };
   } catch (error) {
     console.error("Error verifying Google token:", error);

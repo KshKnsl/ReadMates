@@ -114,7 +114,17 @@ async function getArticlesAll()
   }
 }
 
+async function getArticlesByTitle(title)
+{
+  try 
+  {
+    const articles = await articleSchema.find({ title: title });
+    return articles;
+  } 
+  catch (error) 
+  {
+    return null;
+  }
+}
 
-
-
-module.exports = { createArticle, getArticleById, updateArticle, deleteArticle , getArticlesByTags, getArticlesByAuthor, getArticlesAll};
+module.exports = { createArticle, getArticleById, updateArticle, deleteArticle , getArticlesByTags, getArticlesByAuthor, getArticlesAll, getArticlesByTitle };
