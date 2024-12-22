@@ -199,15 +199,25 @@ p.is-editor-empty:first-child::before {
   height: 0;
   pointer-events: none;
 }
-code 
-{
-  background-color: #1e1e1e!important; /* Dark background similar to VS Code */
-  color: chocolate!important;
-  padding: 0.2em 0.4em!important;
-  border-radius: 3px!important;
-  font-family: 'Courier New', Courier, monospace!important;
-  font-size: 0.9em!important;
-  display: inline-block!important;
-  white-space: pre-wrap!important;
-  font-weight: 900!important;
+
+code {
+  background-color: #1e1e1e !important; /* Dark background similar to VS Code */
+  color: chocolate !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 0.9em !important;
+  display: inline-block !important;
+  white-space: pre-wrap !important;
+  font-weight: 900 !important;
+}
+
+a {
+  color: aquamarine;
+  font-weight: bold;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #d97706;
+  }
 }
