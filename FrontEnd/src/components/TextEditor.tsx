@@ -66,7 +66,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
   }
 
   const provider = new TiptapCollabProvider({
-    name: `session-${sessionID}-${Math.floor(1000 + Math.random() * 9000)}`,
+    name: `session-${sessionID}`,
     appId: import.meta.env.VITE_TIPTAPAPP_CLIENT_ID,
     token:
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzQ4ODMzNjcsIm5iZiI6MTczNDg4MzM2NywiZXhwIjoxNzM0OTY5NzY3LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ4OWxveHl2OSJ9.qkg86myXMBSv89_HKZ89KchAxiLEcQSgfpQ_miGevKk",
