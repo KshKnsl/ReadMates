@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-indigo-50">
       <main className="container mx-auto px-6 py-16 md:px-12 lg:px-24 lg:py-24">
-        {/* Hero Section */}
+      
         <section className="text-center mb-20">
           <div className="inline-flex mb-8 opacity-90">
             <BookOpen 
@@ -52,7 +52,6 @@ const Home = () => {
           </form>
         </section>
 
-        {/* Features Section */}
         <section className="grid md:grid-cols-3 gap-8 mb-20">
           {[
             {
@@ -90,7 +89,6 @@ const Home = () => {
           ))}
         </section>
 
-        {/* CTA Section */}
         <section className="bg-white/70 p-12 rounded-3xl border border-indigo-50 text-center">
           <h2 className="text-3xl font-semibold text-indigo-900 mb-8">
             Join our community of knowledge seekers

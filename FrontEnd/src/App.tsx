@@ -5,6 +5,7 @@ import {Route, Routes} from 'react-router-dom'
 import Home from './Pages/Home'
 import Articles from './Pages/Articles'
 import CreateArticle from './components/CreateArticle'
+import Article from './components/Article'
 import Community from './Pages/Community'
 import Rewards from './Pages/Rewards'
 import Profile from './Pages/Profile'
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/articles" element={<Articles />} />
+        <Route path="/article/:id" element={<Article/>} />
         <Route path="/create" element={<CreateArticle />} />
         <Route path="/create/:sessionID" element={<CreateArticle />} />
         <Route path="/community" element={<Community />} />

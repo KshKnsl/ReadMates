@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user", userRoutes);
-app.use("/api/article", protect, articleRoutes);
-app.use("/getArticle", getArticleRoutes);
+app.use("/api/article", articleRoutes);
+app.use("/api/getArticle", getArticleRoutes);
 connect()
   .then(() => {
     app.listen(process.env.PORT || 3000, async () => {
