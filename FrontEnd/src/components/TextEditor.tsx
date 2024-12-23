@@ -39,12 +39,12 @@ interface TextEditorProps {
     setArticleData: (data: any) => void;
     articleData: any;
     auth: any;
+    userName: string;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, auth }) => {
-  const [userName, setUserName] = useState<string>("Anonymous");
+const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, auth, userName }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
@@ -53,15 +53,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, au
   const { sessionID } = useParams<{ sessionID: string }>();
   const userColor = getRandomColor();
 
-  useEffect(() => {
-    const fetchUserName = async () => {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${auth.user._id}`);
-      const resu = await response.json();
-      setUserName(resu.name);
-    };
-    fetchUserName();
-  }, []);
-  console.log("User Name:", userName);
   console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())

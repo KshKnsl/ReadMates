@@ -41,6 +41,15 @@ function CreateArticle()
 
     checkAuthAndSession();
   }, [auth, sessionID, navigate]);
+  let userName = "";
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${auth?.user?._id}`);
+      const resu = await response.json();
+      userName= resu.name;
+    };
+    fetchUserName();
+  }, []);
 
   const [articleData, setArticleData] = useState<Article>();
 
@@ -107,6 +116,7 @@ function CreateArticle()
             articleData={articleData}
             setArticleData={setArticleData}
             auth={auth}
+            userName={userName}
           />
         </div>
       </div>
