@@ -13,6 +13,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   const navItems = [
     { to: "/articles", icon: BookOpen, label: "Articles" },
     { to: "/create", icon: PenTool, label: "Create" },
@@ -102,6 +106,7 @@ const Navbar = () => {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={closeMenu}
               className={({ isActive }) =>
                 `flex items-center px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
                   isActive
@@ -119,6 +124,7 @@ const Navbar = () => {
         {!auth.user ? (<>
           <Link
             to="/login"
+            onClick={closeMenu}
             className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
           >
             <LogIn className="w-6 h-6 mr-3" />
@@ -126,6 +132,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/signup"
+            onClick={closeMenu}
             className="flex items-center px-4 py-2 mt-1 bg-amber-500 text-white hover:bg-amber-600 rounded-md transition-colors duration-200"
           >
             <UserPlus className="w-6 h-6 mr-3" />
@@ -134,13 +141,14 @@ const Navbar = () => {
           </>):(<>
           <Link
             to="/profile"
+            onClick={closeMenu}
             className="flex items-center px-4 py-2 mt-1 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
           >
             <UserCircle className="w-6 h-6 mr-3" />
             <span>Your Profile</span>
           </Link>
             <button
-              onClick={() => {logout()}}
+              onClick={() => {logout(); closeMenu();}}
             className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
           >
             <LogOut className="w-6 h-6 mr-3" />
@@ -155,4 +163,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
