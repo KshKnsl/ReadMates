@@ -137,5 +137,4 @@ function findUserByEmail(email)
 {
   return User.findOne({ email});
 }
-
-export { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail };
+module.exports = { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail };
