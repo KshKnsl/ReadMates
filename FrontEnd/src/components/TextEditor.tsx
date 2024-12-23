@@ -52,6 +52,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, au
   const [searchTerm, setSearchTerm] = useState("");
   const { sessionID } = useParams<{ sessionID: string }>();
   const userColor = getRandomColor();
+
   useEffect(() => {
     const fetchUserName = async () => {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${auth.user._id}`);
@@ -59,7 +60,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, au
       setUserName(resu.name);
     };
     fetchUserName();
-  }, [auth.user._id]);
+  }, []);
   console.log("User Name:", userName);
   console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
