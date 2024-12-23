@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect} from "react";
+import React, { useState, useCallback} from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
@@ -38,13 +38,12 @@ const doc = new Y.Doc();
 interface TextEditorProps {
     setArticleData: (data: any) => void;
     articleData: any;
-    auth: any;
     userName: string;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, auth, userName }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
@@ -67,7 +66,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, au
   }
 
   const provider = new TiptapCollabProvider({
-    name: `session-${sessionID}`,
+    name: `session-${sessionID}-${Math.floor(1000 + Math.random() * 9000)}`,
     appId: import.meta.env.VITE_TIPTAPAPP_CLIENT_ID,
     token:
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzQ4ODMzNjcsIm5iZiI6MTczNDg4MzM2NywiZXhwIjoxNzM0OTY5NzY3LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ4OWxveHl2OSJ9.qkg86myXMBSv89_HKZ89KchAxiLEcQSgfpQ_miGevKk",

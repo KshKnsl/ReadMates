@@ -69,8 +69,6 @@ function CreateArticle()
   //   console.log("Saving article:", { collaborators });
   // }, [collaborators]);
 
-
-
   if (auth.user && auth.user._id)
     return (
       <div className="flex md:flex-row-reverse flex-col">
@@ -115,7 +113,6 @@ function CreateArticle()
           <TextEditor
             articleData={articleData}
             setArticleData={setArticleData}
-            auth={auth}
             userName={userName}
           />
         </div>
