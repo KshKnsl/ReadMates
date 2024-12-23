@@ -1,8 +1,8 @@
-import User from "../models/User.model.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { OAuth2Client } from "google-auth-library";
-import { sendMail } from "../utils/mail.util.js";
+const User = require("../models/User.model.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require("google-auth-library");
+const { sendMail } = require("../utils/mail.util.js");
 
 async function createUser(data) {
   try {
