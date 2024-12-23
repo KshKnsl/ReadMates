@@ -132,4 +132,10 @@ async function googleLogin(token)
     return { success: false, message: "Error during Google login" };
   }
 }
-export { createUser, findUser, updateUser, loginUser, googleLogin  };
+
+function findUserByEmail(email) 
+{
+  return User.findOne({ email});
+}
+
+export { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail };

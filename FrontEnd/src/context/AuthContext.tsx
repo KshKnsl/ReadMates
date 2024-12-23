@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 type User = {
   token: string;
-  _id:string;
+  _id: string;
 };
 
-const AuthContext = createContext<{user: User | null; loading: boolean;login: (token: string, _id: string) => void;logout: () => void;}>({
+type AuthContextType = {
+  user: User | null;
+  loading: boolean;
+  login: (token: string, _id: string) => void;
+  logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   login: () => {},
@@ -14,26 +21,36 @@ const AuthContext = createContext<{user: User | null; loading: boolean;login: (t
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null); 
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const _id = localStorage.getItem("_id");
-    if (token && _id) setUser({ token, _id });
-    setLoading(false);
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const _id = localStorage.getItem("_id");
+
+        if (token && _id) {
+          setUser({ token, _id });
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
   }, []);
 
-  // Login function
-  const login = (token: string, _id:string) => {
+  const login = (token: string, _id: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("_id", _id);
     setUser({ token, _id });
     navigate("/profile");
   };
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("_id");
@@ -48,5 +65,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Export context and provider
 export { AuthContext, AuthProvider };

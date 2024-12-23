@@ -7,7 +7,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const clientId = import.meta.env.VITE_client_id|| "";
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
     <BrowserRouter>
     <GoogleOAuthProvider clientId={clientId}>
       <AuthProvider>
@@ -15,5 +14,4 @@ createRoot(document.getElementById("root")!).render(
       </AuthProvider>
     </GoogleOAuthProvider>
     </BrowserRouter>
-  </StrictMode>
 );

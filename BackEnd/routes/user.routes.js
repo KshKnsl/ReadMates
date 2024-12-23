@@ -3,10 +3,7 @@ const { OAuth2Client } = require("google-auth-library");
 
 const { upload } = require("../middlewares/multer");
 const uploadImage  = require("../utils/uploadImage");
-const {
-  createUser,
-  findUser,
-  updateUser, loginUser, googleLogin
+const { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail
 } = require("../controllers/user.controllers");
 
 const router = express.Router();
@@ -40,6 +37,11 @@ router.put("/updateUser", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   let foundUser = await findUser(req.params.id);
+  res.send(foundUser);
+});
+
+router.get("/email/:email", async (req, res) => {
+  let foundUser = await findUserByEmail(req.params.email);
   res.send(foundUser);
 });
 

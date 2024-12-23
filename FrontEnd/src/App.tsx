@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import {Route, Routes} from 'react-router-dom'
 import Home from './Pages/Home'
 import Articles from './Pages/Articles'
-import CreateArticle from './Pages/CreateArticle'
+import CreateArticle from './components/CreateArticle'
 import Community from './Pages/Community'
 import Rewards from './Pages/Rewards'
 import Profile from './Pages/Profile'
@@ -20,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/create" element={<CreateArticle />} />
+        <Route path="/create/:sessionID" element={<CreateArticle />} />
         <Route path="/community" element={<Community />} />
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/profile/" element={<Profile/>} />
