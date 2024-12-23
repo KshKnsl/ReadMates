@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-interface ArticleParams {
-    id: string;
-}
 import './styles.css';
 interface Article {
     title: string;
