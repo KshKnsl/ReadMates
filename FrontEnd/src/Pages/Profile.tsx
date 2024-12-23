@@ -17,6 +17,7 @@ import { INTERESTS } from "../constants";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 import { badges as badgeData } from "../constants";
+import Footer from "../components/Footer";
 
 const dummyData: UserData = {
   id: "67613652de5b440ea1d71979",
@@ -164,7 +165,8 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8 flex gap-4 mx-auto justify-center md:flex-row flex-col">
+    <div className="bg-gradient-to-br from-amber-50 to-orange-50 ">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex gap-4 mx-auto justify-center md:flex-row flex-col">
       <div className="max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-6">
         <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
           <div className="md:w-48">
@@ -458,6 +460,7 @@ function Profile() {
         transition={Bounce}
       />
     </div>
+      <Footer /></div>
   );
 }
 
