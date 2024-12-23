@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [, setIsSearchFocused] = useState(false);
 
   const handleSearch = (e:any) => {
     e.preventDefault();
