@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Search, BookOpen, Users, Lightbulb, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
+import { useState } from 'react';
+import { BookOpen, Users, Lightbulb, ArrowRight, Search } from 'lucide-react';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e:any) => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
   };
@@ -15,28 +14,32 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-indigo-50">
       <main className="container mx-auto px-6 py-16 md:px-12 lg:px-24 lg:py-24">
-        <motion.section
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex justify-center mb-8">
-            <BookOpen size={64} className="text-indigo-500" />
+        {/* Hero Section */}
+        <section className="text-center mb-20">
+          <div className="inline-flex mb-8 opacity-90">
+            <BookOpen 
+              size={64} 
+              className="text-indigo-600" 
+            />
           </div>
+          
           <h1 className="text-5xl md:text-7xl font-extrabold text-indigo-800 mb-4 tracking-tight">
             ReadMates
           </h1>
-          <p className="text-xl md:text-2xl text-indigo-700 mb-8 font-light">
-            Collaborative learning for the digital age
+
+          <p className="text-xl md:text-2xl text-indigo-800/80 mb-12 font-normal max-w-2xl mx-auto">
+            A collaborative platform for meaningful discussions, insightful reading, and knowledge sharing.
           </p>
-          <form onSubmit={handleSearch} className="max-w-3xl mx-auto">
-            <div className="relative">
+
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+            <div className="relative group">
               <input
                 type="text"
-                placeholder="Explore articles, topics, or authors..."
+                placeholder="Search articles, topics, or authors"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
                 className="w-full px-6 py-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 text-indigo-800 placeholder-indigo-400 bg-white shadow-lg text-lg"
               />
               <button
@@ -47,74 +50,62 @@ const Home = () => {
               </button>
             </div>
           </form>
-        </motion.section>
+        </section>
 
-        <motion.section
-          className="grid md:grid-cols-3 gap-8 mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <motion.div
-            className="bg-amber-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <BookOpen className="w-16 h-16 text-indigo-500 mb-6" />
-            <h2 className="text-2xl font-bold text-indigo-800 mb-4">
-              Collaborative Learning
-            </h2>
-            <p className="text-indigo-700 text-lg">
-              Read and write articles with friends, making learning a social and engaging experience.
-            </p>
-          </motion.div>
-          <motion.div
-            className="bg-amber-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Users className="w-16 h-16 text-indigo-500 mb-6" />
-            <h2 className="text-2xl font-bold text-indigo-800 mb-4">
-              Build Connections
-            </h2>
-            <p className="text-indigo-700 text-lg">
-              Connect with like-minded peers and expand your knowledge together.
-            </p>
-          </motion.div>
-          <motion.div
-            className="bg-amber-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Lightbulb className="w-16 h-16 text-indigo-500 mb-6" />
-            <h2 className="text-2xl font-bold text-indigo-800 mb-4">
-              Tackle Youth Issues
-            </h2>
-            <p className="text-indigo-700 text-lg">
-              Explore and discuss important topics affecting young people today.
-            </p>
-          </motion.div>
-        </motion.section>
-
-        <motion.section
-          className="text-center bg-amber-50 p-12 rounded-3xl shadow-xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h2 className="text-4xl font-bold text-indigo-800 mb-6">
-            Ready to start your learning journey?
-          </h2>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/signup"
-              className="inline-flex items-center px-8 py-4 bg-indigo-500 text-white text-xl font-semibold rounded-full hover:bg-indigo-600 transition duration-300 shadow-md hover:shadow-lg"
+        {/* Features Section */}
+        <section className="grid md:grid-cols-3 gap-8 mb-20">
+          {[
+            {
+              Icon: BookOpen,
+              title: "Collaborative Learning",
+              description: "Engage in meaningful discussions and share insights through collaborative reading and writing."
+            },
+            {
+              Icon: Users,
+              title: "Build Connections",
+              description: "Connect with professionals and peers who share your intellectual interests and goals."
+            },
+            {
+              Icon: Lightbulb,
+              title: "Explore Ideas",
+              description: "Discover diverse perspectives and engage with contemporary issues through thoughtful discourse."
+            }
+          ].map(({ Icon, title, description }, index) => (
+            <div
+              key={index}
+              className="bg-white/70 p-8 rounded-3xl border border-indigo-50 hover:bg-white/90 transition-all duration-300 hover:shadow-lg"
             >
-              Join ReadMates
-              <ArrowRight className="ml-2" size={24} />
-            </Link>
-          </motion.div>
-        </motion.section>
+              <div className="bg-indigo-50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
+                <Icon 
+                  className="w-8 h-8 text-indigo-600" 
+                />
+              </div>
+              <h2 className="text-xl font-semibold text-indigo-900 mb-3">
+                {title}
+              </h2>
+              <p className="text-indigo-800/70 text-base leading-relaxed">
+                {description}
+              </p>
+            </div>
+          ))}
+        </section>
+
+        {/* CTA Section */}
+        <section className="bg-white/70 p-12 rounded-3xl border border-indigo-50 text-center">
+          <h2 className="text-3xl font-semibold text-indigo-900 mb-8">
+            Join our community of knowledge seekers
+          </h2>
+          <a
+            href="/signup"
+            className="inline-flex items-center px-8 py-4 bg-indigo-600 text-white text-base font-medium rounded-2xl hover:bg-indigo-700 transition-all duration-300 group hover:shadow-lg"
+          >
+            Get Started
+            <ArrowRight 
+              className="ml-2 opacity-70 group-hover:translate-x-0.5 transition-transform duration-300" 
+              size={18} 
+            />
+          </a>
+        </section>
       </main>
       <Footer />
     </div>
