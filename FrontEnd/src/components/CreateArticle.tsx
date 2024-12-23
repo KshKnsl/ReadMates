@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import TextEditor from "./TextEditor";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -44,7 +44,7 @@ function CreateArticle()
 
   const [articleData, setArticleData] = useState<Article>();
 
-  const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
+  const [collaborators] = useState<Collaborator[]>([]);
   const [newCollaboratorEmail, setNewCollaboratorEmail] = useState<string>("");
 
   const handleAddCollaborator = useCallback(() => {
@@ -56,9 +56,9 @@ function CreateArticle()
     }
   }, [newCollaboratorEmail, collaborators]);
 
-  const handleSave = useCallback(() => {
-    console.log("Saving article:", { collaborators });
-  }, [collaborators]);
+  // const handleSave = useCallback(() => {
+  //   console.log("Saving article:", { collaborators });
+  // }, [collaborators]);
 
 
 

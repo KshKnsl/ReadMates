@@ -6,7 +6,7 @@ interface BadgeProps {
   type: 'rising-blogger' | 'pro-contributor' | 'tech-guru' | 'avid-reader' | 'deep-diver' | 'top-critic' | 'community-builder' | 'helper' | 'first-steps' | 'streak-keeper';
   file: string;
 }
-const Badge: React.FC<BadgeProps> = ({ name, description, type, file }) => {
+const Badge: React.FC<BadgeProps> = ({ name, description, file }) => {
   const getBadgeImage = (fileName: string) => 
   {
     return <img src={`/assets/${fileName}`} alt={name} className="w-full h-full" />;
