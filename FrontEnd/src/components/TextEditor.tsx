@@ -52,7 +52,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
   const { sessionID } = useParams<{ sessionID: string }>();
   const userColor = getRandomColor();
 
-  console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
