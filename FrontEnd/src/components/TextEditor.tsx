@@ -1,4 +1,4 @@
-import React, { useState, useCallback} from "react";
+import React, { useState, useCallback, useEffect} from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
@@ -28,7 +28,7 @@ import Superscript from "@tiptap/extension-superscript";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
 import { Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote, ImageIcon, AlignLeft, AlignCenter, AlignRight, UnderlineIcon, SuperscriptIcon, SubscriptIcon, Highlighter, CheckSquare, Undo, Redo, Palette, User, Type, Heading1, Heading2, Minus, Search, BookOpen, Link2, TableIcon, YoutubeIcon } from 'lucide-react';
-import { INTERESTS } from "../constants";
+import { INTERESTS,getRandomColor } from "../constants";
 
 import "./styles.css";
 import { useParams } from "react-router-dom";
@@ -38,20 +38,30 @@ const doc = new Y.Doc();
 interface TextEditorProps {
     setArticleData: (data: any) => void;
     articleData: any;
+    auth: any;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData}) => 
-{
+const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, auth }) => {
+  const [userName, setUserName] = useState<string>("Anonymous");
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-
   const { sessionID } = useParams<{ sessionID: string }>();
-  console.log("Session ID:", sessionID);
+  const userColor = getRandomColor();
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${auth.user._id}`);
+      const resu = await response.json();
+      setUserName(resu.name);
+    };
+    fetchUserName();
+  }, [auth.user._id]);
+  // console.log("User Name:", userName);
+  // console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -93,8 +103,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData}) =
       CollaborationCursor.configure({
         provider: provider,
         user: {
-          name: "Anonymous User",
-          color: "#f783ac",
+          name: `${userName}`,
+          color: `${userColor}`,
         },
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),

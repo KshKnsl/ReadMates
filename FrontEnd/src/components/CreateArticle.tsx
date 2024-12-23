@@ -106,6 +106,7 @@ function CreateArticle()
           <TextEditor
             articleData={articleData}
             setArticleData={setArticleData}
+            auth={auth}
           />
         </div>
       </div>
