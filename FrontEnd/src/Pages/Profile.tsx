@@ -114,7 +114,7 @@ function Profile() {
     // console.log("Updating user data with:", user);
     setEditMode(false);
     try {
-      const res = await fetch("/api/user/updateUser", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/updateUser`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

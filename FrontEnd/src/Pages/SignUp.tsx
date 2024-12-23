@@ -54,7 +54,7 @@ const SignUp = () => {
     };
 
     try {
-      const res = await fetch("/api/user/addUser", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/addUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const SignUp = () => {
   const handleGoogleLogin = async (response: any) => {
     try {
       // console.log(response);
-      const res = await fetch("/api/user/google-login", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/google-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: response.credential }),
