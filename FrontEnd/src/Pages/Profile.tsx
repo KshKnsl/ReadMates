@@ -209,11 +209,7 @@ function Profile() {
             )}
           </div>
           <div className="flex flex-col">
-            {" "}
-            {/* Improved layout */}
             <div className="flex flex-col space-y-2">
-              {" "}
-              {/* Improved layout */}
               {!editMode ? (
                 <>
                   <h2 className="text-3xl font-bold text-amber-900">
@@ -255,11 +251,7 @@ function Profile() {
           </div>
         </div>
         <div className="mt-8 border-t border-gray-200 pt-6">
-          {" "}
-          {/* Improved spacing */}
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {" "}
-            {/* Improved layout */}
             <div>
               <div className="text-sm font-medium text-gray-500 flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-amber-600" />
@@ -325,8 +317,6 @@ function Profile() {
           </div>
         </div>
         <div className="mt-8">
-          {" "}
-          {/* Improved spacing */}
           <h3 className="text-lg leading-6 font-medium text-amber-900">
             Interests
           </h3>
@@ -430,7 +420,7 @@ function Profile() {
         )}
       </div>
 
-      {userData?.badges.length && userData?.badges.length > 0 && (
+      { (userData?.badges?.length ?? 0) > 0 && (
         <div className="pt-6 pb-6 pr-6 md:pl-6 bg-orange-500 rounded-lg flex gap-2 items-center justify-start md:flex-col">
           <p className="text-white text-center font-extrabold text-lg -rotate-90 md:rotate-0">
             Badges
