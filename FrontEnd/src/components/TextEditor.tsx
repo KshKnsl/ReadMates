@@ -60,8 +60,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, au
     };
     fetchUserName();
   }, [auth.user._id]);
-  // console.log("User Name:", userName);
-  // console.log("Session ID:", sessionID);
+  console.log("User Name:", userName);
+  console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
