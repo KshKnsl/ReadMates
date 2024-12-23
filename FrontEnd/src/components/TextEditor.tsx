@@ -31,6 +31,7 @@ import { Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote, ImageIcon,
 import { INTERESTS } from "../constants";
 
 import "./styles.css";
+import { useParams } from "react-router-dom";
 
 const doc = new Y.Doc();
 
@@ -49,6 +50,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData}) =
   const [tags, setTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const { sessionID } = useParams<{ sessionID: string }>();
+  console.log("Session ID:", sessionID);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -62,7 +65,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData}) =
   }
 
   const provider = new TiptapCollabProvider({
-    name: "document-name",
+    name: `session-${sessionID}`,
     appId: import.meta.env.VITE_TIPTAPAPP_CLIENT_ID,
     token:
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzQ4ODMzNjcsIm5iZiI6MTczNDg4MzM2NywiZXhwIjoxNzM0OTY5NzY3LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ4OWxveHl2OSJ9.qkg86myXMBSv89_HKZ89KchAxiLEcQSgfpQ_miGevKk",
