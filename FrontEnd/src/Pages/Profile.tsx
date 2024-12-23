@@ -70,7 +70,7 @@ function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/user/${userId}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${userId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -140,7 +140,7 @@ function Profile() {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const response = await fetch(`/api/user/${userId}/uploadAvatar`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${userId}/uploadAvatar`, {
         method: "POST",
         body: formData,
       });
