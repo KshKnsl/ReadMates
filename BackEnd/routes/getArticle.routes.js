@@ -39,7 +39,8 @@ router.get("/all", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   let result = await getArticleById(req.params.id);
-    res.status(200).json(result);
+  console.log(result);
+  res.status(200).json(result);
 });
 
 router.get("/title/:title", async (req, res) => {

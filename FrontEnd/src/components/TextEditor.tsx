@@ -39,11 +39,12 @@ interface TextEditorProps {
     articleData: any;
     userName: string;
     docName: string;
+    isAuthor: boolean;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName, docName }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName, docName, isAuthor }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
@@ -135,13 +136,35 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
     content: "<p>Start writing your article here...</p>",
     onUpdate: ({ editor }) => {
       setCharCount(editor.storage.characterCount.characters());
+      setArticleData((preData: any) => ({...preData, content: editor.getHTML()}));
     },
   });
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     setArticleData({ ...articleData, content: editor?.getHTML(), tags });
     console.log("Saving article:", { ...articleData, content: editor?.getHTML(), tags });
-  }, [articleData, editor, tags, setArticleData]);
+    try
+    {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/article/updateArticle`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...articleData, content: editor?.getHTML(), tags }),
+      });
+      if (response.ok) {
+        console.log("Article saved successfully", response);
+      } 
+      else {
+        throw new Error("Failed to save article");
+      }
+    }
+      catch(error) {
+        throw new Error(`Failed to save article: ${error}`);
+      }
+  }, [articleData, editor, tags]);
+
+
 
   const addImage = useCallback(() => {
     const url = window.prompt('Enter the URL of the image:');

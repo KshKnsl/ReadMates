@@ -1,130 +1,134 @@
-const articleSchema = require("../models/Article.model");
+const Article = require("../models/Article.model");
 
-async function createArticle(data) 
-{
-  try 
-  {
-    const newArticle = new articleSchema(
-    {
+// Create a new article
+async function createArticle(data) {
+  try {
+    const newArticle = new Article({
       title: data.title,
       desc: data.desc,
       content: data.content,
       author: data.author,
       contributors: data.contributors,
       tags: data.tags,
-      status: data.status,
-      publishedAt: data.publishedAt,
+      status: data.status || "draft",
+      publishedAt: data.publishedAt || null,
+      sessionDoc: data.sessionDoc,
     });
 
     await newArticle.save();
-    return { success: true, message: "Article created successfully" };
-  } 
-  catch (error) 
-  {
-    return { success: false, message: `Error while creating article ${error}` };
+    return { success: true, message: "Article created successfully", article: newArticle };
+  } catch (error) {
+    return { success: false, message: `Error while creating article: ${error.message}` };
   }
 }
 
-async function getArticleById(id) 
-{
-  try 
-  {
-    const article = await articleSchema.findById(id);
-    return article;
-  } 
-  catch (error) 
-  {
-    return null;
+// Get an article by ID
+async function getArticleById(id) {
+  try {
+    const article = await Article.findById(id).populate("author contributors");
+    if (!article) {
+      return { success: false, message: "Article not found" };
+    }
+    return { success: true, article };
+  } catch (error) {
+    return { success: false, message: `Error fetching article: ${error.message}` };
   }
 }
 
-async function updateArticle(data) 
-{
-  const update = {
-    title: data.title,
-    desc: data.desc,
-    content: data.content,
-    author: data.author,
-    contributors: data.contributors,
-    tags: data.tags,
-    status: data.status,
-    publishedAt: data.publishedAt,
-  };
-  try 
-  {
-    let result = await articleSchema.findByIdAndUpdate(data._id, update);
-    return { success: true, message: "Article updated successfully" };
-  } 
-  catch (error) 
-  {
-    return { success: false, message: `Error while updating article ${error}` };
+// Update an existing articlevs
+async function updateArticle(data) {
+  try {
+    const update = {
+      title: data.title,
+      desc: data.desc,
+      content: data.content,
+      author: data.author,
+      contributors: data.contributors,
+      tags: data.tags,
+      status: data.status || "draft",
+      publishedAt: data.publishedAt || null,
+    };
+
+    // Use upsert: true to create a new article if it doesn't exist
+    const updatedArticle = await Article.findByIdAndUpdate(
+      data._id,
+      update,
+      { new: true, upsert: true, setDefaultsOnInsert: true } // upsert creates if not found, setDefaultsOnInsert applies default schema values
+    );
+
+    return {
+      success: true,
+      message: updatedArticle.isNew
+        ? "New article created successfully"
+        : "Article updated successfully",
+      article: updatedArticle,
+    };
+  } catch (error) {
+    return { success: false, message: `Error while updating/creating article: ${error.message}` };
   }
 }
 
-async function deleteArticle(id) 
-{
-  try 
-  {
-    await article;
-    Schema.findByIdAndDelete(id);
+// Delete an article by ID
+async function deleteArticle(id) {
+  try {
+    const deletedArticle = await Article.findByIdAndDelete(id);
+    if (!deletedArticle) {
+      return { success: false, message: "Article not found" };
+    }
     return { success: true, message: "Article deleted successfully" };
-  } 
-  catch (error) 
-  {
-    return { success: false, message: `Error while deleting article ${error}` };
+  } catch (error) {
+    return { success: false, message: `Error while deleting article: ${error.message}` };
   }
 }
 
-async function getArticlesByTags(tags) 
-{
-  try 
-  {
-    const articles = await articleSchema.find({ tags: { $in: tags } });
-    return articles;
-  } 
-  catch (error) 
-  {
-    return null;
+// Get articles by tags
+async function getArticlesByTags(tags) {
+  try {
+    const articles = await Article.find({ tags: { $in: tags } });
+    return { success: true, articles };
+  } catch (error) {
+    return { success: false, message: `Error fetching articles by tags: ${error.message}` };
   }
 }
 
-async function getArticlesByAuthor(author)
-{
-  try 
-  {
-    const articles = await articleSchema.find({ author: author });
-    return articles;
-  } 
-  catch (error) 
-  {
-    return null;
+// Get articles by author
+async function getArticlesByAuthor(author) {
+  try {
+    const articles = await Article.find({ author }).populate("contributors");
+    return { success: true, articles };
+  } catch (error) {
+    return { success: false, message: `Error fetching articles by author: ${error.message}` };
   }
 }
 
-async function getArticlesAll()
-{
-  try 
-  {
-    const articles = await articleSchema.find();
-    return articles;
-  } 
-  catch (error) 
-  {
-    return null;
+// Get all articles
+async function getArticlesAll() {
+  try {
+    const articles = await Article.find().populate("author contributors");
+    return { success: true, articles };
+  } catch (error) {
+    return { success: false, message: `Error fetching all articles: ${error.message}` };
   }
 }
 
-async function getArticlesByTitle(title)
-{
-  try 
-  {
-    const articles = await articleSchema.find({ title: title });
-    return articles;
-  } 
-  catch (error) 
-  {
-    return null;
+async function getArticlesByTitle(title) {
+  try {
+    const articles = await Article.find({
+      title: { $regex: title, $options: "i" },
+    });
+    return { success: true, articles };
+  } catch (error) {
+    return { success: false, message: `Error fetching articles by title: ${error.message}` };
   }
 }
 
-module.exports = { createArticle, getArticleById, updateArticle, deleteArticle , getArticlesByTags, getArticlesByAuthor, getArticlesAll, getArticlesByTitle };
+module.exports = {
+  createArticle,
+  getArticleById,
+  updateArticle,
+  deleteArticle,
+  getArticlesByTags,
+  getArticlesByAuthor,
+  getArticlesAll,
+  getArticlesByTitle,
+};

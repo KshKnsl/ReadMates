@@ -8,12 +8,12 @@ const articleSchema = new mongoose.Schema(
     author:{ type: mongoose.Schema.Types.ObjectId, ref: "User"},
     contributors: [
       { type: mongoose.Schema.Types.ObjectId,  ref: "User",
-        noOfCharacterContributed: { type: Number },
       },
     ],
     tags: [{ type: String }],
     status: {  type: String,  enum: ["draft", "published", "under_review"], default: "draft", },
     publishedAt: { type: Date },
+    sessionDoc: { type: String },
   }, { timestamps: true }
 );
 
