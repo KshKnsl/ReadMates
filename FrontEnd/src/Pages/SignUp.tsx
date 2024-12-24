@@ -97,7 +97,7 @@ const SignUp = () => {
       if (res.ok) {
         const { token, ...rest } = await res.json();
         // console.log(rest);
-        login(token, rest.user._id);
+        login(token, rest.user._id, rest.user.email);
         toast.success("Google login successful!", {
           position: "top-right",
           autoClose: 4000,
