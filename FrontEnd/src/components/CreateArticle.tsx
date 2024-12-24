@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { LucideLink, Copy, Check } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
+import ContributorList from "./ui/ContributorList";
 
 interface Article {
   title: string;
@@ -23,6 +24,7 @@ function CreateArticle() {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string>("");
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
+  const [contributorData, setContributorData] = useState<any>({});
   const [shortData, setShortData] = useState({
     shortlink: `${window.location.origin}/create/${sessionID}`,
     qrurl: "",
@@ -48,56 +50,61 @@ function CreateArticle() {
   useEffect(() => {
     const checkAuthAndSession = async () => {
       if (auth.loading) return;
-      if (!auth.user) 
-      {
+      if (!auth.user) {
         console.log("Redirecting to login because user is not authenticated.");
         navigate("/login");
         return;
       }
 
-      if (!sessionID || sessionID === "") 
-      {
+      if (!sessionID || sessionID === "") {
         const newSessionID = `doc_${Date.now()}_${Math.random()
           .toString(36)
           .substr(2, 9)}-${auth.user._id}`;
         navigate(`/create/${newSessionID}`);
         return;
-      } 
-      else if (sessionID.split("-").pop() === auth.user._id) 
-      {
+      } else if (sessionID.split("-").pop() === auth.user._id) {
         let id = sessionID.split("-").pop();
         let sesID = sessionID;
         // console.log("Creating a new session with id:", sesID, id);
-        const result = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colab/createColab`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ author: id, sessionId: sesID }),
-        })
-        console.log(await result.json());
+        const result = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/colab/createColab`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ author: id, sessionId: sesID }),
+          }
+        );
         if (result.ok) 
         {
+          const resul = await result.json();
+          setContributorData(resul);
+          console.log(resul);
           toast.success("Session Joined Successfully as a author");
           setIsAuthor(true);
         }
         setIsAuthor(true);
-      }
-      else
-      { 
+      } 
+      else 
+      {
         let id = auth.user._id;
         let sesID = sessionID;
-        const result = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colab/addContributor`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ contributor: id, sessionId: sesID }),
-        })
-        console.log(result);
-        console.log(await result.json());
+        const result = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/colab/addContributor`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ contributor: id, sessionId: sesID }),
+          }
+        );
         if (result.ok) 
         {
+          const resul = await result.json();
+          console.log(resul);
+          setContributorData(resul.Colaborator);
           toast.success("Session Joined Successfully as a Contributor");
           setIsAuthor(true);
         }
@@ -117,16 +124,16 @@ function CreateArticle() {
     };
 
     const fetchArticleData = async () => {
-      try 
-      {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getArticle/session/${sessionID}`);
-        if (response.ok) 
-        {
+      try {
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/getArticle/session/${sessionID}`
+        );
+        if (response.ok) {
           const data = await response.json();
           setArticleData(data.article);
-        } 
-        else 
-        {
+        } else {
           setArticleData({
             ...articleData,
             author: auth.user?._id || "",
@@ -235,13 +242,13 @@ function CreateArticle() {
                       : "Click the icon to copy the link"}
                   </p>
                 </div>
-                    {shortData.qrurl && (
-                      <img
-                        src={`${shortData.qrurl}`}
-                        alt="QR Code for shareable link"
-                        className="w-full bg-indigo-500 rounded-lg shadow-md p-1 lg:block hidden"
-                      />
-                    )}
+                {shortData.qrurl && (
+                  <img
+                    src={`${shortData.qrurl}`}
+                    alt="QR Code for shareable link"
+                    className="w-full bg-indigo-500 rounded-lg shadow-md p-1 lg:block hidden"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -252,18 +259,14 @@ function CreateArticle() {
           </h2>
           <div className="bg-amber-100 p-2 rounded">{userName}</div>
         </div>
-        {articleData.contributors.length > 0 && (
+        {contributorData.Contributor.length>0 && (
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-amber-800 mb-2">
               Contributors ID
             </h2>
-            <ul className="space-y-2">
-              {articleData.contributors.map((contributor, index) => (
-                <li key={index} className="bg-amber-100 p-2 rounded">
-                  {index + 1}. {contributor}
-                </li>
-              ))}
-            </ul>
+            <ContributorList
+              articleData={contributorData.Contributor || articleData.contributors}
+            />
           </div>
         )}
       </div>

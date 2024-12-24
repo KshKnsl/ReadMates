@@ -37,13 +37,15 @@ async function sendMail(name, toEmail, purpose) {
               <p>We're thrilled to have you join our community of book lovers and writers.</p>
               <p>With ReadMates, you can:</p>
               <ul>
-                <li>Discover exciting new books and articles</li>
-                <li>Connect with fellow readers and authors</li>
-                <li>Share your thoughts and reviews</li>
+                <li>Read together</li>
+                <li>Create together</li>
                 <li>Track your reading progress</li>
+                <li>Share your thoughts and reviews</li>
+                <li>Connect with fellow readers and authors</li>
+                <li>Discover exciting new books and articles</li>
               </ul>
               <p>Ready to dive in? Click the button below to start exploring:</p>
-              <p><a href="https://readmates.com/explore" class="cta-button">Start Exploring</a></p>
+              <p><a href="https://readmates.vercel.app" class="cta-button">Start Exploring</a></p>
               <p>If you have any questions, our support team is always here to help.</p>
               <div class="footer">
                 <p>Happy Reading!</p>
@@ -68,12 +70,12 @@ async function sendMail(name, toEmail, purpose) {
               <p>We're glad to see you again on ReadMates. Your literary adventure continues!</p>
               <p>Here's what's new since your last visit:</p>
               <ul>
-                <li>5 new book recommendations based on your reading history</li>
+                <li>5 new article recommendations based on your reading history</li>
                 <li>3 discussions in your favorite genres</li>
                 <li>New feature: Reading Challenges - set goals and track your progress</li>
               </ul>
               <p>Ready to jump back in? Click the button below:</p>
-              <p><a href="https://readmates.com/dashboard" class="cta-button">Go to My Dashboard</a></p>
+              <p><a href="https://readmates.vercel.app" class="cta-button">Go to My Dashboard</a></p>
               <p>Remember, the more you engage, the more personalized your experience becomes!</p>
               <div class="footer">
                 <p>Happy Reading!</p>

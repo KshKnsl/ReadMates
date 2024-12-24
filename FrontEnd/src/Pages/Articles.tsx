@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import UserName from '../components/ui/UserName';
 
 interface Article 
 {
   _id: string;
   title: string;
-  author: string;
+  author: any;
   desc: string;
   content: string;
   contributors: string[];
@@ -27,6 +28,7 @@ function Articles()
         const response = await fetch(url);
         const data = await response.json();
         setArticles(data.articles || []);
+        console.log(data.articles[15].author._id);
       } 
       catch (error) 
       {
@@ -49,7 +51,7 @@ function Articles()
             <li key={article._id} className="mb-2" onClick={() => handleArticleClick(article._id)}> 
               <div className="p-4 bg-gray-100 rounded-md cursor-pointer">
                 <h2 className="text-lg font-semibold">{article.title}</h2>
-                <p>{(article.author)?`By ${article.author}`:""}</p> 
+                {article?.author?._id && (<><span>By: </span><UserName userId={article.author._id} /></>)}
               </div>
             </li>
           ))}

@@ -44,7 +44,7 @@ async function addContributor(data)
   }
   if (contributorExists)
   {
-    return {message: "Contributor already exists"};
+    return {message: "Contributor already exists", Colaborator: colab};
   }
   try 
   {

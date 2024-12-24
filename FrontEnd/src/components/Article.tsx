@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, Tag, Clock } from 'lucide-react';
+import { BookOpen, Tag, Clock, User } from 'lucide-react';
+import UserName from './ui/UserName';
 
 const Article: React.FC = () => {
   const { id } = useParams<Record<string, string | undefined>>();
@@ -25,6 +26,7 @@ const Article: React.FC = () => {
           publishedAt: data.publishedAt || new Date().toISOString(),
         };
         setArticle(articleData);
+        console.log(articleData);
       } 
       catch (error) 
       {
@@ -142,7 +144,16 @@ const Article: React.FC = () => {
               transition={{ delay: 0.8 }}
             >
               <BookOpen className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Status:</span> {article.status}
+              <span className="font-semibold">Status:&nbsp;</span> {article.status}
+            </motion.div>
+            <motion.div
+              className="flex items-center text-amber-700"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+            >
+              <User className="w-5 h-5 mr-2" />
+              <span className="font-semibold">Author:&nbsp;</span> <UserName userId = {article.author._id} />
             </motion.div>
             
             <motion.div
@@ -152,7 +163,7 @@ const Article: React.FC = () => {
               transition={{ delay: 0.9 }}
             >
               <Clock className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Published:</span> {new Date(article.publishedAt).toLocaleDateString()}
+              <span className="font-semibold">Published:&nbsp;</span> {new Date(article.publishedAt).toLocaleDateString()}
             </motion.div>
           </div>
         </footer> 
