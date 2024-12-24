@@ -2,6 +2,26 @@ const Article = require("../models/Article.model");
 
 // Create a new article
 async function createArticle(data) {
+  const existingArticle = await Article.findOne({
+    sessionDoc: data.sessionDoc,
+  });
+  if (existingArticle) {
+    Object.assign(existingArticle, {
+      title: data.title,
+      desc: data.desc,
+      content: data.content,
+      contributors: data.contributors,
+      tags: data.tags,
+      status: data.status || "draft",
+    });
+    await existingArticle.save();
+    console.log("Article Updated successfully");
+    return {
+      success: true,
+      message: "Article Updated successfully",
+      article: existingArticle,
+    };
+  }
   try {
     const newArticle = new Article({
       title: data.title,
@@ -16,9 +36,16 @@ async function createArticle(data) {
     });
 
     await newArticle.save();
-    return { success: true, message: "Article created successfully", article: newArticle };
+    return {
+      success: true,
+      message: "Article created successfully",
+      article: newArticle,
+    };
   } catch (error) {
-    return { success: false, message: `Error while creating article: ${error.message}` };
+    return {
+      success: false,
+      message: `Error while creating article: ${error.message}`,
+    };
   }
 }
 
@@ -31,7 +58,10 @@ async function getArticleById(id) {
     }
     return { success: true, article };
   } catch (error) {
-    return { success: false, message: `Error fetching article: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching article: ${error.message}`,
+    };
   }
 }
 
@@ -64,7 +94,10 @@ async function updateArticle(data) {
       article: updatedArticle,
     };
   } catch (error) {
-    return { success: false, message: `Error while updating/creating article: ${error.message}` };
+    return {
+      success: false,
+      message: `Error while updating/creating article: ${error.message}`,
+    };
   }
 }
 
@@ -77,7 +110,10 @@ async function deleteArticle(id) {
     }
     return { success: true, message: "Article deleted successfully" };
   } catch (error) {
-    return { success: false, message: `Error while deleting article: ${error.message}` };
+    return {
+      success: false,
+      message: `Error while deleting article: ${error.message}`,
+    };
   }
 }
 
@@ -87,7 +123,10 @@ async function getArticlesByTags(tags) {
     const articles = await Article.find({ tags: { $in: tags } });
     return { success: true, articles };
   } catch (error) {
-    return { success: false, message: `Error fetching articles by tags: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching articles by tags: ${error.message}`,
+    };
   }
 }
 
@@ -97,7 +136,10 @@ async function getArticlesByAuthor(author) {
     const articles = await Article.find({ author }).populate("contributors");
     return { success: true, articles };
   } catch (error) {
-    return { success: false, message: `Error fetching articles by author: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching articles by author: ${error.message}`,
+    };
   }
 }
 
@@ -107,7 +149,10 @@ async function getArticlesAll() {
     const articles = await Article.find().populate("author contributors");
     return { success: true, articles };
   } catch (error) {
-    return { success: false, message: `Error fetching all articles: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching all articles: ${error.message}`,
+    };
   }
 }
 
@@ -118,7 +163,30 @@ async function getArticlesByTitle(title) {
     });
     return { success: true, articles };
   } catch (error) {
-    return { success: false, message: `Error fetching articles by title: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching articles by title: ${error.message}`,
+    };
+  }
+}
+
+async function getArticleBySessionDoc(sessionDoc) {
+  try 
+  {
+    const article = await Article.findOne({ sessionDoc: sessionDoc });
+    console.log(article);
+    if (!article) 
+    {
+      return { success: false, message: "Article not found" };
+    }
+    return { success: true, article };
+  } 
+  catch (error) 
+  {
+    return {
+      success: false,
+      message: `Error fetching article by sessionDoc: ${error.message}`,
+    };
   }
 }
 
@@ -131,4 +199,5 @@ module.exports = {
   getArticlesByAuthor,
   getArticlesAll,
   getArticlesByTitle,
+  getArticleBySessionDoc,
 };

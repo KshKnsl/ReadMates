@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
     points: { type: Number, default: 100 },
     badges: { type: [String], default: [] },
     interests: { type: [String], default: ["Reading"] },
-    savedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
+    articles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
     contributions: [
       {
         articleId: { type: mongoose.Schema.Types.ObjectId, ref: "Article" },

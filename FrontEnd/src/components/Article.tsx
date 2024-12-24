@@ -1,51 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, User, Users, Tag, Clock } from 'lucide-react';
-
-interface Article {
-  title: string;
-  desc: string;
-  content: string;
-  author: string;
-  contributors: string[];
-  tags: string[];
-  status: string;
-  publishedAt: string;
-}
+import { BookOpen, Tag, Clock } from 'lucide-react';
 
 const Article: React.FC = () => {
   const { id } = useParams<Record<string, string | undefined>>();
-  const [article, setArticle] = useState<Article | null>(null);
+  const [article, setArticle] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getArticle/${id}`);
-        const data = await response.json();
-        const articleData: Article = {
-          title: data.title,
-          desc: data.desc,
-          content: data.content,
-          author: data.author,
-          contributors: data.contributors,
-          tags: data.tags,
-          status: data.status,
-          publishedAt: data.publishedAt,
+        const temp = await response.json();
+        const data = temp.article || {};
+        const articleData: any = {
+          title: data.title || 'No title available',
+          desc: data.desc || 'No description available',
+          content: data.content || '<p>No content available</p>',
+          author: data.author || 'Unknown author',
+          contributors: data.contributors || [],
+          tags: data.tags || [],
+          status: data.status || 'Unknown status',
+          publishedAt: data.publishedAt || new Date().toISOString(),
         };
         setArticle(articleData);
-      } catch (error) {
+      } 
+      catch (error) 
+      {
         console.error('Error fetching article:', error);
-      } finally {
+      } 
+      finally 
+      {
         setIsLoading(false);
       }
     };
-
     fetchArticle();
   }, [id]);
 
-  if (isLoading) {
+  if (isLoading) 
+  {
     return (
       <div className="fixed inset-0 bg-amber-50 flex items-center justify-center z-50">
         <motion.div
@@ -123,26 +117,8 @@ const Article: React.FC = () => {
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         </div>
-        <footer className="bg-amber-50 p-6 border-t border-amber-100">
+         <footer className="bg-amber-50 p-6 border-t border-amber-100">
           <div className="flex flex-wrap gap-4">
-            <motion.div
-              className="flex items-center text-amber-700"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <User className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Author:</span> {article.author}
-            </motion.div>
-            <motion.div
-              className="flex items-center text-amber-700"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Users className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Contributors:</span> {article.contributors.join(', ')}
-            </motion.div>
             <motion.div
               className="flex items-center text-amber-700"
               initial={{ opacity: 0 }}
@@ -152,11 +128,11 @@ const Article: React.FC = () => {
               <Tag className="w-5 h-5 mr-2" />
               <span className="font-semibold">Tags:</span>
               <div className="flex flex-wrap gap-2 ml-2">
-                {article.tags.map((tag, index) => (
+                {article.tags.length > 0 ? article.tags.map((tag: string, index: number) => (
                   <span key={index} className="bg-amber-200 text-amber-800 px-2 py-1 rounded-full text-sm">
                     {tag}
                   </span>
-                ))}
+                )) : 'None'}
               </div>
             </motion.div>
             <motion.div
@@ -168,6 +144,7 @@ const Article: React.FC = () => {
               <BookOpen className="w-5 h-5 mr-2" />
               <span className="font-semibold">Status:</span> {article.status}
             </motion.div>
+            
             <motion.div
               className="flex items-center text-amber-700"
               initial={{ opacity: 0 }}
@@ -178,11 +155,10 @@ const Article: React.FC = () => {
               <span className="font-semibold">Published:</span> {new Date(article.publishedAt).toLocaleDateString()}
             </motion.div>
           </div>
-        </footer>
+        </footer> 
       </article>
     </motion.div>
   );
 };
 
 export default Article;
-

@@ -1,4 +1,4 @@
-import React, { useState, useCallback} from "react";
+import React, { useState, useCallback } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
@@ -27,24 +27,59 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
-import { Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote, ImageIcon, AlignLeft, AlignCenter, AlignRight, UnderlineIcon, SuperscriptIcon, SubscriptIcon, Highlighter, CheckSquare, Undo, Redo, Palette, User, Type, Heading1, Heading2, Minus, Search, BookOpen, Link2, TableIcon, YoutubeIcon } from 'lucide-react';
-import { INTERESTS,getRandomColor } from "../constants";
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Code,
+  List,
+  ListOrdered,
+  Quote,
+  ImageIcon,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  UnderlineIcon,
+  SuperscriptIcon,
+  SubscriptIcon,
+  Highlighter,
+  CheckSquare,
+  Undo,
+  Redo,
+  Palette,
+  User,
+  Type,
+  Heading1,
+  Heading2,
+  Minus,
+  Search,
+  BookOpen,
+  Link2,
+  TableIcon,
+  YoutubeIcon,
+} from "lucide-react";
+import { INTERESTS, getRandomColor } from "../constants";
 
 import "./styles.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const doc = new Y.Doc();
 
 interface TextEditorProps {
-    setArticleData: (data: any) => void;
-    articleData: any;
-    userName: string;
-    docName: string;
-    isAuthor: boolean;
+  setArticleData: (data: any) => void;
+  articleData: any;
+  userName: string;
+  docName: string;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName, docName, isAuthor }) => {
+const TextEditor: React.FC<TextEditorProps> = ({
+  articleData,
+  setArticleData,
+  userName,
+  docName,
+}) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
@@ -58,9 +93,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
 
   function handleInterestToggle(tag: string) {
     setTags((prev = []) =>
-      prev.includes(tag)
-        ? prev.filter((i) => i !== tag)
-        : [...prev, tag]
+      prev.includes(tag) ? prev.filter((i) => i !== tag) : [...prev, tag]
     );
   }
 
@@ -116,13 +149,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
         nested: true,
       }),
       Placeholder.configure({
-        placeholder: 'Write your article content here...',
+        placeholder: "Write your article content here...",
       }),
       CharacterCount.configure({
         limit: MAX_CHARACTERS,
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       Subscript,
       Superscript,
@@ -136,54 +169,81 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
     content: "<p>Start writing your article here...</p>",
     onUpdate: ({ editor }) => {
       setCharCount(editor.storage.characterCount.characters());
-      setArticleData((preData: any) => ({...preData, content: editor.getHTML()}));
+      setArticleData((preData: any) => ({
+        ...preData,
+        content: editor.getHTML(),
+      }));
     },
   });
-
-  const handleSave = useCallback(async () => {
-    setArticleData({ ...articleData, content: editor?.getHTML(), tags });
-    console.log("Saving article:", { ...articleData, content: editor?.getHTML(), tags });
-    try
+  
+  const handleSave = async () => {
+    let sesID = docName;
+    const result = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/colab/getColab/${sesID}`,
+      { method: "GET", headers: { "Content-Type": "application/json" } }
+    );
+    if (result.ok) 
     {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/article/updateArticle`, {
-        method: 'POST',
+      const sessData = await result.json();
+      setArticleData((prevData: any) => ({ ...prevData, content: editor?.getHTML(), tags, contributors: sessData.Contributor, sessionDoc: sessData.sessionId }));
+
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/article/createArticle`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...articleData, content: editor?.getHTML(), tags }),
+        body: JSON.stringify({ 
+          ...articleData, 
+          content: editor?.getHTML(), 
+          tags, 
+          contributors: sessData.Contributor, 
+          sessionDoc: sessData.sessionId, 
+          desc: "",
+          publishedAt: new Date(),
+        }),  
       });
-      if (response.ok) {
-        console.log("Article saved successfully", response);
+      if (res.ok) 
+      {
+        const data = await res.json();
+        console.log(data);
+        toast.success("Article created successfully!");
       } 
-      else {
-        throw new Error("Failed to save article");
+      else
+      {
+        toast.error("Error creating article, you are missing a required field!!");
       }
+    } 
+    else 
+    {
+      console.log("Error creating article");
     }
-      catch(error) {
-        throw new Error(`Failed to save article: ${error}`);
-      }
-  }, [articleData, editor, tags]);
-
-
+  };
 
   const addImage = useCallback(() => {
-    const url = window.prompt('Enter the URL of the image:');
+    const url = window.prompt("Enter the URL of the image:");
     if (url) {
       editor?.chain().focus().setImage({ src: url }).run();
     }
   }, [editor]);
 
   const addYoutubeVideo = useCallback(() => {
-    const url = window.prompt('Enter the URL of the YouTube video:');
+    const url = window.prompt("Enter the URL of the YouTube video:");
     if (url) {
       editor?.chain().focus().setYoutubeVideo({ src: url }).run();
     }
   }, [editor]);
   const addTable = useCallback(() => {
     const rows = parseInt(prompt("Enter the number of rows:", "4") || "4", 10);
-    const cols = parseInt(prompt("Enter the number of columns:", "3") || "3", 10);
+    const cols = parseInt(
+      prompt("Enter the number of columns:", "3") || "3",
+      10
+    );
     if (rows > 0 && cols > 0) {
-      editor?.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
+      editor
+        ?.chain()
+        .focus()
+        .insertTable({ rows, cols, withHeaderRow: true })
+        .run();
     }
   }, [editor]);
 
@@ -201,7 +261,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
         placeholder="Title here"
         value={articleData?.title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setArticleData({ ...articleData, title: e.target.value });
+          setArticleData({ ...articleData, title: e.target.value });
         }}
         className="article-title-input"
       />
@@ -374,20 +434,26 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
         </div>
         <div className="toolbar-group">
           <Button
-            onClick={() => editor.chain().focus().setTextAlign('left').run()}
-            className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+            onClick={() => editor.chain().focus().setTextAlign("left").run()}
+            className={
+              editor.isActive({ textAlign: "left" }) ? "is-active" : ""
+            }
           >
             <AlignLeft className="w-4 h-4" />
           </Button>
           <Button
-            onClick={() => editor.chain().focus().setTextAlign('center').run()}
-            className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+            onClick={() => editor.chain().focus().setTextAlign("center").run()}
+            className={
+              editor.isActive({ textAlign: "center" }) ? "is-active" : ""
+            }
           >
             <AlignCenter className="w-4 h-4" />
           </Button>
           <Button
-            onClick={() => editor.chain().focus().setTextAlign('right').run()}
-            className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+            onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            className={
+              editor.isActive({ textAlign: "right" }) ? "is-active" : ""
+            }
           >
             <AlignRight className="w-4 h-4" />
           </Button>
@@ -404,7 +470,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
 
       <EditorContent editor={editor} className="editor-content" />
       <div className="editor-footer">
-        <div className="char-count">Characters: {charCount}/{MAX_CHARACTERS}</div>
+        <div className="char-count">
+          Characters: {charCount}/{MAX_CHARACTERS}
+        </div>
         {error && <div className="error-message">{error}</div>}
         <div className="connection-status">
           {isConnected ? "Connected" : "Disconnected"}
@@ -457,6 +525,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
       <Button onClick={handleSave} className="save-button">
         Save Article
       </Button>
+      <ToastContainer />
     </div>
   );
 };

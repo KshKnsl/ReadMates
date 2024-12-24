@@ -3,6 +3,7 @@ import TextEditor from "../components/TextEditor";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { LucideLink, Copy, Check } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Article {
   title: string;
@@ -38,21 +39,68 @@ function CreateArticle() {
     status: "draft",
   });
 
+  // async function getUserbyID(id:string)
+  // {
+  //   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`);
+  //   const data = await response.json();
+  //   return data.name;
+  // }
   useEffect(() => {
     const checkAuthAndSession = async () => {
       if (auth.loading) return;
-      if (!auth.user) {
+      if (!auth.user) 
+      {
         console.log("Redirecting to login because user is not authenticated.");
         navigate("/login");
         return;
       }
-      if (!sessionID || sessionID === "") {
+
+      if (!sessionID || sessionID === "") 
+      {
         const newSessionID = `doc_${Date.now()}_${Math.random()
           .toString(36)
           .substr(2, 9)}-${auth.user._id}`;
         navigate(`/create/${newSessionID}`);
         return;
-      } else if (sessionID.split("-").pop() === auth.user._id) {
+      } 
+      else if (sessionID.split("-").pop() === auth.user._id) 
+      {
+        let id = sessionID.split("-").pop();
+        let sesID = sessionID;
+        // console.log("Creating a new session with id:", sesID, id);
+        const result = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colab/createColab`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ author: id, sessionId: sesID }),
+        })
+        console.log(await result.json());
+        if (result.ok) 
+        {
+          toast.success("Session Joined Successfully as a author");
+          setIsAuthor(true);
+        }
+        setIsAuthor(true);
+      }
+      else
+      { 
+        let id = auth.user._id;
+        let sesID = sessionID;
+        const result = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colab/addContributor`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ contributor: id, sessionId: sesID }),
+        })
+        console.log(result);
+        console.log(await result.json());
+        if (result.ok) 
+        {
+          toast.success("Session Joined Successfully as a Contributor");
+          setIsAuthor(true);
+        }
         setIsAuthor(true);
       }
     };
@@ -69,14 +117,16 @@ function CreateArticle() {
     };
 
     const fetchArticleData = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/article/${sessionID}`
-        );
-        if (response.ok) {
+      try 
+      {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getArticle/session/${sessionID}`);
+        if (response.ok) 
+        {
           const data = await response.json();
-          setArticleData(data);
-        } else {
+          setArticleData(data.article);
+        } 
+        else 
+        {
           setArticleData({
             ...articleData,
             author: auth.user?._id || "",
@@ -144,8 +194,8 @@ function CreateArticle() {
   }
 
   return (
-    <div className="mx-auto p-4 flex flex-col md:flex-row-reverse">
-      <div>
+    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse">
+      <div className="max-w-sm mx-auto">
         <h1 className="pt-2 text-3xl font-bold text-amber-900 mb-6">
           {isAuthor ? "Create Collaborative Article" : "Collaborate on Article"}
         </h1>
@@ -189,7 +239,7 @@ function CreateArticle() {
                       <img
                         src={`${shortData.qrurl}`}
                         alt="QR Code for shareable link"
-                        className="w-full bg-indigo-500 rounded-lg shadow-md p-1"
+                        className="w-full bg-indigo-500 rounded-lg shadow-md p-1 lg:block hidden"
                       />
                     )}
               </div>
@@ -205,12 +255,12 @@ function CreateArticle() {
         {articleData.contributors.length > 0 && (
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-amber-800 mb-2">
-              Contributors
+              Contributors ID
             </h2>
             <ul className="space-y-2">
               {articleData.contributors.map((contributor, index) => (
                 <li key={index} className="bg-amber-100 p-2 rounded">
-                  {contributor}
+                  {index + 1}. {contributor}
                 </li>
               ))}
             </ul>
@@ -218,7 +268,7 @@ function CreateArticle() {
         )}
       </div>
 
-      <div>
+      <div className="mx-auto flex-grow">
         <TextEditor
           articleData={articleData}
           setArticleData={handleArticleDataChange}
@@ -226,6 +276,7 @@ function CreateArticle() {
           docName={sessionID || ""}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 }
