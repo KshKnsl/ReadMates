@@ -1,9 +1,10 @@
 .create-article-container {
   margin: 2rem;
   padding: 2rem;
+  margin-top: 1rem;
   border-radius: 4px;
   background-color: #fff;
-  max-width: 100%;
+  max-width:75vw;
   box-sizing: border-box;
   -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   -moz-box-shaow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -13,6 +14,7 @@
   .create-article-container {
     margin: 1rem;
     padding: 1rem;
+    max-width: 100%;
   }
 }
 
@@ -90,13 +92,15 @@
   }
 }
 
-.editor-content {
+.editor-content 
+{
   border: 1px solid #f59e0b;
   border-radius: 4px;
   min-height: 300px;
   padding: 1rem;
   margin-bottom: 1rem;
   background-color: #fff;
+  text-overflow: clip;
 }
 @media (max-width: 768px) {
   .editor-content {
@@ -254,7 +258,7 @@
 
 .collaboration-cursor__label {
   border-radius: 3px 3px 3px 0;
-  color: #78350f;
+  color: #fff;
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -265,7 +269,7 @@
   top: -1.4em;
   user-select: none;
   white-space: nowrap;
-  background-color: #fef3c7;
+  background-color: chocolate;
 }
 
 /* Placeholder Styling */

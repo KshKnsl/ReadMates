@@ -39,11 +39,12 @@ interface TextEditorProps {
     setArticleData: (data: any) => void;
     articleData: any;
     userName: string;
+    docName: string;
 }
 
 const MAX_CHARACTERS = 50000;
 
-const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, userName, docName }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
@@ -65,7 +66,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
   }
 
   const provider = new TiptapCollabProvider({
-    name: `session-${sessionID}`,
+    name: `${docName}`,
     appId: import.meta.env.VITE_TIPTAPAPP_CLIENT_ID,
     token:
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzQ4ODMzNjcsIm5iZiI6MTczNDg4MzM2NywiZXhwIjoxNzM0OTY5NzY3LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ4OWxveHl2OSJ9.qkg86myXMBSv89_HKZ89KchAxiLEcQSgfpQ_miGevKk",
@@ -170,8 +171,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
   }
 
   return (
-    <div className="shadow-lime-400 shadow-2xl create-article-container">
-      <h2 className="text-2xl mb-4 font-bold text-amber-600">
+    <div className="shadow-2xl create-article-container p-2">
+      <h2 className="text-3xl mb-4 font-bold text-amber-600">
         Create a new Article
       </h2>
       <Input
