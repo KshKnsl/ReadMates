@@ -31,7 +31,6 @@ import { Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote, ImageIcon,
 import { INTERESTS,getRandomColor } from "../constants";
 
 import "./styles.css";
-import { useParams } from "react-router-dom";
 
 const doc = new Y.Doc();
 
@@ -50,7 +49,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ articleData, setArticleData, us
   const [charCount, setCharCount] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { sessionID } = useParams<{ sessionID: string }>();
   const userColor = getRandomColor();
 
   const filteredInterests = INTERESTS.filter((tag) =>

@@ -158,7 +158,7 @@ function CreateArticle() {
               </h2>
             </div>
             <div className="p-5">
-              <div className="flex flex-row md:flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <div className="flex-grow">
                   <div className="relative">
                     <input

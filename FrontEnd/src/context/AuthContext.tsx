@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 type User = {
-  email: ReactNode;
+  email: string;
   token: string;
   _id: string;
 };
@@ -10,7 +10,7 @@ type User = {
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (token: string, _id: string) => void;
+  login: (token: string, _id: string, email: string) => void;
   logout: () => void;
 };
 
@@ -31,9 +31,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const token = localStorage.getItem("token");
         const _id = localStorage.getItem("_id");
+        const email = localStorage.getItem("email");
 
-        if (token && _id) {
-          setUser({ token, _id });
+        if (token && _id && email) {
+          setUser({ token, _id, email });
         }
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -45,10 +46,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const login = (token: string, _id: string) => {
+  const login = (token: string, _id: string, email: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("_id", _id);
-    setUser({ token, _id });
+    localStorage.setItem("email", email);
+    setUser({ token, _id, email });
     navigate("/profile");
   };
 
