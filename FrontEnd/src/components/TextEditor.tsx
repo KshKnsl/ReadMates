@@ -59,7 +59,7 @@ import {
   YoutubeIcon,
 } from "lucide-react";
 import { INTERESTS, getRandomColor } from "../constants";
-
+import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -86,6 +86,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const [tags, setTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const userColor = getRandomColor();
+  const navigate = useNavigate();
 
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
@@ -206,7 +207,10 @@ const TextEditor: React.FC<TextEditorProps> = ({
       {
         const data = await res.json();
         console.log(data);
-        toast.success("Article created successfully!");
+        toast.success(data.message);
+        setTimeout(() => {
+          navigate(`/article/${data.article._id}`);
+        }, 2000);
       } 
       else
       {
