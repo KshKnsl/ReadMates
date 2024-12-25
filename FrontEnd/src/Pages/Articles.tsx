@@ -290,26 +290,17 @@ function Articles() {
                   </motion.li>
                 ))}
               </motion.ul>
-            ) : (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-center text-amber-700 text-lg"
-              >
-                No articles found matching your criteria.
-              </motion.p>
-            )}
+            ) : ("")}
           </AnimatePresence>
         </div>
 
         {filteredAndSortedAiArticles.length > 0 && (
-          <div className="col-span-1">
+          <div className={filteredAndSortedArticles.length > 0 ? "col-span-1": "col-span-3"}>
             <h2 className="text-3xl font-bold mb-6 text-amber-800 mt-10 md:mt-0">
               AI Generated Articles
             </h2>
             <AnimatePresence>
-              <motion.ul className="grid gap-4">
+              <motion.ul className={filteredAndSortedArticles.length > 0 ? "grid gap-4":"grid gap-4 md:grid-cols-2 lg:grid-cols-3"}>
                 {filteredAndSortedAiArticles.map((article) => (
                   <motion.li
                     key={article._id}
@@ -347,11 +338,20 @@ function Articles() {
                   </motion.li>
                 ))}
               </motion.ul>
+              
             </AnimatePresence>
-            
           </div>
+          
         )}
       </div>
+      
+      {filteredAndSortedAiArticles.length <= 0 && filteredAndSortedArticles.length <= 0 && (
+              <p
+                className="text-center text-amber-700 text-lg"
+              >
+                No articles found matching your criteria.
+              </p>
+            )}
       <ToastContainer />
     </div>
   );

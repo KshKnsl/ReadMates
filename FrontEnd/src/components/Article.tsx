@@ -25,6 +25,7 @@ const Article: React.FC = () => {
           status: data.status || 'Unknown status',
           publishedAt: data.publishedAt || new Date().toISOString(),
           source: data.source || null,
+          sessionDocID: data.sessionDoc || null,
         };
         setArticle(articleData);
         console.log(articleData);

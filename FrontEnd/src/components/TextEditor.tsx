@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useEffect } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
@@ -83,7 +84,15 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(articleData.tags || []);
+  
+
+  useEffect(() => {
+    if (articleData.tags) {
+      setTags(articleData.tags);
+    }
+  }, [articleData.tags]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const userColor = getRandomColor();
   const navigate = useNavigate();
@@ -344,7 +353,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           >
             <Code className="w-4 h-4" />
           </Button>
-          <div
+          {/* <div
             className="relative flex items-center gap-2 px-4 py-2 text-amber-600 rounded-md bg-white border border-amber-500"
             style={{ backgroundColor: editor.getAttributes("textStyle").color }}
           >
@@ -359,7 +368,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             <span className="text-sm ml-2">
               {editor.getAttributes("textStyle").color || "Default"}
             </span>
-          </div>
+          </div> */}
           <Button
             onClick={() => editor.chain().focus().insertContent("@").run()}
           >

@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { LucideLink, Copy, Check } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import ContributorList from "./ui/ContributorList";
+import UserName from "./ui/UserName";
 
 interface Article {
   title: string;
@@ -41,12 +42,6 @@ function CreateArticle() {
     status: "draft",
   });
 
-  // async function getUserbyID(id:string)
-  // {
-  //   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`);
-  //   const data = await response.json();
-  //   return data.name;
-  // }
   useEffect(() => {
     const checkAuthAndSession = async () => {
       if (auth.loading) return;
@@ -80,7 +75,7 @@ function CreateArticle() {
         {
           const resul = await result.json();
           setContributorData(resul);
-          console.log(resul);
+          // console.log(resul);
           toast.success("Session Joined Successfully as a author");
           setIsAuthor(true);
         }
@@ -103,7 +98,7 @@ function CreateArticle() {
         if (result.ok) 
         {
           const resul = await result.json();
-          console.log(resul);
+          // console.log(resul);
           setContributorData(resul.Colaborator);
           toast.success("Session Joined Successfully as a Contributor");
           setIsAuthor(true);
@@ -124,24 +119,30 @@ function CreateArticle() {
     };
 
     const fetchArticleData = async () => {
-      try {
+      try 
+      {
         const response = await fetch(
           `${
             import.meta.env.VITE_BACKEND_URL
           }/api/getArticle/session/${sessionID}`
         );
-        if (response.ok) {
-          const data = await response.json();
+        const data = await response.json();
+        if (data.success) {
+          // console.log(data);
           setArticleData(data.article);
-        } else {
+        } 
+        else 
+        {
           setArticleData({
             ...articleData,
             author: auth.user?._id || "",
             contributors: [],
           });
         }
-      } catch (error) {
-        console.error("Error fetching article data:", error);
+      } 
+      catch (error) 
+      {
+       console.log("Article Does not exists");
       }
     };
 
@@ -257,9 +258,9 @@ function CreateArticle() {
           <h2 className="text-xl font-semibold text-amber-800 mb-2">
             {isAuthor ? "Author" : "You are collaborating as"}
           </h2>
-          <div className="bg-amber-100 p-2 rounded">{userName}</div>
+          <div className="bg-amber-100 p-2 rounded"><UserName userId={auth.user._id} name={userName}/></div>
         </div>
-        {contributorData.Contributor.length>0 && (
+        {contributorData.Contributor?.length>0 && (
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-amber-800 mb-2">
               Contributors ID

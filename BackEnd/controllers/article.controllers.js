@@ -56,6 +56,7 @@ async function getArticleById(id) {
     if (!article) {
       return { success: false, message: "Article not found" };
     }
+    console.log("Article found:", article);
     return { success: true, article };
   } catch (error) {
     return {
@@ -171,18 +172,18 @@ async function getArticlesByTitle(title) {
 }
 
 async function getArticleBySessionDoc(sessionDoc) {
-  try {
+  try 
+  {
     const article = await Article.findOne({ sessionDoc: sessionDoc });
-    console.log(article);
-    if (!article) {
+    if (!article) 
+    {
       return { success: false, message: "Article not found" };
     }
     return { success: true, article };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching article by sessionDoc: ${error.message}`,
-    };
+  } 
+  catch (error) 
+  {
+    return error;
   }
 }
 
@@ -204,7 +205,7 @@ Provide the response in the following JSON format:
   "source": "The source of information (e.g., 'GFG', 'Blogs', 'Scientific Journals', 'Wikipedia', or any other website. Mention only 1 source.)"
 }
 You must use a reliable source to generate the content. the comnent should not be completely Ai generated. you can provide reference you tube videos or se i frames, img if neededed. Ensure the content is factual, informative, and suitable for an educational platform.
-Make sure the JSON output does not include any unescaped special characters like backslashes (\), double quotes ("), or other problematic symbols. Escape such characters properly if needed to ensure the response is valid JSON. Provide the JSON response as plain text without formatting. response should not contain backticks in start or end`;
+Make sure the JSON output does not include any unescaped special characters like backslashes (\), double quotes ("), or other problematic symbols. Escape such characters properly if needed to ensure the response is valid JSON. Provide the JSON response as plain text without formatting. response should not contain backticks in start or end as i am using JSON.parse() to parse the response. your generated text must now have language specified or formated as code`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -214,13 +215,14 @@ Make sure the JSON output does not include any unescaped special characters like
       }),
     });
 
-    if (!response.ok) {
+    if (!response.ok) 
+    {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const jsonResponse = await response.json();
     const generatedText = jsonResponse.candidates[0].content.parts[0].text;
-    // console.log("Generated text:", generatedText);
+    console.log("Generated text:", generatedText);
     const articleData = JSON.parse(generatedText);
     const newArticle = new Article({
       ...articleData,
@@ -231,7 +233,9 @@ Make sure the JSON output does not include any unescaped special characters like
       message: "Article created successfully",
       article: newArticle,
     };
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error("Error generating AI article:", error);
     return {
       success: false,
@@ -241,10 +245,12 @@ Make sure the JSON output does not include any unescaped special characters like
   }
 }
 
-async function generateAiDesc(body) {
+async function generateAiDesc(body) 
+{
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini_API_KEY}`;
-  const refinedPrompt = `Generate a description for the following article to help with SEO: ${body.title} - ${body.content}. The description should be concise and include relevant keywords. PLease return an empty string if you are unable to generate a description.`;
-  try {
+  const refinedPrompt = `Generate a description for the following article to help with SEO: ${body.title} - ${body.content}. The description should be concise and include relevant keywords. PLease return an empty string if you are unable to generate a description. Since i have to parse your response to json, please make sure that the response does not contain any special characters like backslashes (\), double quotes ("), or backtick or json format. Escape such characters properly if needed to ensure the response is valid JSON. Provide the response as plain text without formatting. response should not contain backticks in start or end`;
+  try 
+  {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -254,7 +260,9 @@ async function generateAiDesc(body) {
     });
     const jsonResponse = await response.json();
     return jsonResponse.candidates[0].content.parts[0].text;
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.log("Error:", error);
     return null;
   }

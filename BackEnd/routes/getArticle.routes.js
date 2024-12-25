@@ -32,7 +32,6 @@ router.get("/all", async (req, res) => {
   if (result) {
     res.status(200).json(result);
   } else {
-    console.log(result);
     res.status(400).json(result);
   }
 });
@@ -49,10 +48,11 @@ router.get("/title/:title", async (req, res) => {
 
 router.get("/session/:sessionDoc", async (req, res) => {
   let result = await getArticleBySessionDoc(req.params.sessionDoc);
+
   if (result.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    res.json(result);
   }
 });
 
