@@ -16,14 +16,15 @@ const Article: React.FC = () => {
         const temp = await response.json();
         const data = temp.article || {};
         const articleData: any = {
-          title: data.title || 'No title available',
-          desc: data.desc || 'No description available',
-          content: data.content || '<p>No content available</p>',
-          author: data.author || 'Unknown author',
+          title: data.title,
+          desc: data.desc,
+          content: data.content,
+          author: data.author,
           contributors: data.contributors || [],
           tags: data.tags || [],
           status: data.status || 'Unknown status',
           publishedAt: data.publishedAt || new Date().toISOString(),
+          source: data.source || null,
         };
         setArticle(articleData);
         console.log(articleData);
@@ -119,7 +120,7 @@ const Article: React.FC = () => {
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         </div>
-         <footer className="bg-amber-50 p-6 border-t border-amber-100">
+        <footer className="bg-amber-50 p-6 border-t border-amber-100">
           <div className="flex flex-wrap gap-4">
             <motion.div
               className="flex items-center text-amber-700"
@@ -127,9 +128,8 @@ const Article: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              <Tag className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Tags:</span>
               <div className="flex flex-wrap gap-2 ml-2">
+              <span className="font-semibold flex items-center"><Tag className="w-5 h-5 mr-2" />Tags:</span>
                 {article.tags.length > 0 ? article.tags.map((tag: string, index: number) => (
                   <span key={index} className="bg-amber-200 text-amber-800 px-2 py-1 rounded-full text-sm">
                     {tag}
@@ -143,8 +143,7 @@ const Article: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
             >
-              <BookOpen className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Status:&nbsp;</span> {article.status}
+              <span className="font-semibold flex items-center"><BookOpen className="w-5 h-5 mr-2" />Status:&nbsp;</span> {article.status}
             </motion.div>
             <motion.div
               className="flex items-center text-amber-700"
@@ -152,21 +151,34 @@ const Article: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <User className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Author:&nbsp;</span> <UserName userId = {article.author._id} />
+              {article.author ? (
+                <div className="flex items-center">
+                  <User className="w-5 h-5 mr-2" />
+                  <UserName userId={article.author?._id} name={article.author?.name} />
+                </div>
+              ) : article.source ? (
+                <div className="flex items-center">
+                  <span className="text-sm text-amber-700 mr-1">Source:&nbsp;{article.source}</span>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <span className="text-sm text-amber-700 mr-1">Source:&nbsp;Gemini</span>
+                </div>
+              )}
             </motion.div>
-            
             <motion.div
               className="flex items-center text-amber-700"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <Clock className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Published:&nbsp;</span> {new Date(article.publishedAt).toLocaleDateString()}
+              <div className="font-semibold flex items-center gap-1 justify-center">
+                <Clock className="w-5 h-5" />
+                <div>Published:&nbsp; {new Date(article.publishedAt).toLocaleDateString()}</div>
+              </div>
             </motion.div>
           </div>
-        </footer> 
+        </footer>
       </article>
     </motion.div>
   );

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const UserName = ({ userId }: { userId: string }) => {
+const UserName = ({ userId, name }: { userId: string; name?: string }) => {
   const [user, setUser] = useState<{
     name: string;
     email: string;
     _id: string;
-  } | null>(null);
+  } | null>(name ? { name, email: "", _id: userId } : null);
+
   async function getUserByID(id: string) {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/user/${id}`
@@ -14,16 +15,21 @@ const UserName = ({ userId }: { userId: string }) => {
     const data = await response.json();
     return { name: data.name, email: data.email, _id: data._id };
   }
+
   useEffect(() => {
-    async function fetchUser() {
-      const userDetails = await getUserByID(userId);
-      setUser(userDetails);
+    if (!name) {
+      async function fetchUser() {
+        const userDetails = await getUserByID(userId);
+        setUser(userDetails);
+      }
+      fetchUser();
     }
-    fetchUser();
-  }, [userId]);
+  }, [userId, name]);
+
   if (!user) {
-    return <div>Not known</div>;
+    return <div>Gemini</div>;
   }
+
   return (
     <Link
       to={`/profile/${user._id}`}

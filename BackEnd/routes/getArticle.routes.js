@@ -28,7 +28,6 @@ router.get("/author/:author", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  // console.log("all");
   let result = await getArticlesAll(req, res);
   if (result) {
     res.status(200).json(result);
@@ -40,7 +39,6 @@ router.get("/all", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   let result = await getArticleById(req.params.id);
-  console.log(result);
   res.status(200).json(result);
 });
 

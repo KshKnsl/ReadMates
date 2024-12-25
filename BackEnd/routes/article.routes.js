@@ -2,6 +2,8 @@ const {
   createArticle,
   updateArticle,
   deleteArticle,
+  generateAiArticles,
+  generateAiDesc,
 } = require("../controllers/article.controllers.js");
 
 const express = require("express");
@@ -36,22 +38,17 @@ router.post("/deleteArticle", async (req, res) => {
     res.status(400).json(result);
   }
 });
-async function generateAiDesc(body) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini_API_KEY}`;
-  const refinedPrompt = `Generate a description for the following article to help with SEO: ${body.title} - ${body.content}. The description should be concise and include relevant keywords. PLease return an empty string if you are unable to generate a description.`;
-  try 
-  {
-    const response = await fetch(url, { method: "POST",
-      headers: {"Content-Type": "application/json", },
-      body: JSON.stringify({ contents: [{parts: [{text: refinedPrompt, },],},],}), });
-    const jsonResponse = await response.json();
-    return jsonResponse.candidates[0].content.parts[0].text;
-  } 
-  catch (error) 
-  {
-    console.log("Error:", error);
-    return null;
+
+router.post("/generateAiArticle", async (req, res) => {
+  const resu = await generateAiArticles(req.body.search, req.body.tags);
+  console.log(resu);
+  if (resu.success) {
+    res.status(200).json(resu);
+  } else {
+    res.status(400).json(resu);
   }
-}
+});
+
+
 
 module.exports = router;

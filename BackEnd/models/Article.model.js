@@ -14,6 +14,7 @@ const articleSchema = new mongoose.Schema(
     status: {  type: String,  enum: ["draft", "published", "under_review"], default: "draft", },
     publishedAt: { type: Date },
     sessionDoc: { type: String },
+    source: String,
   }, { timestamps: true }
 );
 
