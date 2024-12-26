@@ -15,9 +15,9 @@ import SignUp from './Pages/SignUp'
 function App() {
   return (
     <div className='h-full w-full'>
-      <Navbar/>
       <div className='h-full w-full mx-auto'>
       <Routes>
+        <Navbar/>
         <Route path="/" element={<Home />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/article/:id" element={<Article/>} />
