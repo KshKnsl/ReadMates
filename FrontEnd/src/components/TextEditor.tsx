@@ -47,7 +47,6 @@ import {
   CheckSquare,
   Undo,
   Redo,
-  Palette,
   User,
   Type,
   Heading1,
