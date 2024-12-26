@@ -82,18 +82,18 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl">
+    <div className="min-h-screen bg-amber-50 dark:bg-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-700 dark:bg-opacity-30 p-10 rounded-xl shadow-2xl">
         <div>
-          <ScanFace className="mx-auto h-24 w-auto text-amber-600" />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-900">
+          <ScanFace className="mx-auto h-24 w-auto text-amber-600 dark:text-amber-300" />
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-900 dark:text-amber-300">
             Log in to ReadMates
           </h2>
-          <p className="mt-2 text-center text-sm text-amber-700">
+          <p className="mt-2 text-center text-sm text-amber-700 dark:text-amber-300">
             Or{" "}
             <Link
               to="/signup"
-              className="font-medium text-amber-600 hover:text-amber-500 transition-colors duration-300"
+              className="font-medium text-amber-600 hover:text-amber-500 dark:hover:text-amber-200 transition-colors duration-300"
             >
               create a new account
             </Link>
@@ -106,9 +106,9 @@ const Login = () => {
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
-              <div className="relative">
+                <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-amber-500" aria-hidden="true" />
+                  <Mail className="h-5 w-5 text-amber-500 dark:text-amber-300 z-20" aria-hidden="true" />
                 </div>
                 <input
                   id="email-address"
@@ -116,12 +116,12 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-amber-300 placeholder-amber-500 text-amber-900 rounded-t-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-amber-300 dark:border-amber-600 placeholder-amber-500 dark:placeholder-amber-400 text-amber-900 dark:text-amber-300 rounded-t-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm bg-white dark:bg-gray-700"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </div>
+                </div>
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
@@ -129,7 +129,7 @@ const Login = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-amber-500" aria-hidden="true" />
+                  <Lock className="h-5 w-5 text-amber-500 dark:text-amber-300 z-20" aria-hidden="true" />
                 </div>
                 <input
                   id="password"
@@ -137,7 +137,7 @@ const Login = () => {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 pr-10 border border-amber-300 placeholder-amber-500 text-amber-900 rounded-b-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 pr-10 border border-amber-300 dark:border-amber-600 placeholder-amber-500 dark:placeholder-amber-400 text-amber-900 dark:text-amber-300 rounded-b-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm bg-white dark:bg-gray-700"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -146,7 +146,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-amber-500 hover:text-amber-600 focus:outline-none focus:text-amber-600"
+                    className="text-amber-500 hover:text-amber-600 dark:hover:text-amber-200 focus:outline-none focus:text-amber-600"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -172,7 +172,7 @@ const Login = () => {
               />
               <label
                 htmlFor="remember-me"
-                className="ml-2 block text-sm text-amber-900"
+                className="ml-2 block text-sm text-amber-900 dark:text-amber-300"
               >
                 Remember me
               </label>
@@ -181,7 +181,7 @@ const Login = () => {
             <div className="text-sm">
               <Link
                 to="/signup"
-                className="font-medium text-amber-600 hover:text-amber-500 transition-colors duration-300"
+                className="font-medium text-amber-600 hover:text-amber-500 dark:hover:text-amber-200 transition-colors duration-300"
               >
                 Forgot your password?
               </Link>
@@ -191,7 +191,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-300"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-300"
               disabled={isLoading}
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -211,7 +211,7 @@ const Login = () => {
               <div className="w-full border-t border-amber-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-amber-700">
+              <span className="px-2 bg-white dark:bg-[#27313E] text-amber-700 dark:text-amber-300">
                 Or continue with
               </span>
             </div>

@@ -36,7 +36,7 @@ const Footer = () => {
 
   return (
     <footer
-      className={`w-full shadow-lg py-3 px-4`}
+      className={`w-full shadow-lg py-3 px-4 bg-amber-50 dark:bg-gray-800`}
     >
       <div
         className={`max-w-7xl mx-auto transition-transform duration-500`}
@@ -62,7 +62,7 @@ const Footer = () => {
               >
                 "{quote}"
               </p>
-              <span className="text-xs md:text-sm font-medium text-amber-600/80 hover:text-indigo-600/90 transition-colors duration-300">
+              <span className="text-xs md:text-sm font-medium text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-300 transition-colors duration-300">
                 — {author}
               </span>
             </div>
@@ -76,15 +76,15 @@ const Footer = () => {
             }`}
           >
             <div className="flex items-center justify-center gap-4">
-              <p className="text-xs md:text-sm text-amber-600/90 hover:text-indigo-600/80 transition-colors duration-300">
+              <p className="text-xs md:text-sm text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-300 transition-colors duration-300">
                 © {new Date().getFullYear()} All Rights Reserved
               </p>
               <div className="hidden md:flex items-center gap-2">
-                <span className="text-xs text-amber-600/90">Made with </span>
+                <span className="text-xs text-amber-700 dark:text-amber-300">Made with </span>
                 <span className="animate-bounce inline-block text-amber-500">
                   ⚡
                 </span>
-                <span className="text-xs text-indigo-600/90">by </span>
+                <span className="text-xs text-indigo-600 dark:text-amber-300">by </span>
                 <a href="https://linkedin.in/in/kushkansal" className="text-xs font-medium bg-gradient-to-r from-amber-600 to-indigo-600 bg-clip-text text-transparent hover:scale-110 transition-all duration-300 cursor-pointer">
                   Kush Kansal
                 </a>

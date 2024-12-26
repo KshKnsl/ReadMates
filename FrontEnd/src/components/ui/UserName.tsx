@@ -35,19 +35,13 @@ const UserName = ({ userId, name }: { userId: string; name?: string }) => {
       to={`/profile/${user._id}`}
       style={{
         textDecoration: "none",
-        color: "inherit",
         fontWeight: "400",
         transition: "all 0.3s ease-in-out",
       }}
       onClick={(e) => {
         e.stopPropagation();
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.color = "indigo";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.color = "inherit";
-      }}
+      className="dark:text-white text-black hover:underline hover:text-amber-500"
     >
       {user.name}
     </Link>

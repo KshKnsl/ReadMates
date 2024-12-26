@@ -118,22 +118,21 @@ const SignUp = () => {
       });
     }
   };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl w-full space-y-8 bg-white p-8 rounded-2xl shadow-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl">
         <div>
-          <div className="w-20 h-20 mx-auto bg-amber-100 rounded-2xl flex items-center justify-center">
-            <UserPlus className="h-12 w-12 text-amber-600" />
+          <div className="w-20 h-20 mx-auto bg-amber-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center">
+            <UserPlus className="h-12 w-12 text-amber-600 dark:text-amber-300 z-30" />
           </div>
-          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-amber-300">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-amber-300">
             Or{" "}
             <Link
               to="/login"
-              className="font-medium text-amber-600 hover:text-amber-500 transition-colors"
+              className="font-medium text-amber-600 dark:text-amber-300 hover:text-amber-500 dark:hover:text-amber-200 transition-colors"
             >
               sign in to your existing account
             </Link>
@@ -141,14 +140,14 @@ const SignUp = () => {
         </div>
 
         <div className="mt-6 flex justify-center space-x-6">
-            <div className="w-full">
+          <div className="w-full">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               onError={() =>
-              toast.error("Google login failed. Please try again.", {
-                position: "top-right",
-                autoClose: 4000,
-              })
+                toast.error("Google login failed. Please try again.", {
+                  position: "top-right",
+                  autoClose: 4000,
+                })
               }
               type="standard"
               theme="filled_black"
@@ -157,15 +156,15 @@ const SignUp = () => {
               shape="pill"
               locale="en"
             />
-            </div>
+          </div>
         </div>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-amber-300"></div>
+            <div className="w-full border-t border-amber-300 dark:border-gray-700"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-amber-700">
+            <span className="px-2 bg-white dark:bg-gray-800 text-amber-700 dark:text-amber-300">
               or continue manually
             </span>
           </div>
@@ -176,14 +175,14 @@ const SignUp = () => {
             <div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-amber-500" />
+                  <User className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
                 </div>
                 <input
                   id="name"
                   name="name"
                   type="text"
                   required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-amber-300 text-gray-900 dark:text-amber-300 bg-white dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-300 focus:border-transparent transition-all"
                   placeholder="Full Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -193,14 +192,14 @@ const SignUp = () => {
             <div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-amber-500" />
+                  <Mail className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
                 </div>
                 <input
                   id="email-address"
                   name="email"
                   type="email"
                   required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-amber-300 text-gray-900 dark:text-amber-300 bg-white dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-300 focus:border-transparent transition-all"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -210,14 +209,14 @@ const SignUp = () => {
             <div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-amber-500" />
+                  <Lock className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
                 </div>
                 <input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="appearance-none relative block w-full px-3 py-3 pl-10 pr-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-amber-300 text-gray-900 dark:text-amber-300 bg-white dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-300 focus:border-transparent transition-all"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -225,7 +224,7 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-amber-300 hover:text-gray-600 dark:hover:text-amber-200 transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -238,46 +237,47 @@ const SignUp = () => {
             <div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-amber-500" />
+                  <Calendar className="h-5 w-5 text-amber-500 dark:text-amber- z-50" />
                 </div>
                 <input
                   id="dob"
                   name="dob"
                   type="date"
                   required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-amber-300 text-gray-900 dark:text-amber-300 bg-white dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-300 focus:border-transparent transition-all"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
                 />
               </div>
             </div>
             <div>
-              <div className="relative">
-                <div className="absolute top-3 left-3 pointer-events-none">
-                  <Pencil className="h-5 w-5 text-amber-500" />
+                <div className="relative z-30">
+                <div className="absolute top-4 left-3 pointer-events-none z-30">
+                  <Pencil className="h-5 w-5 text-amber-500 dark:text-amber-300 z-50" />
                 </div>
                 <textarea
                   id="bio"
                   name="bio"
                   rows={4}
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
+                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-amber-300 text-gray-900 dark:text-amber-300 bg-white dark:bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-300 focus:border-transparent transition-all resize-none"
                   placeholder="Tell us about yourself"
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
-              </div>
+                </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-amber-300 mb-2">
                 Select your interests
               </label>
+              <div className="relative mb-2"></div>
               <div className="relative mb-2">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-gray-400 z-30" />
                 </div>
                 <input
                   type="text"
-                  className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all bg-white dark:bg-gray-900"
                   placeholder="Search interests..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}

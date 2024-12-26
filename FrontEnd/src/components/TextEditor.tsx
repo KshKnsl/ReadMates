@@ -262,10 +262,9 @@ const TextEditor: React.FC<TextEditorProps> = ({
   if (!editor) {
     return null;
   }
-
   return (
-    <div className="shadow-2xl create-article-container p-2">
-      <h2 className="text-3xl mb-4 font-bold text-amber-600">
+    <div className="shadow-2xl create-article-container p-2 bg-amber-50 dark:bg-gray-800">
+      <h2 className="text-3xl mb-4 font-bold text-amber-700 dark:text-amber-300">
         Create a new Article
       </h2>
       <Input
@@ -275,58 +274,80 @@ const TextEditor: React.FC<TextEditorProps> = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setArticleData({ ...articleData, title: e.target.value });
         }}
-        className="article-title-input"
+        className="article-title-input bg-amber-50 dark:bg-gray-800 text-amber-700 dark:text-amber-300"
       />
-      <div className="editor-toolbar">
+      <div className="editor-toolbar dark:bg-gray-800">
         <div className="toolbar-group">
           <Button
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
+            className={`${
+              editor.isActive("bold") ? "bg-amber-100 dark:bg-gray-700" : ""
+            }`}
           >
-            <Bold className="w-4 h-4" />
+            <Bold className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
-            className={editor.isActive("italic") ? "is-active" : ""}
+            className={`${
+              editor.isActive("italic") ? "bg-amber-100 dark:bg-gray-700" : ""
+            }`}
           >
-            <Italic className="w-4 h-4" />
+            <Italic className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             disabled={!editor.can().chain().focus().toggleUnderline().run()}
-            className={editor.isActive("underline") ? "is-active" : ""}
+            className={`${
+              editor.isActive("underline")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <UnderlineIcon className="w-4 h-4" />
+            <UnderlineIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
-            className={editor.isActive("strike") ? "is-active" : ""}
+            className={`${
+              editor.isActive("strike") ? "bg-amber-100 dark:bg-gray-700" : ""
+            }`}
           >
-            <Strikethrough className="w-4 h-4" />
+            <Strikethrough className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleHighlight().run()}
             disabled={!editor.can().chain().focus().toggleHighlight().run()}
-            className={editor.isActive("highlight") ? "is-active" : ""}
+            className={`${
+              editor.isActive("highlight")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <Highlighter className="w-4 h-4" />
+            <Highlighter className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleSubscript().run()}
             disabled={!editor.can().chain().focus().toggleSubscript().run()}
-            className={editor.isActive("subscript") ? "is-active" : ""}
+            className={`${
+              editor.isActive("subscript")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <SubscriptIcon className="w-4 h-4" />
+            <SubscriptIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleSuperscript().run()}
             disabled={!editor.can().chain().focus().toggleSuperscript().run()}
-            className={editor.isActive("superscript") ? "is-active" : ""}
+            className={`${
+              editor.isActive("superscript")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <SuperscriptIcon className="w-4 h-4" />
+            <SuperscriptIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
@@ -341,158 +362,176 @@ const TextEditor: React.FC<TextEditorProps> = ({
                 editor.chain().focus().setLink({ href: url }).run();
               }
             }}
-            className={editor.isActive("link") ? "is-active" : ""}
+            className={`${
+              editor.isActive("link") ? "bg-amber-100 dark:bg-gray-700" : ""
+            }`}
           >
-            <Link2 className="w-4 h-4" />
+            <Link2 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
-            className={editor.isActive("code") ? "is-active" : ""}
+            className={`${
+              editor.isActive("code") ? "bg-amber-100 dark:bg-gray-700" : ""
+            }`}
           >
-            <Code className="w-4 h-4" />
+            <Code className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
-          {/* <div
-            className="relative flex items-center gap-2 px-4 py-2 text-amber-600 rounded-md bg-white border border-amber-500"
-            style={{ backgroundColor: editor.getAttributes("textStyle").color }}
-          >
-            <Palette className="w-5 h-5" />
-            <input
-              type="color"
-              onChange={(e) =>
-                editor.chain().focus().setColor(e.target.value).run()
-              }
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            />
-            <span className="text-sm ml-2">
-              {editor.getAttributes("textStyle").color || "Default"}
-            </span>
-          </div> */}
           <Button
             onClick={() => editor.chain().focus().insertContent("@").run()}
           >
-            <User className="w-4 h-4" />
+            <User className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
           <Button
             onClick={() => editor.chain().focus().setParagraph().run()}
-            className={editor.isActive("paragraph") ? "is-active" : ""}
+            className={`${
+              editor.isActive("paragraph")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <Type className="w-4 h-4" />
+            <Type className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
-            className={
-              editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-            }
+            className={`${
+              editor.isActive("heading", { level: 1 })
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <Heading1 className="w-4 h-4" />
+            <Heading1 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
-            className={
-              editor.isActive("heading", { level: 2 }) ? "is-active" : ""
-            }
+            className={`${
+              editor.isActive("heading", { level: 2 })
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <Heading2 className="w-4 h-4" />
+            <Heading2 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
           <Button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive("bulletList") ? "is-active" : ""}
+            className={`${
+              editor.isActive("bulletList")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <List className="w-4 h-4" />
+            <List className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={editor.isActive("orderedList") ? "is-active" : ""}
+            className={`${
+              editor.isActive("orderedList")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <ListOrdered className="w-4 h-4" />
+            <ListOrdered className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleTaskList().run()}
-            className={editor.isActive("taskList") ? "is-active" : ""}
+            className={`${
+              editor.isActive("taskList")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <CheckSquare className="w-4 h-4" />
+            <CheckSquare className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={editor.isActive("blockquote") ? "is-active" : ""}
+            className={`${
+              editor.isActive("blockquote")
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <Quote className="w-4 h-4" />
+            <Quote className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
           <Button onClick={addImage}>
-            <ImageIcon className="w-4 h-4" />
+            <ImageIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button onClick={addTable}>
-            <TableIcon className="w-4 h-4" />
+            <TableIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button onClick={addYoutubeVideo}>
-            <YoutubeIcon className="w-4 h-4" />
+            <YoutubeIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           >
-            <Minus className="w-4 h-4" />
+            <Minus className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
           <Button
             onClick={() => editor.chain().focus().setTextAlign("left").run()}
-            className={
-              editor.isActive({ textAlign: "left" }) ? "is-active" : ""
-            }
+            className={`${
+              editor.isActive({ textAlign: "left" })
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <AlignLeft className="w-4 h-4" />
+            <AlignLeft className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().setTextAlign("center").run()}
-            className={
-              editor.isActive({ textAlign: "center" }) ? "is-active" : ""
-            }
+            className={`${
+              editor.isActive({ textAlign: "center" })
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <AlignCenter className="w-4 h-4" />
+            <AlignCenter className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().setTextAlign("right").run()}
-            className={
-              editor.isActive({ textAlign: "right" }) ? "is-active" : ""
-            }
+            className={`${
+              editor.isActive({ textAlign: "right" })
+                ? "bg-amber-100 dark:bg-gray-700"
+                : ""
+            }`}
           >
-            <AlignRight className="w-4 h-4" />
+            <AlignRight className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
           <Button onClick={() => editor.chain().focus().undo().run()}>
-            <Undo className="w-4 h-4" />
+            <Undo className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button onClick={() => editor.chain().focus().redo().run()}>
-            <Redo className="w-4 h-4" />
+            <Redo className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
       </div>
 
-      <EditorContent editor={editor} className="editor-content" />
+      <EditorContent editor={editor} className="editor-content bg-amber-50 dark:bg-gray-800 text-amber-700 dark:text-amber-300" />
       <div className="editor-footer">
-        <div className="char-count">
+        <div className="char-count text-amber-700 dark:text-amber-300 dark:bg-gray-700">
           Characters: {charCount}/{MAX_CHARACTERS}
         </div>
-        {error && <div className="error-message">{error}</div>}
-        <div className="connection-status">
+        {error && <div className="error-message text-red-500">{error}</div>}
+        <div className="connection-status text-amber-700 dark:text-amber-300 dark:bg-gray-700">
           {isConnected ? "Connected" : "Disconnected"}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-amber-700 dark:text-amber-300 mb-2">
           Select tags
         </label>
         <div className="relative mb-2">
@@ -501,7 +540,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           </div>
           <input
             type="text"
-            className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+            className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all dark:bg-gray-800 dark:text-amber-300"
             placeholder="Search tags..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -516,8 +555,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
                 onClick={() => handleInterestToggle(tag)}
                 className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                   tags.includes(tag)
-                    ? "bg-amber-100 text-amber-800 border-2 border-amber-500"
-                    : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300"
+                    ? "bg-amber-100 text-amber-800 border-2 border-amber-500 dark:bg-gray-600 dark:text-amber-300"
+                    : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300 dark:bg-gray-700 dark:text-amber-300 dark:hover:bg-opacity-30"
                 }`}
               >
                 <BookOpen className="h-4 w-4 mr-1" />
@@ -528,13 +567,13 @@ const TextEditor: React.FC<TextEditorProps> = ({
         </div>
         {tags.length > 0 && (
           <div className="mt-2">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-amber-700 dark:text-amber-300">
               Selected tags: {tags.join(", ")}
             </p>
           </div>
         )}
       </div>
-      <Button onClick={handleSave} className="save-button">
+      <Button onClick={handleSave} className="save-button bg-amber-100 dark:bg-gray-700 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-opacity-30">
         Save Article
       </Button>
       <ToastContainer />

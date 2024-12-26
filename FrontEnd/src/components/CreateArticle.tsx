@@ -180,7 +180,7 @@ function CreateArticle() {
 
   if (loading || !userName) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center h-screen bg-amber-50 dark:bg-gray-800">
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
@@ -222,15 +222,15 @@ function CreateArticle() {
   }
 
   return (
-    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse">
+    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse bg-amber-50 dark:bg-gray-800">
       <div className="max-w-sm mx-auto">
-        <h1 className="pt-2 text-3xl font-bold text-amber-900 mb-6">
+        <h1 className="pt-2 text-3xl font-bold text-amber-900 dark:text-amber-300 mb-6">
           {isAuthor ? "Create Collaborative Article" : "Collaborate on Article"}
         </h1>
         {isAuthor && (
-          <div className="mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div className="bg-amber-100 px-6 py-4">
-              <h2 className="text-xl font-semibold text-amber-800 flex items-center">
+          <div className="mb-8 bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden">
+            <div className="bg-amber-100 dark:bg-gray-700 dark:bg-opacity-30 px-6 py-4">
+              <h2 className="text-xl font-semibold text-amber-800 dark:text-amber-300 flex items-center">
                 <LucideLink className="w-5 h-5 mr-2" />
                 Shareable Link
               </h2>
@@ -243,11 +243,11 @@ function CreateArticle() {
                       type="text"
                       value={`${shortData.shortlink}`}
                       readOnly
-                      className="w-full p-3 pr-12 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 bg-amber-50 text-amber-800"
+                      className="w-full p-3 pr-12 border border-amber-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 bg-amber-50 dark:bg-gray-800 text-amber-800 dark:text-amber-300"
                     />
                     <button
                       onClick={handleCopyLink}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-amber-600 hover:text-amber-800 focus:outline-none"
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-amber-600 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-300 focus:outline-none"
                       aria-label="Copy link"
                     >
                       {copied ? (
@@ -257,7 +257,7 @@ function CreateArticle() {
                       )}
                     </button>
                   </div>
-                  <p className="mt-2 text-sm text-amber-600">
+                  <p className="mt-2 text-sm text-amber-600 dark:text-amber-300">
                     {copied
                       ? "Link copied to clipboard!"
                       : "Click the icon to copy the link"}
@@ -267,7 +267,7 @@ function CreateArticle() {
                   <img
                     src={`${shortData.qrurl}`}
                     alt="QR Code for shareable link"
-                    className="w-full bg-indigo-500 rounded-lg shadow-md p-1 lg:block hidden"
+                    className="w-full bg-indigo-500 rounded-lg shadow-md p-1 lg:block hidden dark:bg-gray-900"
                   />
                 )}
               </div>
@@ -275,14 +275,16 @@ function CreateArticle() {
           </div>
         )}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-amber-800 mb-2">
+          <h2 className="text-xl font-semibold text-amber-800 dark:text-amber-300 mb-2">
             {isAuthor ? "Author" : "You are collaborating as"}
           </h2>
-          <div className="bg-amber-100 p-2 rounded"><UserName userId={auth.user._id} name={userName}/></div>
+          <div className="bg-amber-100 dark:bg-gray-700 dark:bg-opacity-30 p-2 rounded dark:text-white">
+            <UserName userId={auth.user._id} name={userName} />
+          </div>
         </div>
         {contributorData.Contributor?.length>0 && (
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-amber-800 mb-2">
+            <h2 className="text-xl font-semibold text-amber-800 dark:text-amber-300 mb-2 ">
               Contributors ID
             </h2>
             <ContributorList

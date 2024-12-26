@@ -151,23 +151,23 @@ function Articles() {
   };
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-amber-50 dark:bg-gray-800">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-amber-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto p-8 bg-amber-50">
+    <div className="mx-auto p-8 bg-amber-50 dark:bg-gray-800">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold mb-6 text-amber-800">Articles</h1>
+        <h1 className="text-3xl font-bold mb-6 text-amber-800 dark:text-amber-300">Articles</h1>
         <div className="mb-6 flex justify-center space-x-4">
           <Button
             onClick={() => toggleSort("date")}
             className={`flex items-center ${
               sortBy === "date"
                 ? "bg-amber-500 text-white"
-                : "bg-amber-100 text-amber-800"
+                : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
             }`}
           >
             <Clock className="w-4 h-4 mr-2" />
@@ -184,7 +184,7 @@ function Articles() {
             className={`flex items-center ${
               sortBy === "title"
                 ? "bg-amber-500 text-white"
-                : "bg-amber-100 text-amber-800"
+                : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
             }`}
           >
             <Filter className="w-4 h-4 mr-2" />
@@ -213,13 +213,13 @@ function Articles() {
             placeholder="Search articles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 w-full border-2 border-amber-300 rounded-lg focus:outline-none focus:border-amber-500"
+            className="pl-10 pr-4 py-2 w-full border-2 border-amber-300 rounded-lg focus:outline-none focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:border-amber-300"
           />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500 dark:text-amber-300" />
         </div>
       </div>
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2 text-amber-700">
+        <h2 className="text-xl font-semibold mb-2 text-amber-700 dark:text-amber-300">
           Filter by Tags
         </h2>
         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
@@ -229,8 +229,8 @@ function Articles() {
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedTags.includes(tag)
-                  ? "bg-amber-100 text-amber-800 border-2 border-amber-500"
-                  : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300"
+                  ? "bg-amber-100 text-amber-800 border-2 border-amber-500 dark:bg-gray-700 dark:text-amber-300 dark:border-amber-300"
+                  : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300 dark:bg-gray-700 dark:text-amber-300 dark:hover:border-gray-600"
               }`}
             >
               <Filter className="w-4 h-4 inline-block mr-2" />
@@ -254,36 +254,36 @@ function Articles() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
                     onClick={() => handleArticleClick(article._id)}
-                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer dark:bg-gray-700"
                   >
-                    <h2 className="text-xl font-semibold mb-2 text-amber-900">
+                    <h2 className="text-xl font-semibold mb-2 text-amber-900 dark:text-amber-300">
                       {article.title}
                     </h2>
                     {article.author ? (
                       <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1">By:</span>
+                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">By:</span>
                         <UserName userId={article.author?._id} name={article.author?.name} />
                       </div>
                     ) : article.source ? (
                       <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1">Source: {article.source}</span>
+                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: {article.source}</span>
                       </div>
                     ) : (
                       <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1">Source: Gemini</span>
+                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: Gemini</span>
                       </div>
                     )}
                     <div className="flex flex-wrap gap-2">
                       {article.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full"
+                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full dark:bg-opacity-20 dark:text-amber-300"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <div className="text-sm text-amber-600 mt-2">
+                    <div className="text-sm text-amber-600 mt-2 dark:text-amber-300">
                       <Clock className="w-4 h-4 inline mr-2" />
                       {new Date(article.publishedAt).toLocaleDateString()}
                     </div>
@@ -296,7 +296,7 @@ function Articles() {
 
         {filteredAndSortedAiArticles.length > 0 && (
           <div className={filteredAndSortedArticles.length > 0 ? "col-span-1": "col-span-3"}>
-            <h2 className="text-3xl font-bold mb-6 text-amber-800 mt-10 md:mt-0">
+            <h2 className="text-3xl font-bold mb-6 text-amber-800 mt-10 md:mt-0 dark:text-amber-300">
               AI Generated Articles
             </h2>
             <AnimatePresence>
@@ -310,28 +310,28 @@ function Articles() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
                     onClick={() => handleArticleClick(article._id)}
-                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer dark:bg-gray-700"
                   >
-                    <h2 className="text-xl font-semibold mb-2 text-amber-900">
+                    <h2 className="text-xl font-semibold mb-2 text-amber-900 dark:text-amber-300">
                       {article.title}
                     </h2>
-                    <p className="text-amber-700 mb-2">{article.desc}</p>
+                    <p className="text-amber-700 mb-2 dark:text-amber-300">{article.desc}</p>
                     {article.source && (
                       <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1">Source: {article.source}</span>
+                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: {article.source}</span>
                       </div>
                     )}
                     <div className="flex flex-wrap gap-2">
                       {article.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full"
+                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full dark:bg-amber-700 dark:text-amber-300"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <div className="text-sm text-amber-600 mt-2">
+                    <div className="text-sm text-amber-600 mt-2 dark:text-amber-300">
                       <Clock className="w-4 h-4 inline mr-2" />
                       {new Date(article.publishedAt).toLocaleDateString()}
                     </div>
@@ -347,7 +347,7 @@ function Articles() {
       
       {filteredAndSortedAiArticles.length <= 0 && filteredAndSortedArticles.length <= 0 && (
               <p
-                className="text-center text-amber-700 text-lg"
+                className="text-center text-amber-700 text-lg dark:text-amber-300"
               >
                 No articles found matching your criteria.
               </p>

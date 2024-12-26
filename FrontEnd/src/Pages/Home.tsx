@@ -12,22 +12,22 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-indigo-50">
+    <div className="min-h-screen bg-amber-50 dark:bg-gray-800">
       <main className="container mx-auto px-6 py-16 md:px-12 lg:px-24 lg:py-24">
       
         <section className="text-center mb-20">
           <div className="inline-flex mb-8 opacity-90">
             <BookOpen 
               size={64} 
-              className="text-indigo-600" 
+              className="text-indigo-600 dark:text-amber-300" 
             />
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-indigo-800 mb-4 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-indigo-800 dark:text-amber-300 mb-4 tracking-tight">
             ReadMates
           </h1>
 
-          <p className="text-xl md:text-2xl text-indigo-800/80 mb-12 font-normal max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-indigo-800/80 dark:text-amber-300 mb-12 font-normal max-w-2xl mx-auto">
             A collaborative platform for meaningful discussions, insightful reading, and knowledge sharing.
           </p>
 
@@ -40,11 +40,11 @@ const Home = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
-                className="w-full px-6 py-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 text-indigo-800 placeholder-indigo-400 bg-white shadow-lg text-lg"
+                className="w-full px-6 py-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-amber-300 text-indigo-800 dark:text-amber-300 placeholder-indigo-400 dark:placeholder-amber-300 bg-white dark:bg-gray-700 shadow-lg text-lg"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-500 text-white p-3 rounded-full hover:bg-indigo-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-500 dark:bg-amber-300 text-white dark:text-gray-800 p-3 rounded-full hover:bg-indigo-600 dark:hover:bg-amber-200 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:focus:ring-amber-300 focus:ring-offset-2"
               >
                 <Search size={24} />
               </button>
@@ -72,30 +72,30 @@ const Home = () => {
           ].map(({ Icon, title, description }, index) => (
             <div
               key={index}
-              className="bg-white/70 p-8 rounded-3xl border border-indigo-50 hover:bg-white/90 transition-all duration-300 hover:shadow-lg"
+              className="bg-white/70 dark:bg-gray-700 p-8 rounded-3xl border border-indigo-50 dark:border-gray-600 hover:bg-white/90 dark:hover:bg-gray-600 transition-all duration-300 hover:shadow-lg"
             >
-              <div className="bg-indigo-50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
+              <div className="bg-indigo-50 dark:bg-gray-700 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
                 <Icon 
-                  className="w-8 h-8 text-indigo-600" 
+                  className="w-8 h-8 text-indigo-600 dark:text-amber-300" 
                 />
               </div>
-              <h2 className="text-xl font-semibold text-indigo-900 mb-3">
+              <h2 className="text-xl font-semibold text-indigo-900 dark:text-amber-300 mb-3">
                 {title}
               </h2>
-              <p className="text-indigo-800/70 text-base leading-relaxed">
+              <p className="text-indigo-800/70 dark:text-amber-300 text-base leading-relaxed">
                 {description}
               </p>
             </div>
           ))}
         </section>
 
-        <section className="bg-white/70 p-12 rounded-3xl border border-indigo-50 text-center">
-          <h2 className="text-3xl font-semibold text-indigo-900 mb-8">
+        <section className="bg-white/70 dark:bg-gray-700 p-12 rounded-3xl border border-indigo-50 dark:border-gray-600 text-center">
+          <h2 className="text-3xl font-semibold text-indigo-900 dark:text-amber-300 mb-8">
             Join our community of knowledge seekers
           </h2>
           <a
             href="/signup"
-            className="inline-flex items-center px-8 py-4 bg-indigo-600 text-white text-base font-medium rounded-2xl hover:bg-indigo-700 transition-all duration-300 group hover:shadow-lg"
+            className="inline-flex items-center px-8 py-4 bg-indigo-600 dark:bg-amber-300 text-white dark:text-gray-800 text-base font-medium rounded-2xl hover:bg-indigo-700 dark:hover:bg-amber-200 transition-all duration-300 group hover:shadow-lg"
           >
             Get Started
             <ArrowRight 

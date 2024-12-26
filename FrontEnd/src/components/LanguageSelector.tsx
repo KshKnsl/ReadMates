@@ -25,7 +25,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className }) => {
       new window.google.translate.TranslateElement(
         {
           pageLanguage: 'en',
-          includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,fr,es,de,zh-CN,ja,ar',
+          includedLanguages: 'en,hi,mr,ta,gu,kn,ml,fr,es,de,ja',
           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false,
         },
@@ -56,8 +56,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className }) => {
   }, []);
 
   return (
-    <div className={`flex items-center relative ${className}`}>
-      <Languages className="w-5 h-5 text-amber-700" /> {currentLanguage.toUpperCase()}
+    <div className={`flex items-center relative text-amber-700 dark:text-amber-300 ${className}`}>
+      <Languages className="w-5 h-5" />&nbsp;{currentLanguage.toUpperCase()}
       <div id="google_translate_element" className="absolute top-0 left-0 w-full h-full opacity-0"></div>
     </div>
   );
