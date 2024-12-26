@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import './App.css'
 
 const clientId = import.meta.env.VITE_client_id|| "";
 createRoot(document.getElementById("root")!).render(

@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { UserCircle, BookOpen, PenTool, Users, Award, Menu, X, LogIn, UserPlus, LogOut } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import LanguageSelector from './LanguageSelector';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-amber-50 shadow-md">
+    <nav className="bg-amber-50 shadow-md z-[1000]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -52,35 +53,41 @@ const Navbar = () => {
             ))}
           </div>
           <div className="hidden md:flex md:items-center md:space-x-4">
-            {!auth.user ? (<>
-            <Link
-              to="/login"
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
-            >
-              <LogIn className="w-5 h-5 mr-2" />
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-200"
-            >
-              <UserPlus className="w-5 h-5 mr-2" />
-              Sign Up
-            </Link></>):(<>
-            <Link
-              to="/profile"
-              className="p-2 rounded-full text-amber-600 hover:text-amber-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200"
-            >
-              <UserCircle className="w-6 h-6" />
-            </Link>
-            <button
-              onClick={() => {logout()}}
-              className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
-            >
-              <LogOut className="w-5 h-5 mr-2" />
-              Logout
-            </button></>)
-            }
+            <LanguageSelector className="mr-4" />
+            {!auth.user ? (
+              <>
+                <Link
+                  to="/login"
+                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
+                >
+                  <LogIn className="w-5 h-5 mr-2" />
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-200"
+                >
+                  <UserPlus className="w-5 h-5 mr-2" />
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/profile"
+                  className="p-2 rounded-full text-amber-600 hover:text-amber-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200"
+                >
+                  <UserCircle className="w-6 h-6" />
+                </Link>
+                <button
+                  onClick={() => {logout()}}
+                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-amber-700 hover:bg-amber-100 hover:text-amber-900 transition-colors duration-200"
+                >
+                  <LogOut className="w-5 h-5 mr-2" />
+                  Logout
+                </button>
+              </>
+            )}
           </div>
           <div className="flex items-center md:hidden">
             <button
@@ -121,41 +128,45 @@ const Navbar = () => {
           ))}
         </div>
         <div className="pt-4 pb-3 border-t border-amber-200">
-        {!auth.user ? (<>
-          <Link
-            to="/login"
-            onClick={closeMenu}
-            className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
-          >
-            <LogIn className="w-6 h-6 mr-3" />
-            <span>Login</span>
-          </Link>
-          <Link
-            to="/signup"
-            onClick={closeMenu}
-            className="flex items-center px-4 py-2 mt-1 bg-amber-500 text-white hover:bg-amber-600 rounded-md transition-colors duration-200"
-          >
-            <UserPlus className="w-6 h-6 mr-3" />
-            <span>Sign Up</span>
-          </Link>
-          </>):(<>
-          <Link
-            to="/profile"
-            onClick={closeMenu}
-            className="flex items-center px-4 py-2 mt-1 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
-          >
-            <UserCircle className="w-6 h-6 mr-3" />
-            <span>Your Profile</span>
-          </Link>
-            <button
-              onClick={() => {logout(); closeMenu();}}
-            className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
-          >
-            <LogOut className="w-6 h-6 mr-3" />
-            <span>Logout</span>
-          </button>
-          </>)
-          }
+          <LanguageSelector className="px-4 py-2" />
+          {!auth.user ? (
+            <>
+              <Link
+                to="/login"
+                onClick={closeMenu}
+                className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+              >
+                <LogIn className="w-6 h-6 mr-3" />
+                <span>Login</span>
+              </Link>
+              <Link
+                to="/signup"
+                onClick={closeMenu}
+                className="flex items-center px-4 py-2 mt-1 bg-amber-500 text-white hover:bg-amber-600 rounded-md transition-colors duration-200"
+              >
+                <UserPlus className="w-6 h-6 mr-3" />
+                <span>Sign Up</span>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/profile"
+                onClick={closeMenu}
+                className="flex items-center px-4 py-2 mt-1 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+              >
+                <UserCircle className="w-6 h-6 mr-3" />
+                <span>Your Profile</span>
+              </Link>
+              <button
+                onClick={() => {logout(); closeMenu();}}
+                className="flex items-center px-4 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+              >
+                <LogOut className="w-6 h-6 mr-3" />
+                <span>Logout</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>
@@ -163,3 +174,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

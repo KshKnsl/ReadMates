@@ -9,12 +9,63 @@
   height: 100%;
   width: 100%;
 }
-/* Hide the scrollbar while allowing scrolling */
+
 .scrollbar-hidden::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
+  display: none;
 }
 
 .scrollbar-hidden {
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
   scrollbar-width: none; /* For Firefox */
+}
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+/* Google Translate Widget Styles */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+.skiptranslate
+{
+  opacity: 0.7;
+  background-color: red;
+}
+.VIpgJd-ZVi9od-ORHb
+{
+  opacity: 0.5!important;
+  background-image: none!important;
+}
+body {
+  top: 0 !important;
+}
+
+#google_translate_element {
+  display: inline-block;
+}
+
+/* Style the Google Translate dropdown */
+.goog-te-gadget {
+  font-family: inherit !important;
+  font-size: 0 !important;
+}
+
+.goog-te-gadget-simple{
+  height: 30px;
+  width: 30px;
+}
+
+/* Hide Google Translate attribution */
+.goog-logo-link-simple {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+}
+
+/* Ensure translated content uses the correct font */
+.translated-ltr,
+.translated-rtl {
+  font-family: inherit !important;
 }

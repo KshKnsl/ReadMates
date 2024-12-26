@@ -10,13 +10,13 @@ const Footer = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://api.quotable.io/random?maxLength=100"
+        "https://dummyjson.com/quotes/random"
       );
       const data = await response.json();
-      setQuote(data.content);
+      // console.log(data);
+      setQuote(data.quote);
       setAuthor(data.author);
     } catch (error) {
-      console.error("Error fetching quote:", error);
       setQuote("The best preparation for tomorrow is doing your best today.");
       setAuthor("H. Jackson Brown Jr.");
     } finally {

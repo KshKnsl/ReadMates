@@ -6,7 +6,7 @@ import { LucideLink, Copy, Check } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import ContributorList from "./ui/ContributorList";
 import UserName from "./ui/UserName";
-
+import {motion} from 'framer-motion';
 interface Article {
   title: string;
   desc: string;
@@ -181,9 +181,29 @@ function CreateArticle() {
   if (loading || !userName) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="text-2xl font-semibold text-amber-600 mb-4">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            times: [0, 0.5, 1],
+            repeat: Infinity,
+          }}
+          className="text-6xl text-amber-600 mb-4"
+        >
+          ⏳
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-semibold text-amber-600"
+        >
           Loading...
-        </div>
+        </motion.div>
       </div>
     );
   }
