@@ -88,7 +88,7 @@ function Profile() {
   }, [userId]);
 
   if (loading) {
-    return <div className="text-center py-8">Loading user data...</div>;
+    return <div className="text-center py-8 h-screen bg-amber-50 dark:bg-gray-800">Loading user data...</div>;
   }
 
   const user = userData || dummyData;
@@ -222,14 +222,14 @@ function Profile() {
                   <>
                     <input
                       type="text"
-                      className="w-full text-2xl font-bold text-amber-900 dark:text-amber-300 p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full text-2xl font-bold text-amber-900 dark:text-amber-300 p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-800"
                       value={user.name}
                       onChange={(e) =>
                         setUserData({ ...user, name: e.target.value })
                       }
                     />
                     <textarea
-                      className="w-full mt-2 text-amber-700 dark:text-amber-300 italic p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full mt-2 text-amber-700 dark:text-amber-300 italic p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent  dark:bg-gray-800"
                       value={user.bio}
                       onChange={(e) =>
                         setUserData({ ...user, bio: e.target.value })
@@ -275,7 +275,7 @@ function Profile() {
                   ) : (
                     <input
                       type="date"
-                      className="w-full p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent  dark:bg-gray-800"
                       value={user.dob}
                       onChange={(e) =>
                         setUserData({ ...user, dob: e.target.value })
@@ -325,7 +325,7 @@ function Profile() {
               <div className="mt-2 relative">
                 <input
                   type="text"
-                  className="w-full p-2 pl-10 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full p-2 pl-10 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-800"
                   placeholder="Search interests..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -333,7 +333,7 @@ function Profile() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-300" />
               </div>
             )}
-            <div className="mt-2 flex flex-wrap gap-2 max-h-48 overflow-y-scroll">
+            <div className="mt-2 flex flex-wrap gap-2 max-h-48 overflow-y-scroll scrollbar-hidden">
               {(editMode ? filteredInterests : user.interests).map((interest) => (
                 <button
                   key={interest}
@@ -358,7 +358,7 @@ function Profile() {
               {user.socialLinks.map((url, index) => (
                 <div
                   key={index}
-                  className="flex gap-2 items-center hover:text-amber-800 dark:hover:text-amber-300"
+                  className="flex gap-2 items-center hover:text-amber-800 dark:hover:text-amber-300 dark:text-gray-200"
                 >
                   {url.includes("github") && <Github />}
                   {url.includes("twitter") && <Twitter />}
@@ -375,7 +375,7 @@ function Profile() {
                   ) : (
                     <input
                       type="url"
-                      className="w-full p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full p-2 rounded-md border border-amber-300 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
                       value={url}
                       onChange={(e) => {
                         const newSocialLinks = [...user.socialLinks];

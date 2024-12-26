@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { INTERESTS as allTags } from "../constants";
 import { toast, ToastContainer } from "react-toastify";
+import Footer from "../components/Footer";
 
 interface Article {
   source: any;
@@ -157,7 +158,7 @@ function Articles() {
     );
   }
 
-  return (
+  return (<>
     <div className="mx-auto p-8 bg-amber-50 dark:bg-gray-800">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold mb-6 text-amber-800 dark:text-amber-300">Articles</h1>
@@ -222,7 +223,7 @@ function Articles() {
         <h2 className="text-xl font-semibold mb-2 text-amber-700 dark:text-amber-300">
           Filter by Tags
         </h2>
-        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
+        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto  scrollbar-hidden">
           {allTags.map((tag) => (
             <button
               key={tag}
@@ -354,6 +355,7 @@ function Articles() {
             )}
       <ToastContainer />
     </div>
+      <Footer /></>
   );
 }
 
