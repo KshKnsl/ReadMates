@@ -4,6 +4,7 @@ import { Mail, Lock, LogIn, ScanFace, EyeOff, Eye } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
+import {motion} from 'framer-motion';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -80,10 +81,19 @@ const Login = () => {
       });
     }
   };
-
   return (
-    <div className="min-h-screen bg-amber-50 dark:bg-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-700 dark:bg-opacity-30 p-10 rounded-xl shadow-2xl">
+    <motion.div 
+      className="min-h-screen bg-amber-50 dark:bg-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="max-w-md w-full space-y-8 bg-white dark:bg-gray-700 dark:bg-opacity-30 p-10 rounded-xl shadow-2xl"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div>
           <ScanFace className="mx-auto h-24 w-auto text-amber-600 dark:text-amber-300" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-900 dark:text-amber-300">
@@ -235,9 +245,9 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       <ToastContainer />
-    </div>
+    </motion.div>
   );
 };
 

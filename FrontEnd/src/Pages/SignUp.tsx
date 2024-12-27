@@ -16,6 +16,7 @@ import {
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
+import {motion,AnimatePresence} from 'framer-motion';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -117,14 +118,24 @@ const SignUp = () => {
         autoClose: 4000,
       });
     }
-  };
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-3xl w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl"
+      >
         <div>
-          <div className="w-20 h-20 mx-auto bg-amber-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-20 h-20 mx-auto bg-amber-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center"
+          >
             <UserPlus className="h-12 w-12 text-amber-600 dark:text-amber-300 z-30" />
-          </div>
+          </motion.div>
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-amber-300">
             Create your account
           </h2>
@@ -172,7 +183,11 @@ const SignUp = () => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
@@ -188,8 +203,12 @@ const SignUp = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
@@ -205,8 +224,12 @@ const SignUp = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-amber-500 dark:text-amber-300 z-30" />
@@ -233,8 +256,12 @@ const SignUp = () => {
                   )}
                 </button>
               </div>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Calendar className="h-5 w-5 text-amber-500 dark:text-amber- z-50" />
@@ -249,9 +276,13 @@ const SignUp = () => {
                   onChange={(e) => setDob(e.target.value)}
                 />
               </div>
-            </div>
-            <div>
-                <div className="relative z-30">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="relative z-30">
                 <div className="absolute top-4 left-3 pointer-events-none z-30">
                   <Pencil className="h-5 w-5 text-amber-500 dark:text-amber-300 z-50" />
                 </div>
@@ -264,9 +295,13 @@ const SignUp = () => {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
-                </div>
-            </div>
-            <div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <label className="block text-sm font-medium text-gray-700 dark:text-amber-300 mb-2">
                 Select your interests
               </label>
@@ -286,7 +321,7 @@ const SignUp = () => {
               <div className="max-h-48 overflow-y-auto scrollbar-hidden">
                 <div className="flex flex-wrap gap-2">
                   {filteredInterests.map((interest) => (
-                    <button
+                    <motion.button
                       key={interest}
                       type="button"
                       onClick={() => handleInterestToggle(interest)}
@@ -295,10 +330,12 @@ const SignUp = () => {
                           ? "bg-amber-100 text-amber-800 border-2 border-amber-500"
                           : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300"
                       }`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <BookOpen className="h-4 w-4 mr-1" />
                       {interest}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
@@ -309,10 +346,14 @@ const SignUp = () => {
                   </p>
                 </div>
               )}
-            </div>
+            </motion.div>
           </div>
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <button
               type="submit"
               className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all"
@@ -326,9 +367,9 @@ const SignUp = () => {
               </span>
               {!loading ? "Create Account" : "Loading..."}
             </button>
-          </div>
+          </motion.div>
         </form>
-      </div>
+      </motion.div>
       <ToastContainer
         position="top-right"
         autoClose={4000}
