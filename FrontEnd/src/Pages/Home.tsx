@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { BookOpen, Users, Lightbulb, ArrowRight, Search } from 'lucide-react';
 import Footer from '../components/Footer';
-
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [, setIsSearchFocused] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = (e:any) => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
+    navigate(`/articles/${searchQuery}`);
+
   };
 
   return (
@@ -45,6 +48,7 @@ const Home = () => {
               <button
                 type="submit"
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-500 dark:bg-amber-300 text-white dark:text-gray-800 p-3 rounded-full hover:bg-indigo-600 dark:hover:bg-amber-200 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:focus:ring-amber-300 focus:ring-offset-2"
+                onClick = {handleSearch}
               >
                 <Search size={24} />
               </button>

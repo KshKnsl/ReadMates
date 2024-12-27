@@ -16,7 +16,7 @@ import {
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
-import {motion,AnimatePresence} from 'framer-motion';
+import {motion} from 'framer-motion';
 
 const SignUp = () => {
   const navigate = useNavigate();

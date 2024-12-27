@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import UserName from "../components/ui/UserName";
+import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import {
@@ -15,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { INTERESTS as allTags } from "../constants";
 import { toast, ToastContainer } from "react-toastify";
 import Footer from "../components/Footer";
+import ArticleCard from "../components/ui/ArticleCard";
 
 interface Article {
   source: any;
@@ -31,7 +31,8 @@ interface Article {
 
 function Articles() {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const SearchParam = useParams();
+  const [searchTerm, setSearchTerm] = useState(SearchParam.q || "");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<"date" | "title">("date");
@@ -247,48 +248,11 @@ function Articles() {
             {filteredAndSortedArticles.length > 0 ? (
               <motion.ul className={filteredAndSortedAiArticles.length > 0 ? "grid gap-4 md:grid-cols-2 lg:grid-cols-2":"grid gap-4 md:grid-cols-2 lg:grid-cols-3"}>
                 {filteredAndSortedArticles.map((article) => (
-                  <motion.li
+                  <ArticleCard
                     key={article._id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                    article={article}
                     onClick={() => handleArticleClick(article._id)}
-                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer dark:bg-gray-700"
-                  >
-                    <h2 className="text-xl font-semibold mb-2 text-amber-900 dark:text-amber-300">
-                      {article.title}
-                    </h2>
-                    {article.author ? (
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">By:</span>
-                        <UserName userId={article.author?._id} name={article.author?.name} />
-                      </div>
-                    ) : article.source ? (
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: {article.source}</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: Gemini</span>
-                      </div>
-                    )}
-                    <div className="flex flex-wrap gap-2">
-                      {article.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full dark:bg-opacity-20 dark:text-amber-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-sm text-amber-600 mt-2 dark:text-amber-300">
-                      <Clock className="w-4 h-4 inline mr-2" />
-                      {new Date(article.publishedAt).toLocaleDateString()}
-                    </div>
-                  </motion.li>
+                  />
                 ))}
               </motion.ul>
             ) : ("")}
@@ -303,40 +267,11 @@ function Articles() {
             <AnimatePresence>
               <motion.ul className={filteredAndSortedArticles.length > 0 ? "grid gap-4":"grid gap-4 md:grid-cols-2 lg:grid-cols-3"}>
                 {filteredAndSortedAiArticles.map((article) => (
-                  <motion.li
+                  <ArticleCard
                     key={article._id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                    article={article}
                     onClick={() => handleArticleClick(article._id)}
-                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer dark:bg-gray-700"
-                  >
-                    <h2 className="text-xl font-semibold mb-2 text-amber-900 dark:text-amber-300">
-                      {article.title}
-                    </h2>
-                    <p className="text-amber-700 mb-2 dark:text-amber-300">{article.desc}</p>
-                    {article.source && (
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm text-amber-600 mr-1 dark:text-amber-300">Source: {article.source}</span>
-                      </div>
-                    )}
-                    <div className="flex flex-wrap gap-2">
-                      {article.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full dark:bg-amber-700 dark:text-amber-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-sm text-amber-600 mt-2 dark:text-amber-300">
-                      <Clock className="w-4 h-4 inline mr-2" />
-                      {new Date(article.publishedAt).toLocaleDateString()}
-                    </div>
-                  </motion.li>
+                  />
                 ))}
               </motion.ul>
               

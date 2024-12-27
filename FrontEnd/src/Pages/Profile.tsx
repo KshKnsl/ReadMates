@@ -12,6 +12,7 @@ import {
   Linkedin,
   Instagram,
   Paperclip,
+  BookOpen,
 } from "lucide-react";
 import { INTERESTS } from "../constants";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -19,6 +20,7 @@ import { AuthContext } from "../context/AuthContext";
 import { badges as badgeData } from "../constants";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
+import UserArticles from "./UserArticles";
 
 const dummyData: UserData = {
   id: "67613652de5b440ea1d71979",
@@ -58,6 +60,33 @@ interface UserData {
   contributions: Array<{ articleId: string; points: number }>;
 }
 
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
+
+const slideUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const StatCard: React.FC<{ title: string; value: number }> = ({
+  title,
+  value,
+}) => (
+  <motion.div
+    className="bg-amber-50 dark:bg-gray-600 overflow-hidden shadow rounded-lg p-4"
+    whileHover={{ scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+  >
+    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+      {title}
+    </dt>
+    <dd className="mt-1 text-3xl font-semibold text-amber-900 dark:text-amber-300">
+      {value}
+    </dd>
+  </motion.div>
+);
 function Profile() {
   const auth = useContext(AuthContext);
   const { id } = useParams<{ id: string }>();
@@ -89,16 +118,6 @@ function Profile() {
     };
     fetchUserData();
   }, [userId]);
-
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.5 } },
-  };
-
-  const slideUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
 
   if (loading) {
     return (
@@ -199,7 +218,10 @@ function Profile() {
       variants={fadeIn}
     >
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex gap-4 mx-auto justify-center md:flex-row flex-col">
-        <motion.div className="max-w-3xl bg-white dark:bg-gray-700 shadow-xl rounded-2xl overflow-hidden p-6" variants={slideUp}>
+        <motion.div
+          className="max-w-3xl bg-white dark:bg-gray-700 shadow-xl rounded-2xl overflow-hidden p-6"
+          variants={slideUp}
+        >
           <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
             <div className="md:w-48">
               <img
@@ -323,37 +345,24 @@ function Profile() {
               </div>
             </dl>
           </div>
-          <div className="mt-8">
-            <h3 className="text-lg leading-6 font-medium text-amber-900 dark:text-amber-300">
+
+          <div className="mt-8 border-t border-gray-200 dark:border-gray-600 pt-6">
+            <h3 className="text-lg font-medium text-amber-900 dark:text-amber-300 mb-4">
               User Statistics
             </h3>
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg p-4">
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-300 truncate">
-                  Total Points
-                </div>
-                <div className="mt-1 text-3xl font-semibold text-amber-900 dark:text-amber-300">
-                  {user.points}
-                </div>
-              </div>
-              <div className="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg p-4">
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-300 truncate">
-                  Contributions
-                </div>
-                <div className="mt-1 text-3xl font-semibold text-amber-900 dark:text-amber-300">
-                  {user.contributions.length}
-                </div>
-              </div>
-              <div className="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg p-4">
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-300 truncate">
-                  Saved Articles
-                </div>
-                <div className="mt-1 text-3xl font-semibold text-amber-900 dark:text-amber-300">
-                  {user.savedArticles.length}
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <StatCard title="Total Points" value={user.points} />
+              <StatCard
+                title="Contributions"
+                value={user.contributions.length}
+              />
+              <StatCard
+                title="Saved Articles"
+                value={user.savedArticles.length}
+              />
             </div>
           </div>
+
           <div className="mt-8">
             <h3 className="text-lg leading-6 font-medium text-amber-900 dark:text-amber-300">
               Interests
@@ -441,10 +450,7 @@ function Profile() {
             </div>
           </div>
           {!id && (
-            <motion.div 
-              className="mt-8"
-              variants={slideUp}
-            >
+            <motion.div className="mt-8" variants={slideUp}>
               <motion.button
                 className="w-full bg-amber-500 hover:bg-amber-600 dark:bg-gray-600 dark:hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-full flex items-center justify-center transition duration-300"
                 onClick={() => {
@@ -505,7 +511,19 @@ function Profile() {
           )}
         </AnimatePresence>
 
-        <ToastContainer
+        <motion.div
+          className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden p-6"
+          variants={slideUp}
+        >
+          <h3 className="text-2xl font-bold text-amber-900 dark:text-amber-300 mb-6 flex items-center">
+            <BookOpen className="w-6 h-6 mr-2" />
+            User's Articles
+          </h3>
+          <UserArticles userId={userId} />
+        </motion.div>
+
+      </div>
+      <ToastContainer
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
@@ -515,7 +533,6 @@ function Profile() {
           theme="light"
           transition={Bounce}
         />
-      </div>
       <Footer />
     </motion.div>
   );
