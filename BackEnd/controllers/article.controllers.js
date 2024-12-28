@@ -210,14 +210,19 @@ async function generateAiArticles(search, tags) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini_API_KEY}`;
   const refinedPrompt = `Generate an article about "${search}" using information from reliable sources. 
 
-The content of the article should adhere to the following allowed HTML tags: 
-<p>, <a>, <strong>, <em>, <s>, <mark>, <sub>, <u>, <code>, <h1>-<h6>, <blockquote>, <ol>, <ul>, <li>, <span>, <hr>, <table>, <tr>, <th>, <td>. 
 
-Provide the response in the following JSON format:
-{
-  "title": "A catchy title for the article",
-  "desc": "A brief description of the article (2-3 sentences)",
-  "content": "The main content of the article (at least 3-4 short paragraphs)(or properly structured blog) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
+  Instructions:
+  1. Use reliable sources and factual information
+  2. Include proper HTML formatting using only these tags: <p>, <a>, <strong>, <em>, <s>, <mark>, <sub>, <u>, <code>, <h1>-<h6>, <blockquote>, <ol>, <ul>, <li>, <span>, <hr>, <table>, <tr>, <th>, <td>
+  3. Structure the content with clear sections and proper spacing
+  4. Add relevant media (YouTube videos, images) if applicable
+  5. Ensure all content is educational and informative
+  
+  Return the data in this exact format (without any code formatting or language specification):
+  {
+    "title": "Title here",
+    "desc": "Description here",
+      "content": "The main content of the article (at least 3-4 short paragraphs)(or properly structured blog) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
   "tags": ${JSON.stringify(tags)},
   "status": "published",
   "publishedAt": "${new Date().toISOString()}",
@@ -231,6 +236,16 @@ Make sure the JSON output does not include any unescaped special characters like
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: refinedPrompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 2048,
+        },
+        safetySettings: [{
+          category: "HARM_CATEGORY_DANGEROUS",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }]
       }),
     });
 
