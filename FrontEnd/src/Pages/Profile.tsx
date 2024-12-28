@@ -38,7 +38,7 @@ const dummyData: UserData = {
   points: 100,
   badges: ["Rising Blogger", "Helper"],
   interests: ["Science Fiction", "Technology", "Writing"],
-  savedArticles: ["article1", "article2"],
+  articles: ["article1", "article2"],
   contributions: [
     { articleId: "article1", points: 50 },
     { articleId: "article2", points: 30 },
@@ -56,7 +56,7 @@ interface UserData {
   points: number;
   badges: string[];
   interests: string[];
-  savedArticles: string[];
+  articles: string[];
   contributions: Array<{ articleId: string; points: number }>;
 }
 
@@ -357,8 +357,8 @@ function Profile() {
                 value={user.contributions.length}
               />
               <StatCard
-                title="Saved Articles"
-                value={user.savedArticles.length}
+                title="Articles authored"
+                value={user.articles.length}
               />
             </div>
           </div>

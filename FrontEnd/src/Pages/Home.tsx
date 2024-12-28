@@ -11,13 +11,11 @@ const Home = () => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
     navigate(`/articles/${searchQuery}`);
-
   };
 
   return (
     <div className="min-h-screen bg-amber-50 dark:bg-gray-800">
       <main className="container mx-auto px-6 py-16 md:px-12 lg:px-24 lg:py-24">
-      
         <section className="text-center mb-20">
           <div className="inline-flex mb-8 opacity-90">
             <BookOpen 
@@ -25,15 +23,12 @@ const Home = () => {
               className="text-indigo-600 dark:text-amber-300" 
             />
           </div>
-          
           <h1 className="text-5xl md:text-7xl font-extrabold text-indigo-800 dark:text-amber-300 mb-4 tracking-tight">
             ReadMates
           </h1>
-
           <p className="text-xl md:text-2xl text-indigo-800/80 dark:text-amber-300 mb-12 font-normal max-w-2xl mx-auto">
             A collaborative platform for meaningful discussions, insightful reading, and knowledge sharing.
           </p>
-
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
             <div className="relative group">
               <input

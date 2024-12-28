@@ -19,7 +19,8 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.get("/author/:author", async (req, res) => {
-  let result = await getArticlesByAuthor(req, res);
+  const authorID = req.params.author;
+  let result = await getArticlesByAuthor(authorID);
   if (result.success) {
     res.status(200).json(result);
   } else {

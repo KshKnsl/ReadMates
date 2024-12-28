@@ -1,3 +1,4 @@
+const User = require("../models/User.model");
 const Article = require("../models/Article.model");
 
 // Create a new article
@@ -36,6 +37,26 @@ async function createArticle(data) {
     });
 
     await newArticle.save();
+
+    const user = await User.findById(data.author);
+    if (user) {
+      user.articles.push(newArticle._id);
+      contributor.points += 30;
+      await user.save();
+      console.log("User updated successfully",user);
+    }
+    for (let i = 0; i < data.contributors.length; i++) 
+    {
+      const contributorId = data.contributors[i];
+      const contributor = await User.findById(contributorId);
+      if (contributor) 
+      {
+        contributor.contributions.push({ articleId: newArticle._id, points: 10 });
+        contributor.points += 10;
+        await contributor.save();
+      }
+    }
+  
     return {
       success: true,
       message: "Article created successfully",
@@ -134,7 +155,9 @@ async function getArticlesByTags(tags) {
 // Get articles by author
 async function getArticlesByAuthor(author) {
   try {
-    const articles = await Article.find({ author }).populate("contributors");
+    const articles = await Article.find({ author }).populate(
+      "contributors author"
+    );
     return { success: true, articles };
   } catch (error) {
     return {
@@ -172,17 +195,13 @@ async function getArticlesByTitle(title) {
 }
 
 async function getArticleBySessionDoc(sessionDoc) {
-  try 
-  {
+  try {
     const article = await Article.findOne({ sessionDoc: sessionDoc });
-    if (!article) 
-    {
+    if (!article) {
       return { success: false, message: "Article not found" };
     }
     return { success: true, article };
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     return error;
   }
 }
@@ -198,7 +217,7 @@ Provide the response in the following JSON format:
 {
   "title": "A catchy title for the article",
   "desc": "A brief description of the article (2-3 sentences)",
-  "content": "The main content of the article (3-4 paragraphs) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
+  "content": "The main content of the article (at least 3-4 short paragraphs)(or properly structured blog) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
   "tags": ${JSON.stringify(tags)},
   "status": "published",
   "publishedAt": "${new Date().toISOString()}",
@@ -215,8 +234,7 @@ Make sure the JSON output does not include any unescaped special characters like
       }),
     });
 
-    if (!response.ok) 
-    {
+    if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -233,9 +251,7 @@ Make sure the JSON output does not include any unescaped special characters like
       message: "Article created successfully",
       article: newArticle,
     };
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     console.error("Error generating AI article:", error);
     return {
       success: false,
@@ -245,12 +261,10 @@ Make sure the JSON output does not include any unescaped special characters like
   }
 }
 
-async function generateAiDesc(body) 
-{
+async function generateAiDesc(body) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini_API_KEY}`;
   const refinedPrompt = `Generate a description for the following article to help with SEO: ${body.title} - ${body.content}. The description should be concise and include relevant keywords. PLease return an empty string if you are unable to generate a description. Since i have to parse your response to json, please make sure that the response does not contain any special characters like backslashes (\), double quotes ("), or backtick or json format. Escape such characters properly if needed to ensure the response is valid JSON. Provide the response as plain text without formatting. response should not contain backticks in start or end`;
-  try 
-  {
+  try {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -260,9 +274,7 @@ async function generateAiDesc(body)
     });
     const jsonResponse = await response.json();
     return jsonResponse.candidates[0].content.parts[0].text;
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     console.log("Error:", error);
     return null;
   }

@@ -53,7 +53,7 @@ const UserArticles: React.FC<UserArticlesProps> = ({ userId }) => {
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="max-w-80 flex flex-col gap-3">
       {articles.map((article) => (
         <motion.div
           key={article._id}
