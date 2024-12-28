@@ -250,7 +250,7 @@ Make sure the JSON output does not include any unescaped special characters like
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response}`);
     }
 
     const jsonResponse = await response.json();
