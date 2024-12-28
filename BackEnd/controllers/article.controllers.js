@@ -229,7 +229,8 @@ async function generateAiArticles(search, tags) {
   "source": "The source of information (e.g., 'GFG', 'Blogs', 'Scientific Journals', 'Wikipedia', or any other website. Mention only 1 source.)"
 }
 You must use a reliable source to generate the content. the comnent should not be completely Ai generated. you can provide reference you tube videos or se i frames, img if neededed. Ensure the content is factual, informative, and suitable for an educational platform.
-Make sure the JSON output does not include any unescaped special characters like backslashes (\), double quotes ("), or other problematic symbols. Escape such characters properly if needed to ensure the response is valid JSON. Provide the JSON response as plain text without formatting. response should not contain backticks in start or end as i am using JSON.parse() to parse the response. your generated text must now have language specified or formated as code`;
+Make sure the JSON output does not include any unescaped special characters like backslashes (\), double quotes ("), or other problematic symbols. Escape such characters properly if needed to ensure the response is valid JSON. Provide the JSON response as plain text without formatting. response should not contain backticks in start or end as i am using JSON.parse() to parse the response. your generated text must now have language specified or formated as code,.
+response must be completely in plain text without any code formatting or language specification. response should not contain backticks in start or end`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -242,18 +243,15 @@ Make sure the JSON output does not include any unescaped special characters like
           topP: 0.95,
           maxOutputTokens: 2048,
         },
-        safetySettings: [{
-          category: "HARM_CATEGORY_DANGEROUS",
-          threshold: "BLOCK_MEDIUM_AND_ABOVE"
-        }]
       }),
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response}`);
+    // }
 
     const jsonResponse = await response.json();
+    console.log(jsonResponse);
     const generatedText = jsonResponse.candidates[0].content.parts[0].text;
     console.log("Generated text:", generatedText);
     const articleData = JSON.parse(generatedText);
