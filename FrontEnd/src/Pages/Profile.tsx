@@ -21,6 +21,7 @@ import { badges as badgeData } from "../constants";
 import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import UserArticles from "./UserArticles";
+import Badge from "../components/Badge";
 
 const dummyData: UserData = {
   id: "67613652de5b440ea1d71979",
@@ -473,15 +474,15 @@ function Profile() {
         <AnimatePresence>
           {(userData?.badges?.length ?? 0) > 0 && (
             <motion.div
-              className="pt-6 pb-6 pr-6 md:pl-6 bg-orange-500 dark:bg-gray-700 rounded-lg flex gap-2 items-center justify-start md:flex-col"
+              className="pt-6 pb-6 pr-6 md:pl-6 bg-white dark:bg-gray-700 flex gap-2 items-center justify-start md:flex-col  shadow-xl rounded-2xl"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="text-white text-center font-extrabold text-lg -rotate-90 md:rotate-0">
+              <h3 className="text-amber-500 text-center font-extrabold text-lg -rotate-90 md:rotate-0 md:mb-4">
                 Badges
-              </p>
+              </h3>
               <div className="flex flex-row md:flex-col gap-4 items-center justify-center">
                 {userData?.badges.map((badge, index) => {
                   const badgeInfo = badgeData.find((b) => b.name === badge);
@@ -490,19 +491,12 @@ function Profile() {
                     <motion.div
                       key={badgeInfo.name}
                       className="flex flex-col items-center"
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.25, delay: index * 0.1 }}
+                      whileHover={{ scale: 1.05 }}
                     >
-                      <img
-                        src={`/assets/${badgeInfo.file}`}
-                        alt={badgeInfo.name}
-                        className="w-24 h-24 rounded-full shadow-2xl"
-                      />
-                      <p className="text-white text-center text-sm font-medium">
-                        {badgeInfo.name}
-                      </p>
+                      <Badge name ={badgeInfo.name} description ={badgeInfo.description} file ={badgeInfo.file} className = "w-24 h-24 rounded-full shadow-2xl"/>
                     </motion.div>
                   );
                 })}

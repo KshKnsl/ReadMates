@@ -96,7 +96,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const userColor = getRandomColor();
   const navigate = useNavigate();
-
+  const [saving, setSaving] = useState<boolean>(false);
   const filteredInterests = INTERESTS.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -187,6 +187,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   });
   
   const handleSave = async () => {
+    setSaving(true);
     let sesID = docName;
     const result = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/colab/getColab/${sesID}`,
@@ -215,7 +216,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
       if (res.ok) 
       {
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
+        setSaving(false);
         toast.success(data.message);
         setTimeout(() => {
           navigate(`/article/${data.article._id}`);
@@ -228,6 +230,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     } 
     else 
     {
+      setSaving(false);
       console.log("Error creating article");
     }
   };
@@ -578,8 +581,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
         )}
       </div>)}
       {(docName.split("-").pop() === auth?.user?._id &&
-      <Button onClick={handleSave} className="save-button bg-amber-100 dark:bg-gray-700 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-opacity-30">
-        Save Article
+      <Button onClick={handleSave} disabled={saving} className="save-button bg-amber-100 dark:bg-gray-700 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-opacity-30">
+        {saving ? "Saving..." : "Save Article"}
       </Button>)}
       <ToastContainer />
     </div>

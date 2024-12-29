@@ -45,19 +45,12 @@ export const badges = [
     { 
       name: "Rising Blogger", 
       description: "Published your first article on ReadMates.", 
-      type: "rising-blogger" as const, 
-      earned: true,
-      progress: 100,
-      points: 50,
       category: "Writing",
       file: "risingblogger.png"
     },
     { 
       name: "Pro Contributor", 
       description: "Published 10+ articles.", 
-      type: "pro-contributor" as const, 
-      earned: false,
-      progress: 4,
       points: 100,
       category: "Writing",
       file: "procontributer.png"
@@ -65,80 +58,48 @@ export const badges = [
     { 
       name: "Tech Guru", 
       description: "Published 25+ high-rated articles.", 
-      type: "tech-guru" as const, 
-      earned: false,
-      progress: 12,
-      points: 250,
       category: "Writing",
       file: "techguru.png"
     },
     { 
       name: "Avid Reader", 
       description: "Completed reading 5 articles.", 
-      type: "avid-reader" as const, 
-      earned: true,
-      progress: 100,
-      points: 75,
       category: "Reading",
       file: "avidreader.png"
     },
     { 
       name: "Deep Diver", 
       description: "Spent 10+ hours reading.", 
-      type: "deep-diver" as const, 
-      earned: false,
-      progress: 40,
-      points: 150,
       category: "Reading" ,
       file: "deepdiver.png"
     },
     { 
       name: "Top Critic", 
       description: "Provided valuable feedback on 10+ articles.", 
-      type: "top-critic" as const, 
-      earned: false,
-      progress: 6,
-      points: 200,
       category: "Community",
       file: "topcritic.png"
     },
     { 
       name: "Community Builder", 
       description: "Started or engaged in 10+ discussions.", 
-      type: "community-builder" as const, 
-      earned: true,
-      progress: 100,
-      points: 125,
       category: "Community",
       file: "communitybuilder.png"
     },
     { 
       name: "Helper", 
       description: "Engaged with 5 'Ask the Author' queries.", 
-      type: "helper" as const, 
-      earned: false,
-      progress: 2,
-      points: 100,
       category: "Community",
       file: "help.png"
     },
     { 
       name: "First Steps", 
       description: "Completed the onboarding process.", 
-      type: "first-steps" as const, 
-      earned: true,
-      progress: 100,
-      points: 25,
       category: "Milestone",
       file: "firststeps.png"
     },
     { 
       name: "Streak Keeper", 
       description: "Maintained a 7-day engagement streak.", 
-      type: "streak-keeper" as const, 
-      earned: false,
-      progress: 3,
-      points: 175,
       category: "Milestone",
       file: "streakkeeper.png"
     }
