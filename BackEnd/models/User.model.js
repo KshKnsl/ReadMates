@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     bio: { type: String },
     socialLinks: { type: [String], default: [] },
     points: { type: Number, default: 100 },
-    badges: { type: [String], default: [] },
+    badges: { type: [String], default: ["First Steps"] },
     interests: { type: [String], default: ["Reading"] },
     articles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
     contributions: [
@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
         points: { type: Number },
       },
     ],
+    readArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
   },
   { timestamps: true }
 );
@@ -32,6 +33,28 @@ userSchema.pre("save", async function (next)
     next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+
+  
+  const user = this;
+  const newBadges = [];
+
+  if (user.articles.length == 1 && !user.badges.includes("Rising Blogger"))
+    newBadges.push("Rising Blogger");
+  if (user.articles.length >= 10 && !user.badges.includes("Pro Contributor"))
+    newBadges.push("Pro Contributor");
+  console.log("I am here");
+  if (user.articles.length >= 25 && !user.badges.includes("Tech Guru"))
+    newBadges.push("Tech Guru");
+  if (user.readArticles.length >= 5 && !user.badges.includes("Avid Reader"))
+    newBadges.push("Avid Reader");
+  if (user.readArticles.length >= 10 && !user.badges.includes("Deep Diver")) 
+    newBadges.push("Deep Diver");
+  if (user.contributions.length >= 10 && !user.badges.includes("Top Critic"))
+    newBadges.push("Top Critic");
+  if (user.contributions.length >= 5 && !user.badges.includes("Community Builder"))
+    newBadges.push("Community Builder");
+  user.badges = [...user.badges, ...newBadges];
+
   next();
 });
 

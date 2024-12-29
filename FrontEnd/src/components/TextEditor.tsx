@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useEffect } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -28,6 +28,7 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
+import { AuthContext } from "../context/AuthContext";
 import {
   Bold,
   Italic,
@@ -84,7 +85,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
   const [tags, setTags] = useState<string[]>(articleData.tags || []);
-  
+    const auth = useContext(AuthContext);
 
   useEffect(() => {
     if (articleData.tags) {
@@ -263,10 +264,11 @@ const TextEditor: React.FC<TextEditorProps> = ({
     return null;
   }
   return (
-    <div className="shadow-2xl create-article-container p-2 bg-amber-50 dark:bg-gray-800">
+    <div className="shadow-2xl create-article-container p-6 bg-amber-50 dark:bg-gray-800">
       <h2 className="text-3xl mb-4 font-bold text-amber-700 dark:text-amber-300">
-        Create a new Article
+      {(docName.split("-").pop() === auth?.user?._id)? "Create a new Article":"Contribute to Article"}
       </h2>
+      {(docName.split("-").pop() === auth?.user?._id &&
       <Input
         type="text"
         placeholder="Title here"
@@ -275,7 +277,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           setArticleData({ ...articleData, title: e.target.value });
         }}
         className="article-title-input bg-amber-50 dark:bg-gray-800 text-amber-700 dark:text-amber-300"
-      />
+      />)}
       <div className="editor-toolbar dark:bg-gray-800">
         <div className="toolbar-group">
           <Button
@@ -519,7 +521,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
         </div>
       </div>
 
-      <EditorContent editor={editor} className="editor-content bg-amber-50 dark:bg-gray-800 text-amber-700 dark:text-amber-300" />
+      <EditorContent editor={editor} className="editor-content bg-amber-50 dark:bg-gray-800 text-amber-700 dark:text-amber-300 min-h-96" />
       <div className="editor-footer">
         <div className="char-count text-amber-700 dark:text-amber-300 dark:bg-gray-700">
           Characters: {charCount}/{MAX_CHARACTERS}
@@ -530,6 +532,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
         </div>
       </div>
 
+      {(docName.split("-").pop() === auth?.user?._id &&
+      
       <div>
         <label className="block text-sm font-medium text-amber-700 dark:text-amber-300 mb-2">
           Select tags
@@ -572,10 +576,11 @@ const TextEditor: React.FC<TextEditorProps> = ({
             </p>
           </div>
         )}
-      </div>
+      </div>)}
+      {(docName.split("-").pop() === auth?.user?._id &&
       <Button onClick={handleSave} className="save-button bg-amber-100 dark:bg-gray-700 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-opacity-30">
         Save Article
-      </Button>
+      </Button>)}
       <ToastContainer />
     </div>
   );

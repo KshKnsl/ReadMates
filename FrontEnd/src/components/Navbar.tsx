@@ -67,6 +67,7 @@ const Navbar = () => {
           </div>
           {!isMobile ? (
             <div className="hidden md:flex md:items-center md:space-x-4">
+              <div className="flex space-x-4 mr-16">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.to}
@@ -88,7 +89,7 @@ const Navbar = () => {
                     {item.label}
                   </NavLink>
                 </motion.div>
-              ))}
+              ))}</div>
               <ThemeBtn />
               <LanguageSelector className="mr-4" />
               {!auth.user ? (

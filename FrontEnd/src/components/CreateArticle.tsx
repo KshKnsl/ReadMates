@@ -101,9 +101,8 @@ function CreateArticle() {
           // console.log(resul);
           setContributorData(resul.Colaborator);
           toast.success("Session Joined Successfully as a Contributor");
-          setIsAuthor(true);
+          setIsAuthor(false);
         }
-        setIsAuthor(true);
       }
     };
     const fetchUserName = async (id: string) => {
@@ -222,8 +221,8 @@ function CreateArticle() {
   }
 
   return (
-    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse bg-amber-50 dark:bg-gray-800">
-      <div className="max-w-sm mx-auto">
+    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse bg-amber-50 dark:bg-gray-800 gap-3">
+      <div className="max-w-sm">
         <h1 className="pt-2 text-3xl font-bold text-amber-900 dark:text-amber-300 mb-6">
           {isAuthor ? "Create Collaborative Article" : "Collaborate on Article"}
         </h1>
@@ -294,14 +293,12 @@ function CreateArticle() {
         )}
       </div>
 
-      <div className="mx-auto flex-grow">
         <TextEditor
           articleData={articleData}
           setArticleData={handleArticleDataChange}
           userName={userName}
           docName={sessionID || ""}
         />
-      </div>
       <ToastContainer />
     </div>
   );

@@ -13,7 +13,7 @@ router.post("/createArticle", async (req, res) => {
   let desc = await generateAiDesc(req.body);
   req.body.desc = desc;
   let result = await createArticle(req.body);
-  console.log(req.body);
+  // console.log(req.body);
   if (result.success) {
     res.status(200).json(result);
   } else {

@@ -16,7 +16,7 @@ async function createArticle(data) {
       status: data.status || "draft",
     });
     await existingArticle.save();
-    console.log("Article Updated successfully");
+    // console.log("Article Updated successfully");
     return {
       success: true,
       message: "Article Updated successfully",
@@ -40,20 +40,23 @@ async function createArticle(data) {
 
     const user = await User.findById(data.author);
     if (user) {
-      user.articles.push(newArticle._id);
-      contributor.points += 30;
-      await user.save();
-      console.log("User updated successfully",user);
+      try {
+        user.articles.push(newArticle._id);
+        user.points += 30;
+        const newBadges = [];
+        await user.save();
+      } catch (error) {
+        console.error("Error updating user:", error);
+      }
     }
-    for (let i = 0; i < data.contributors.length; i++) 
-    {
+    
+    for (let i = 0; i < data.contributors.length; i++) {
       const contributorId = data.contributors[i];
       const contributor = await User.findById(contributorId);
-      if (contributor) 
-      {
-        contributor.contributions.push({ articleId: newArticle._id, points: 10 });
-        contributor.points += 10;
-        await contributor.save();
+      if (contributor) {
+      contributor.contributions.push({ articleId: newArticle._id, points: 10 });
+      contributor.points += 10;
+      await contributor.save();
       }
     }
   
@@ -77,7 +80,6 @@ async function getArticleById(id) {
     if (!article) {
       return { success: false, message: "Article not found" };
     }
-    console.log("Article found:", article);
     return { success: true, article };
   } catch (error) {
     return {
@@ -251,9 +253,9 @@ response must be completely in plain text without any code formatting or languag
     // }
 
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
+    // console.log(jsonResponse);
     const generatedText = jsonResponse.candidates[0].content.parts[0].text;
-    console.log("Generated text:", generatedText);
+    // console.log("Generated text:", generatedText);
     const articleData = JSON.parse(generatedText);
     const newArticle = new Article({
       ...articleData,
