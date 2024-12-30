@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user.routes");
 const articleRoutes = require("./routes/article.routes");
 const getArticleRoutes = require("./routes/getArticle.routes");
 const colaborationRoutes = require("./routes/colab.route");
-const {protect}= require("./middlewares/authMiddleware");
+// const {protect}= require("./middlewares/authMiddleware");
 
 app.use(cors());
 app.use(express.json());
