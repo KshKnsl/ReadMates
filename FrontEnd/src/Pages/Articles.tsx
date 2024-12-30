@@ -161,50 +161,50 @@ function Articles() {
 
   return (<>
     <div className="mx-auto p-8 bg-amber-50 dark:bg-gray-800 min-h-screen">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-center justify-between">
         <h1 className="text-3xl font-bold mb-6 text-amber-800 dark:text-amber-300">Articles</h1>
-        <div className="mb-6 flex justify-center space-x-4">
+        <div className="mb-6 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
           <Button
-            onClick={() => toggleSort("date")}
-            className={`flex items-center ${
-              sortBy === "date"
-                ? "bg-amber-500 text-white"
-                : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
-            }`}
+        onClick={() => toggleSort("date")}
+        className={`flex items-center ${
+          sortBy === "date"
+            ? "bg-amber-500 text-white"
+            : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
+        }`}
           >
-            <Clock className="w-4 h-4 mr-2" />
-            Date
-            {sortBy === "date" &&
-              (sortOrder === "asc" ? (
-                <ChevronUp className="ml-2" />
-              ) : (
-                <ChevronDown className="ml-2" />
-              ))}
+        <Clock className="w-4 h-4 mr-2" />
+        Date
+        {sortBy === "date" &&
+          (sortOrder === "asc" ? (
+            <ChevronUp className="ml-2" />
+          ) : (
+            <ChevronDown className="ml-2" />
+          ))}
           </Button>
           <Button
-            onClick={() => toggleSort("title")}
-            className={`flex items-center ${
-              sortBy === "title"
-                ? "bg-amber-500 text-white"
-                : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
-            }`}
+        onClick={() => toggleSort("title")}
+        className={`flex items-center ${
+          sortBy === "title"
+            ? "bg-amber-500 text-white"
+            : "bg-amber-100 text-amber-800 dark:bg-gray-700 dark:text-amber-300"
+        }`}
           >
-            <Filter className="w-4 h-4 mr-2" />
-            Title
-            {sortBy === "title" &&
-              (sortOrder === "asc" ? (
-                <ChevronUp className="ml-2" />
-              ) : (
-                <ChevronDown className="ml-2" />
-              ))}
+        <Filter className="w-4 h-4 mr-2" />
+        Title
+        {sortBy === "title" &&
+          (sortOrder === "asc" ? (
+            <ChevronUp className="ml-2" />
+          ) : (
+            <ChevronDown className="ml-2" />
+          ))}
           </Button>
           <Button
-            onClick={generateAIArticles}
-            disabled={isGenerating}
-            className="flex items-center bg-green-500 text-white hover:bg-green-600 transition-colors duration-300"
+        onClick={generateAIArticles}
+        disabled={isGenerating}
+        className="flex items-center bg-green-500 text-white hover:bg-green-600 transition-colors duration-300"
           >
-            <PlusCircle className="w-4 h-4 mr-2" />
-            {isGenerating ? "Fetching..." : "Fetch from External source"}
+        <PlusCircle className="w-4 h-4 mr-2" />
+        {isGenerating ? "Fetching..." : "Fetch from External source"}
           </Button>
         </div>
       </div>
