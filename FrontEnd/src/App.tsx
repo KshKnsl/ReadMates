@@ -11,7 +11,7 @@ import Login from './Pages/Login'
 import SignUp from './Pages/SignUp'
 import { ThemeProvider } from './context/Theme'
 import { useEffect, useState } from 'react'
-import Call from './Pages/Call'
+// import Call from './Pages/Call'
 
 function App() {
   const [themeMode, setThemeMode] = useState('light')
@@ -47,7 +47,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/call" element={<Call />} />
+        {/* <Route path="/call" element={<Call />} /> */}
       </Routes>
       </div>
     </div>

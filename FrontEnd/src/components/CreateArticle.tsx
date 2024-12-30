@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ContributorList from "./ui/ContributorList";
 import UserName from "./ui/UserName";
 import {motion} from 'framer-motion';
-import Call from "../Pages/Call";
+// import Call from "../Pages/Call";
 interface Article {
   title: string;
   desc: string;
@@ -294,7 +294,7 @@ function CreateArticle() {
             />
           </div>
         )}
-        <Call meetID={sessionID} />
+        {/* <Call meetID={sessionID} /> */}
       </div>):(
       <div className="md:max-w-sm">
       <button
