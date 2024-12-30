@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@daily-co/daily-js": "^0.73.0",
     "@hocuspocus/provider": "^2.15.0",
     "@react-oauth/google": "^0.12.1",
     "@tiptap/extension-character-count": "^2.10.4",
@@ -38,7 +37,6 @@
     "@tiptap/extension-youtube": "^2.10.4",
     "@tiptap/react": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
-    "@videosdk.live/react-sdk": "^0.1.104",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "framer-motion": "^11.15.0",
