@@ -225,7 +225,7 @@ function CreateArticle() {
   return (
     <div className="mx-auto p-4 flex flex-col-reverse lg:flex-row-reverse bg-amber-50 dark:bg-gray-800 gap-3">
       {(colabMode == true) ? (
-      <div className="md:max-w-sm mx-auto">
+      <div className="lg:max-w-sm mx-auto">
         <h1 className="pt-2 text-3xl font-bold text-amber-900 dark:text-amber-300 mb-6">
           {isAuthor ? "Create Collaborative Article" : "Collaborate on Article"}
         </h1>

@@ -160,7 +160,7 @@ function Articles() {
   }
 
   return (<>
-    <div className="mx-auto p-8 bg-amber-50 dark:bg-gray-800 min-h-screen">
+    <div className="mx-auto p-8 bg-amber-50 dark:bg-gray-800 min-h-screen items-center justify-center">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <h1 className="text-3xl font-bold mb-6 text-amber-800 dark:text-amber-300">Articles</h1>
         <div className="mb-6 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">

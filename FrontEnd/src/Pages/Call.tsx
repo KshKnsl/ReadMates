@@ -87,7 +87,6 @@ function ParticipantView({ participantId }: ParticipantViewProps)
     </div>
   );
 }
-
 function MeetingView() 
 {
   const [micOn, setMicOn] = useState(true);
@@ -96,6 +95,9 @@ function MeetingView()
   const { join, leave, toggleMic, toggleWebcam, participants } = useMeeting({
     onMeetingJoined: () => {
       setJoined("JOINED");
+    },
+    onMeetingLeft: () => {
+      setJoined(null);
     },
   });
 
@@ -116,7 +118,7 @@ function MeetingView()
     <div className="mx-auto p-4 bg-amber-100 dark:bg-gray-800">
       {joined === "JOINED" ? (
         <div className="flex flex-col items-center">
-          <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="w-full max-w-4xl flex gap-4 lg:flex-row flex-col">
             {participantIds.map((participantId) => (
               <ParticipantView key={participantId} participantId={participantId} />
             ))}
@@ -202,7 +204,7 @@ const Call = ({ meetID }: { meetID?: string }) => {
   while (formattedText && formattedText.length < 12) {
     formattedText += 'a';
   }
-  console.log(formattedText?.length, formattedText);
+  // console.log(formattedText?.length, formattedText);
   const auth = useContext(AuthContext);
   const userId = auth?.user?._id;
 
