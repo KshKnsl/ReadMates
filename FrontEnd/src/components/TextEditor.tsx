@@ -267,7 +267,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     return null;
   }
   return (
-    <div className="shadow-2xl create-article-container p-6 bg-amber-50 dark:bg-gray-800">
+    <div className="shadow-2xl md:create-article-container p-6 bg-amber-50 dark:bg-gray-800">
       <h2 className="text-3xl mb-4 font-bold text-amber-700 dark:text-amber-300">
       {(docName.split("-").pop() === auth?.user?._id)? "Create a new Article":"Contribute to Article"}
       </h2>
@@ -287,7 +287,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
             className={`${
-              editor.isActive("bold") ? "bg-amber-100 dark:bg-gray-700" : ""
+              editor.isActive("bold") ? "bg-amber-100 " : "dark:bg-gray-700"
             }`}
           >
             <Bold className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -296,7 +296,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
             className={`${
-              editor.isActive("italic") ? "bg-amber-100 dark:bg-gray-700" : ""
+              editor.isActive("italic") ? "bg-amber-100" : "dark:bg-gray-700"
             }`}
           >
             <Italic className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -306,8 +306,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             disabled={!editor.can().chain().focus().toggleUnderline().run()}
             className={`${
               editor.isActive("underline")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <UnderlineIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -316,7 +316,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
             className={`${
-              editor.isActive("strike") ? "bg-amber-100 dark:bg-gray-700" : ""
+              editor.isActive("strike") ? "bg-amber-100" : "dark:bg-gray-700"
             }`}
           >
             <Strikethrough className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -326,8 +326,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             disabled={!editor.can().chain().focus().toggleHighlight().run()}
             className={`${
               editor.isActive("highlight")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <Highlighter className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -337,8 +337,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             disabled={!editor.can().chain().focus().toggleSubscript().run()}
             className={`${
               editor.isActive("subscript")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <SubscriptIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -348,8 +348,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             disabled={!editor.can().chain().focus().toggleSuperscript().run()}
             className={`${
               editor.isActive("superscript")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <SuperscriptIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -368,7 +368,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
               }
             }}
             className={`${
-              editor.isActive("link") ? "bg-amber-100 dark:bg-gray-700" : ""
+              editor.isActive("link") ? "bg-amber-100" : "dark:bg-gray-700"
             }`}
           >
             <Link2 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -377,13 +377,14 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
             className={`${
-              editor.isActive("code") ? "bg-amber-100 dark:bg-gray-700" : ""
+              editor.isActive("code") ? "bg-amber-100" : "dark:bg-gray-700"
             }`}
           >
             <Code className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
             onClick={() => editor.chain().focus().insertContent("@").run()}
+            className="dark:bg-gray-700"
           >
             <User className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
@@ -393,8 +394,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().setParagraph().run()}
             className={`${
               editor.isActive("paragraph")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <Type className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -405,8 +406,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             }
             className={`${
               editor.isActive("heading", { level: 1 })
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <Heading1 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -417,8 +418,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             }
             className={`${
               editor.isActive("heading", { level: 2 })
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <Heading2 className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -429,8 +430,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={`${
               editor.isActive("bulletList")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <List className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -439,8 +440,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={`${
               editor.isActive("orderedList")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <ListOrdered className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -449,8 +450,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleTaskList().run()}
             className={`${
               editor.isActive("taskList")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <CheckSquare className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -459,24 +460,25 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             className={`${
               editor.isActive("blockquote")
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <Quote className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
         </div>
         <div className="toolbar-group">
-          <Button onClick={addImage}>
+          <Button onClick={addImage} className="dark:bg-gray-700">
             <ImageIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
-          <Button onClick={addTable}>
+          <Button onClick={addTable} className="dark:bg-gray-700">
             <TableIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
-          <Button onClick={addYoutubeVideo}>
+          <Button onClick={addYoutubeVideo} className="dark:bg-gray-700">
             <YoutubeIcon className="w-4 h-4 text-amber-700 dark:text-amber-300" />
           </Button>
           <Button
+            className="dark:bg-gray-700"
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           >
             <Minus className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -487,8 +489,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().setTextAlign("left").run()}
             className={`${
               editor.isActive({ textAlign: "left" })
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <AlignLeft className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -497,8 +499,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().setTextAlign("center").run()}
             className={`${
               editor.isActive({ textAlign: "center" })
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <AlignCenter className="w-4 h-4 text-amber-700 dark:text-amber-300" />
@@ -507,8 +509,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
             onClick={() => editor.chain().focus().setTextAlign("right").run()}
             className={`${
               editor.isActive({ textAlign: "right" })
-                ? "bg-amber-100 dark:bg-gray-700"
-                : ""
+                ? "bg-amber-100"
+                : "dark:bg-gray-700"
             }`}
           >
             <AlignRight className="w-4 h-4 text-amber-700 dark:text-amber-300" />

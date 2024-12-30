@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ContributorList from "./ui/ContributorList";
 import UserName from "./ui/UserName";
 import {motion} from 'framer-motion';
+import Call from "../Pages/Call";
 interface Article {
   title: string;
   desc: string;
@@ -30,6 +31,7 @@ function CreateArticle() {
     shortlink: `${window.location.origin}/create/${sessionID}`,
     qrurl: "",
   });
+  const [colabMode, setColabMode] = useState<boolean>(false);
   const [copied, setCopied] = useState(false);
 
   const [articleData, setArticleData] = useState<Article>({
@@ -54,7 +56,7 @@ function CreateArticle() {
       if (!sessionID || sessionID === "") {
         const newSessionID = `doc_${Date.now()}_${Math.random()
           .toString(36)
-          .substr(2, 9)}-${auth.user._id}`;
+          .substr(2, 16)}-${auth.user._id}`;
         navigate(`/create/${newSessionID}`);
         return;
       } else if (sessionID.split("-").pop() === auth.user._id) {
@@ -221,8 +223,9 @@ function CreateArticle() {
   }
 
   return (
-    <div className="mx-auto p-4 flex flex-col lg:flex-row-reverse bg-amber-50 dark:bg-gray-800 gap-3">
-      <div className="max-w-sm">
+    <div className="mx-auto p-4 flex flex-col-reverse lg:flex-row-reverse bg-amber-50 dark:bg-gray-800 gap-3">
+      {(colabMode == true) ? (
+      <div className="md:max-w-sm mx-auto">
         <h1 className="pt-2 text-3xl font-bold text-amber-900 dark:text-amber-300 mb-6">
           {isAuthor ? "Create Collaborative Article" : "Collaborate on Article"}
         </h1>
@@ -291,7 +294,16 @@ function CreateArticle() {
             />
           </div>
         )}
-      </div>
+        <Call meetID={sessionID} />
+      </div>):(
+      <div className="md:max-w-sm">
+      <button
+        onClick={() => setColabMode(true)}
+        className="w-full py-2 px-4 bg-amber-600 text-white font-semibold rounded-md shadow-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-75"
+      >
+        Start Collaboration
+      </button>
+      </div>)}
 
         <TextEditor
           articleData={articleData}
