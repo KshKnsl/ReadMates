@@ -13,6 +13,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the API');
+});
+
 app.use("/api/user", userRoutes);
 app.use("/api/article", articleRoutes);
 app.use("/api/getArticle", getArticleRoutes);
