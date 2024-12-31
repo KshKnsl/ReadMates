@@ -62,8 +62,9 @@ app.post("/api/fetch-quiz", async (req, res) => {
     // console.log("Fetched quiz:", response);
     res.json(response);
   } 
+
   catch (error) 
-  {
+  {  
     console.error("Error fetching quiz:", error.message);
     res.status(500).send("Internal Server Error");
   }
