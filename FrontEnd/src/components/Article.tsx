@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Tag, Clock, User } from "lucide-react";
+import { BookOpen, Tag, Clock, User, Brain, Loader2 } from "lucide-react";
 import UserName from "./ui/UserName";
 import Call from "../Pages/Call";
+import {Button} from "./ui/button";
+import {ToastContainer} from 'react-toastify'
 
 const Article: React.FC = () => {
   const { id } = useParams<Record<string, string | undefined>>();
   const [article, setArticle] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [quizUrl, setQuizUrl] = useState<string | null>();
+  const [quizLoading, setQuizLoading] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -40,6 +44,29 @@ const Article: React.FC = () => {
     };
     fetchArticle();
   }, [id]);
+
+  const fetchQuiz = async () => { 
+    setQuizLoading(true);
+    const contentContainer = document.querySelector('.content-Container');
+    const content = contentContainer ? contentContainer.textContent : '';
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-quiz`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topic: article.title, content: content }),
+      
+      });
+      const data = await response.json();
+      console.log(data);
+      setQuizUrl(data.quizCode);
+    } catch (error) {
+      console.log("Error fetching quiz:", error);
+    } finally {
+      setQuizLoading(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -85,11 +112,10 @@ const Article: React.FC = () => {
       </div>
     );
   }
-
   return (
     <>
       <motion.div
-        className="min-h-screen bg-amber-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 flex gap-4 flex-col md:flex-row"
+        className="min-h-screen bg-amber-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 flex gap-6 flex-col md:flex-row"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -97,7 +123,7 @@ const Article: React.FC = () => {
         <article className="max-w-5xl mx-auto bg-white dark:bg-gray-700 shadow-xl rounded-2xl overflow-hidden">
           <header className="bg-amber-100 dark:bg-opacity-30 p-6">
             <motion.h1
-              className="text-4xl font-bold text-amber-900 dark:text-amber-300 mb-2"
+              className="text-4xl font-bold text-amber-900 dark:text-amber-300 mb-4"
               initial={{ y: -20 }}
               animate={{ y: 0 }}
               transition={{ delay: 0.2 }}
@@ -112,8 +138,38 @@ const Article: React.FC = () => {
             >
               {article.desc}
             </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mt-6"
+            >
+              {!quizUrl ?(
+              <Button
+                onClick={fetchQuiz}
+                disabled={quizLoading}
+                className="bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-2"
+              >
+                {quizLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Brain className="h-4 w-4" />
+                )}
+                {quizLoading ? "Making Quiz (It may take few sec)..." : "Take a Quiz to test your Knowledge"}
+              </Button>):(
+                    <a
+                    target="_blank"
+                    href={`https://chintan.42web.io/QuizArea.php?code=${quizUrl}`}
+                    className="rounded-lg bg-amber-500 text-white p-4"
+                    title="Quiz"
+                    style={{ textDecoration: 'none' }}
+                    >
+                    Start The Quiz
+                    </a>
+              )}
+            </motion.div>
           </header>
-          <div className="p-6">
+          <div className="p-6 content-Container">
             <motion.div
               className="prose prose-amber max-w-none dark:prose-invert dark:text-white"
               initial={{ y: 20, opacity: 0 }}
@@ -139,7 +195,7 @@ const Article: React.FC = () => {
                     ? article.tags.map((tag: string, index: number) => (
                         <span
                           key={index}
-                          className="bg-amber-200 dark:bg-opacity-30 text-amber-800 dark:text-amber-300 px-2 py-1 rounded-full text-sm"
+                          className="bg-amber-200 dark:bg-opacity-30 text-amber-800 dark:text-amber-300 px-3 py-1 rounded-full text-sm"
                         >
                           {tag}
                         </span>
@@ -156,8 +212,10 @@ const Article: React.FC = () => {
                 <span className="font-semibold flex items-center">
                   <BookOpen className="w-5 h-5 mr-2" />
                   Status:&nbsp;
-                </span>{" "}
-                {article.status}
+                </span>
+                <span className="bg-amber-100 dark:bg-opacity-30 px-3 py-1 rounded-full">
+                  {article.status}
+                </span>
               </motion.div>
               <motion.div
                 className="flex items-center text-amber-700 dark:text-amber-300"
@@ -196,7 +254,7 @@ const Article: React.FC = () => {
                 <div className="font-semibold flex items-center gap-1 justify-center">
                   <Clock className="w-5 h-5" />
                   <div>
-                    Published:&nbsp;{" "}
+                    Published:&nbsp;
                     {new Date(article.publishedAt).toLocaleDateString()}
                   </div>
                 </div>
@@ -207,6 +265,7 @@ const Article: React.FC = () => {
         <div className="max-w-fit">
           <Call />
         </div>
+        <ToastContainer />
       </motion.div>
     </>
   );

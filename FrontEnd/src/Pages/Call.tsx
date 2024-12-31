@@ -1,22 +1,52 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { MeetingProvider, useMeeting, useParticipant,} from "@videosdk.live/react-sdk";
+import { useEffect, useMemo, useRef, useState, useContext } from "react";
+import {
+  MeetingProvider,
+  useMeeting,
+  useParticipant,
+} from "@videosdk.live/react-sdk";
+import {toast} from "react-toastify";
+
 import ReactPlayer from "react-player";
-import { Loader2, Video, VideoOff, Mic, MicOff, PhoneOff, Users } from 'lucide-react';
+import {
+  Loader2,
+  Video,
+  VideoOff,
+  Mic,
+  MicOff,
+  PhoneOff,
+  Users,
+} from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
-interface ParticipantViewProps 
+function JoinScreen({getMeetingAndToken}: {getMeetingAndToken: (meeting?: string) => void;}) 
 {
-  participantId: string;
+  const [meetingId, setMeetingId] = useState<string | undefined>();
+  const onClick = async (isCreate: boolean) => {
+    getMeetingAndToken(isCreate ? undefined : meetingId);
+  };
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Enter Meeting Id"
+        onChange={(e) => {
+          setMeetingId(e.target.value);
+        }}
+      />
+      <button onClick={() => onClick(false)}>Join</button>
+      {" or "}
+      <button onClick={() => onClick(true)}>Create Meeting</button>
+    </div>
+  );
 }
 
-function ParticipantView({ participantId }: ParticipantViewProps) 
-{
+function ParticipantView({ participantId }: { participantId: string }) {
   const micRef = useRef<HTMLAudioElement>(null);
-  const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } = useParticipant(participantId);
+  const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
+    useParticipant(participantId);
 
   const videoStream = useMemo(() => {
-    if (webcamOn && webcamStream) 
-    {
+    if (webcamOn && webcamStream) {
       const mediaStream = new MediaStream();
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
@@ -24,20 +54,18 @@ function ParticipantView({ participantId }: ParticipantViewProps)
   }, [webcamStream, webcamOn]);
 
   useEffect(() => {
-    if (micRef.current) 
-    {
-      if (micOn && micStream) 
-      {
-        const mediaStream = new MediaStream();
-        mediaStream.addTrack(micStream.track);
-        micRef.current.srcObject = mediaStream;
+    if (micRef.current) {
+      if (micOn && micStream) {
+          const mediaStream = new MediaStream();
+          mediaStream.addTrack(micStream.track);
+          micRef.current.srcObject = mediaStream;
+    
         micRef.current
           .play()
-          .catch((error) =>
-            console.error("videoElem.current.play() failed", error)
-          );
-      } 
-      else    micRef.current.srcObject = null;
+          .catch((error) => console.error("Error playing mic stream:", error));
+      } else {
+        micRef.current.srcObject = new MediaStream();
+      }
     }
   }, [micStream, micOn]);
 
@@ -52,7 +80,7 @@ function ParticipantView({ participantId }: ParticipantViewProps)
           controls={false}
           muted={true}
           playing={true}
-          url={videoStream}
+          url={videoStream ? videoStream : undefined}
           width="100%"
           height="100%"
           onError={(err) => {
@@ -68,7 +96,11 @@ function ParticipantView({ participantId }: ParticipantViewProps)
       <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/50">
         <div className="flex items-center justify-between">
           <span className="text-white text-xs font-medium">
-            {displayName ? `${displayName.slice(0, 10)}${displayName.length > 10 ? '...' : ''}` : "Participant"}
+            {displayName
+              ? `${displayName.slice(0, 10)}${
+                  displayName.length > 10 ? "..." : ""
+                }`
+              : "Participant"}
           </span>
           <div className="flex items-center space-x-2">
             {micOn ? (
@@ -87,32 +119,34 @@ function ParticipantView({ participantId }: ParticipantViewProps)
     </div>
   );
 }
-function MeetingView() 
+function MeetingView()
 {
   const [micOn, setMicOn] = useState(true);
-  const [joined, setJoined] = useState<null | "JOINING" | "JOINED">(null);
   const [webcamOn, setWebcamOn] = useState(true);
-  const { join, leave, toggleMic, toggleWebcam, participants } = useMeeting({
-    onMeetingJoined: () => {
-      setJoined("JOINED");
-    },
-    onMeetingLeft: () => {
-      setJoined(null);
-    },
-  });
-
+  const [joined, setJoined] = useState<string | null>(null);
   const [isParticipantListOpen, setIsParticipantListOpen] = useState(false);
+  const { participants, join, leave, toggleMic, toggleWebcam } = useMeeting(
+    {
+      onMeetingJoined: () => { setJoined("JOINED"); },
+      onMeetingLeft: () => { setJoined(null); },
+    }
+  );
+
+  const participantIds = useMemo(() => Array.from(participants.keys()), [participants]);
 
   const joinMeeting = () => {
     setJoined("JOINING");
     join();
   };
 
-  const participantIds = useMemo(() => Array.from(participants.keys()), [participants]);
-
   const toggleParticipantList = () => {
     setIsParticipantListOpen(!isParticipantListOpen);
   };
+
+  useEffect(() => {
+    console.log("Participants updated:", participants);
+    toast.success("Someone just joined");
+  }, [participants]);
 
   return (
     <div className="mx-auto p-4 bg-amber-100 dark:bg-gray-800">
@@ -190,7 +224,7 @@ function MeetingView()
             onClick={joinMeeting}
             className="px-3 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
           >
-            Join the meeting
+            Start meet
           </button>
         </div>
       )}
@@ -198,17 +232,29 @@ function MeetingView()
   );
 }
 
-const Call = ({ meetID }: { meetID?: string }) => {
-  const extractedText = meetID?.split('_').pop()?.split('-')[0];
-  let formattedText = extractedText?.replace(/_/g, '').slice(0, 12);
-  while (formattedText && formattedText.length < 12) {
-    formattedText += 'a';
-  }
-  // console.log(formattedText?.length, formattedText);
+function Call() 
+{
+  const [meetingId, setMeetingId] = useState<string | null>(null);
   const auth = useContext(AuthContext);
   const userId = auth?.user?._id;
-
   const [userName, setUserName] = useState("");
+  const [token, setToken] = useState<string | null>(null);
+
+  const createMeeting = async ({ token }: { token: string }) => {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/call/create-meeting`, {
+      method: "POST",
+      headers: {
+        authorization: `${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({token}),
+    });
+    const { roomId }: { roomId: string } = await res.json();
+    console.log("Meeting created with room id:", roomId);
+    return roomId;
+  };
+
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -226,25 +272,66 @@ const Call = ({ meetID }: { meetID?: string }) => {
       }
     };
     fetchUserData();
+    const fetchToken = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/call/token`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch token");
+        }
+        const data = await response.json();
+        console.log("Token fetched:", data.token);
+        setToken(data.token);
+      } 
+      catch (err) 
+      {
+        console.error("Error fetching token:", err);
+      }
+    };
+    fetchToken();
   }, [userId]);
 
-  return (
+  const getMeetingAndToken = async (id?: string) => {
+    if (!token) {
+      console.error("Token is not set yet");
+      return;
+    }
+    setMeetingId(id == null ? await createMeeting({ token }) : id);
+    // console.log("Creating meeting with token:", meetingId);
+  };
+
+  if (!token) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-6 w-6 animate-spin text-amber-500" />
+        <p className="text-lg text-amber-700 ml-2">Loading...</p>
+      </div>
+    );
+  }
+
+  return token && meetingId ? (
     <MeetingProvider
       config={{
-        meetingId: "4is0-g0a3-9yel",
+        meetingId,
         micEnabled: true,
         webcamEnabled: true,
         name: `${userName}`,
         debugMode: true,
       }}
-      token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJmYTkxZjdkZi0xMzk1LTQ5NzQtYmMxNS1iNDI0YzQ4NjZjZjIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTczNTU0NjUzOSwiZXhwIjoxNzM1NjMyOTM5fQ.l_Ywkgb33aPXge8CLJ3rgOalKTegOt7aVGcw90zgYsU"
+      token={token}
     >
       <div className="max-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
         <MeetingView />
+        <div className="bg-white p-4 rounded-md shadow-lg">
+          <h2 className="text-lg font-semibold">Meeting ID</h2>
+          <p className="text-sm text-gray-700">{meetingId}</p>
+        </div>
       </div>
     </MeetingProvider>
+  ) : (
+    <JoinScreen getMeetingAndToken={getMeetingAndToken} />
   );
-};
+}
 
 export default Call;
-

@@ -224,7 +224,7 @@ async function generateAiArticles(search, tags) {
   {
     "title": "Title here",
     "desc": "Description here",
-      "content": "The main content of the article (at least 3-4 short paragraphs)(or properly structured blog) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
+      "content": "The main content of the article (at least 300 words)(or properly structured blog) since I am using TipTap editor document format, so the content can be in HTML format. Use <br/> after each paragraph.",
   "tags": ${JSON.stringify(tags)},
   "status": "published",
   "publishedAt": "${new Date().toISOString()}",
