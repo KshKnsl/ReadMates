@@ -294,7 +294,7 @@ function CreateArticle() {
             />
           </div>
         )}
-        <Call meetID={sessionID} />
+        <Call />
       </div>):(
       <div className="md:max-w-sm">
       <button
