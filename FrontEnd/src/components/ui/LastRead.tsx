@@ -36,14 +36,14 @@ const LastRead = () => {
   return (<AnimatePresence>
     {isVisible && (
         <motion.div 
-            className="flex justify-center items-center w-full fixed"
+            className="flex justify-center items-center w-full fixed z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
         >
             <motion.div 
-                className="bg-white dark:bg-gray-800 shadow-md rounded-full overflow-hidden flex items-center justify-between"
+                className="bg-white dark:bg-indigo-900 shadow-md rounded-full overflow-hidden flex items-center justify-between"
                 initial={{ width: 0, height: 40 }}
                 animate={{ 
                     width: 'auto',

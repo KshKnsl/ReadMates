@@ -75,7 +75,7 @@ function JoinScreen({
 
           <div className="relative">
             <hr className="border-amber-300 dark:border-gray-600" />
-            <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-amber-50 dark:bg-gray-800 px-2 text-amber-700 dark:text-amber-300">
+            <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-amber-50 dark:bg-[#1B2432] px-2 text-amber-700 dark:text-amber-300">
               or
             </span>
           </div>
