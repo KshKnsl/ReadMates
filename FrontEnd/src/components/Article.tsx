@@ -6,6 +6,7 @@ import UserName from "./ui/UserName";
 import Call from "../Pages/Call";
 import {Button} from "./ui/button";
 import {ToastContainer} from 'react-toastify'
+import { AuthContext } from "../context/AuthContext";
 
 const Article: React.FC = () => {
   const { id } = useParams<Record<string, string | undefined>>();
@@ -13,8 +14,21 @@ const Article: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [quizUrl, setQuizUrl] = useState<string | null>();
   const [quizLoading, setQuizLoading] = useState(false);
-
-  useEffect(() => {
+  const auth = React.useContext(AuthContext);
+  useEffect(() => 
+  {
+    const updateReadingStatus = async () => {
+      if(auth?.user?._id) {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/reading`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ articleId: id, userId: auth?.user?._id }),
+        });
+      }
+    };
+    updateReadingStatus();
     const fetchArticle = async () => {
       try {
         const response = await fetch(
@@ -43,6 +57,7 @@ const Article: React.FC = () => {
       }
     };
     fetchArticle();
+    
   }, [id]);
 
   const fetchQuiz = async () => { 

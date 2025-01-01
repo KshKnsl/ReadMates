@@ -21,7 +21,11 @@ const userSchema = new mongoose.Schema(
         points: { type: Number },
       },
     ],
-    readArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
+    readArticles: { type: [mongoose.Schema.Types.ObjectId], ref: "Article", default: [] },
+    lastRead: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Article",
+    }
   },
   { timestamps: true }
 );
@@ -42,7 +46,6 @@ userSchema.pre("save", async function (next)
     newBadges.push("Rising Blogger");
   if (user.articles.length >= 10 && !user.badges.includes("Pro Contributor"))
     newBadges.push("Pro Contributor");
-  console.log("I am here");
   if (user.articles.length >= 25 && !user.badges.includes("Tech Guru"))
     newBadges.push("Tech Guru");
   if (user.readArticles.length >= 5 && !user.badges.includes("Avid Reader"))

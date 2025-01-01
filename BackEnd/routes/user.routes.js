@@ -5,8 +5,9 @@ const { upload } = require("../middlewares/multer");
 const uploadImage  = require("../utils/uploadImage");
 const { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail
 } = require("../controllers/user.controllers");
-
 const router = express.Router();
+const User = require("../models/User.model.js");
+
 router.post("/addUser", async (req, res) => {
   let result = await createUser(req.body);
   if (result.success) 
@@ -43,6 +44,15 @@ router.get("/:id", async (req, res) => {
 router.get("/email/:email", async (req, res) => {
   let foundUser = await findUserByEmail(req.params.email);
   res.send(foundUser);
+});
+
+router.post("/reading", async (req, res) => {
+  let foundUser = await User.findById(req.body.userId);
+  const articleId = req.body.articleId;
+  foundUser.readArticles = [...new Set([...foundUser?.readArticles || [], articleId])];
+  foundUser.lastRead = articleId;
+  await foundUser.save();
+  res.send({ success: true, message: "Article added to reading list" });
 });
 
 router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {

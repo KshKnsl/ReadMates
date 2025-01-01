@@ -4,7 +4,7 @@ import {
   useMeeting,
   useParticipant,
 } from "@videosdk.live/react-sdk";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 import ReactPlayer from "react-player";
 import {
@@ -15,28 +15,83 @@ import {
   MicOff,
   PhoneOff,
   Users,
+  PlusCircle,
+  VideoIcon,
+  ClipboardCopy,
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
 
-function JoinScreen({getMeetingAndToken}: {getMeetingAndToken: (meeting?: string) => void;}) 
-{
+function JoinScreen({
+  getMeetingAndToken,
+}: {
+  getMeetingAndToken: (meeting?: string) => void;
+}) {
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const onClick = async (isCreate: boolean) => {
     getMeetingAndToken(isCreate ? undefined : meetingId);
   };
+
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter Meeting Id"
-        onChange={(e) => {
-          setMeetingId(e.target.value);
-        }}
-      />
-      <button onClick={() => onClick(false)}>Join</button>
-      {" or "}
-      <button onClick={() => onClick(true)}>Create Meeting</button>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="w-full max-w-md mx-auto bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 shadow-xl rounded-lg overflow-hidden p-6 space-y-6"
+    >
+      <div className="flex flex-col items-center">
+        <VideoIcon className="w-16 h-16 text-amber-500 mb-4" />
+        <h2 className="text-2xl font-bold text-amber-800 dark:text-amber-200 text-center">
+          Join or Create a Meeting
+        </h2>
+        <p className="text-amber-700 dark:text-amber-300 text-center mt-2">
+          Enter a meeting ID to join an existing meeting or create a new one.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Enter Meeting ID"
+            value={meetingId}
+            onChange={(e) => setMeetingId(e.target.value)}
+            className="w-full px-4 py-2 text-amber-900 dark:text-amber-100 bg-white dark:bg-gray-700 border border-amber-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors"
+          />
+          <Users className="absolute right-3 top-1/2 transform -translate-y-1/2 text-amber-500 dark:text-amber-400" />
+        </div>
+
+        <div className="flex flex-col space-y-3">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onClick(false)}
+            className="w-full px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!meetingId}
+          >
+            Join Meeting
+          </motion.button>
+
+          <div className="relative">
+            <hr className="border-amber-300 dark:border-gray-600" />
+            <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-amber-50 dark:bg-gray-800 px-2 text-amber-700 dark:text-amber-300">
+              or
+            </span>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onClick(true)}
+            className="w-full px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors flex items-center justify-center"
+          >
+            <PlusCircle className="w-5 h-5 mr-2" />
+            Create New Meeting
+          </motion.button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -56,10 +111,10 @@ function ParticipantView({ participantId }: { participantId: string }) {
   useEffect(() => {
     if (micRef.current) {
       if (micOn && micStream) {
-          const mediaStream = new MediaStream();
-          mediaStream.addTrack(micStream.track);
-          micRef.current.srcObject = mediaStream;
-    
+        const mediaStream = new MediaStream();
+        mediaStream.addTrack(micStream.track);
+        micRef.current.srcObject = mediaStream;
+
         micRef.current
           .play()
           .catch((error) => console.error("Error playing mic stream:", error));
@@ -119,20 +174,24 @@ function ParticipantView({ participantId }: { participantId: string }) {
     </div>
   );
 }
-function MeetingView()
-{
+function MeetingView() {
   const [micOn, setMicOn] = useState(true);
   const [webcamOn, setWebcamOn] = useState(true);
   const [joined, setJoined] = useState<string | null>(null);
   const [isParticipantListOpen, setIsParticipantListOpen] = useState(false);
-  const { participants, join, leave, toggleMic, toggleWebcam } = useMeeting(
-    {
-      onMeetingJoined: () => { setJoined("JOINED"); },
-      onMeetingLeft: () => { setJoined(null); },
-    }
-  );
+  const { participants, join, leave, toggleMic, toggleWebcam } = useMeeting({
+    onMeetingJoined: () => {
+      setJoined("JOINED");
+    },
+    onMeetingLeft: () => {
+      setJoined(null);
+    },
+  });
 
-  const participantIds = useMemo(() => Array.from(participants.keys()), [participants]);
+  const participantIds = useMemo(
+    () => Array.from(participants.keys()),
+    [participants]
+  );
 
   const joinMeeting = () => {
     setJoined("JOINING");
@@ -145,95 +204,157 @@ function MeetingView()
 
   useEffect(() => {
     console.log("Participants updated:", participants);
-    toast.success("Someone just joined");
-  }, [participants]);
+    if (joined === "JOINED") {
+      toast.done("Someone just joined the meeting.");
+    }
+  }, [participants, joined]);
 
   return (
-    <div className="mx-auto p-4 bg-amber-100 dark:bg-gray-800">
-      {joined === "JOINED" ? (
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-4xl flex gap-4 lg:flex-row flex-col">
-            {participantIds.map((participantId) => (
-              <ParticipantView key={participantId} participantId={participantId} />
-            ))}
-          </div>
-          <div className="flex space-x-4 mt-4 mb-2">
-            <button
-              onClick={() =>{ setMicOn((e)=> !e); toggleMic()}}
-              className="p-3 bg-amber-500 text-white rounded-full hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
-              aria-label="Toggle microphone"
+    <div className="w-full max-w-4xl mx-auto bg-amber-50 dark:bg-gray-800 shadow-xl rounded-lg">
+      <div className="p-2">
+        <AnimatePresence mode="wait">
+          {joined === "JOINED" ? (
+            <motion.div
+              key="joined"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
             >
-            {micOn ? (
-              <Mic className="h-4 w-4 text-white" />
-            ) : (
-              <MicOff className="h-4 w-4 text-red-200" />
-            )}
-            </button>
-            <button
-              onClick={() => {
-              setWebcamOn((prev) => !prev);
-              toggleWebcam();
-              }}
-              className="p-3 bg-amber-500 text-white rounded-full hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
-              aria-label="Toggle webcam"
-            >
-              {webcamOn ? (
-              <Video className="h-4 w-4 text-white" />
-              ) : (
-              <VideoOff className="h-4 w-4 text-red-200" />
-              )}
-            </button>
-            <button
-              onClick={toggleParticipantList}
-              className={`p-3 ${isParticipantListOpen ? 'bg-green-500 hover:bg-green-600' : 'bg-amber-500 hover:bg-amber-600'} text-white rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors`}
-              aria-label="Toggle participant list"
-            >
-              <Users className="h-4 w-4" />
-            </button>
-            <button
-              onClick={leave}
-              className="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
-              aria-label="Leave call"
-            >
-              <PhoneOff className="h-4 w-4" />
-            </button>
-          </div>
-          {isParticipantListOpen && (
-            <div className="w-full max-w-4xl p-4 rounded-2xl shadow-md dark:text-amber-500">
-              <h2 className="text-xl font-bold mb-4 ">Participants ({participantIds.length})</h2>
-              <ul>
+              <div className="max-w-sm flex gap-4 flex-nowrap md:flex-col flex-row">
                 {participantIds.map((participantId) => (
-                  <li key={participantId} className="mb-2">
-                    {participants.get(participantId)?.displayName || "Unnamed Participant"}
-                  </li>
+                  <ParticipantView
+                    key={participantId}
+                    participantId={participantId}
+                  />
                 ))}
-              </ul>
-            </div>
+              </div>
+              <div className="flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={() => {
+                    setMicOn((e) => !e);
+                    toggleMic();
+                  }}
+                  className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${
+                    micOn
+                      ? "bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500"
+                      : "bg-red-500 hover:bg-red-600 text-white focus:ring-red-500"
+                  }`}
+                  aria-label={micOn ? "Mute microphone" : "Unmute microphone"}
+                >
+                  {micOn ? (
+                    <Mic className="h-5 w-5" />
+                  ) : (
+                    <MicOff className="h-5 w-5" />
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    setWebcamOn((prev) => !prev);
+                    toggleWebcam();
+                  }}
+                  className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${
+                    webcamOn
+                      ? "bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500"
+                      : "bg-red-500 hover:bg-red-600 text-white focus:ring-red-500"
+                  }`}
+                  aria-label={webcamOn ? "Turn off camera" : "Turn on camera"}
+                >
+                  {webcamOn ? (
+                    <Video className="h-5 w-5" />
+                  ) : (
+                    <VideoOff className="h-5 w-5" />
+                  )}
+                </button>
+                <button
+                  onClick={toggleParticipantList}
+                  className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${
+                    isParticipantListOpen
+                      ? "bg-green-500 hover:bg-green-600 text-white focus:ring-green-500"
+                      : "bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500"
+                  }`}
+                  aria-label={
+                    isParticipantListOpen
+                      ? "Close participant list"
+                      : "Open participant list"
+                  }
+                >
+                  <Users className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={leave}
+                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                  aria-label="Leave meeting"
+                >
+                  <PhoneOff className="h-5 w-5" />
+                </button>
+              </div>
+              <AnimatePresence>
+                {isParticipantListOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
+                  >
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold mb-2 text-amber-800 dark:text-amber-200">
+                        Participants ({participantIds.length})
+                      </h3>
+                      <ul className="space-y-2">
+                        {participantIds.map((participantId) => (
+                          <li
+                            key={participantId}
+                            className="text-sm text-gray-700 dark:text-gray-300"
+                          >
+                            {participants.get(participantId)?.displayName ||
+                              "Unnamed Participant"}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ) : joined === "JOINING" ? (
+            <motion.div
+              key="joining"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center justify-center py-12"
+            >
+              <Loader2 className="h-8 w-8 animate-spin text-amber-500 mr-3" />
+              <p className="text-lg text-amber-700 dark:text-amber-300">
+                Joining the meeting...
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="not-joined"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="mx-auto text-center"
+            >
+              <button
+                onClick={joinMeeting}
+                className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white text-lg font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
+              >
+                Start meet
+              </button>
+            </motion.div>
           )}
-        </div>
-      ) : joined === "JOINING" ? (
-        <div className="flex items-center justify-center">
-          <div className="flex">
-            <Loader2 className="h-6 w-6 animate-spin text-amber-500" />
-            <p className="text-lg text-amber-700">Joining the meeting...</p>
-          </div>
-        </div>
-      ) : (
-        <div className="flex">
-          <button
-            onClick={joinMeeting}
-            className="px-3 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors"
-          >
-            Start meet
-          </button>
-        </div>
-      )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
 
-function Call() 
-{
+function Call() {
   const [meetingId, setMeetingId] = useState<string | null>(null);
   const auth = useContext(AuthContext);
   const userId = auth?.user?._id;
@@ -241,19 +362,21 @@ function Call()
   const [token, setToken] = useState<string | null>(null);
 
   const createMeeting = async ({ token }: { token: string }) => {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/call/create-meeting`, {
-      method: "POST",
-      headers: {
-        authorization: `${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({token}),
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/call/create-meeting`,
+      {
+        method: "POST",
+        headers: {
+          authorization: `${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      }
+    );
     const { roomId }: { roomId: string } = await res.json();
     console.log("Meeting created with room id:", roomId);
     return roomId;
   };
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -283,9 +406,7 @@ function Call()
         const data = await response.json();
         console.log("Token fetched:", data.token);
         setToken(data.token);
-      } 
-      catch (err) 
-      {
+      } catch (err) {
         console.error("Error fetching token:", err);
       }
     };
@@ -321,11 +442,26 @@ function Call()
       }}
       token={token}
     >
-      <div className="max-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
-        <MeetingView />
-        <div className="bg-white p-4 rounded-md shadow-lg">
-          <h2 className="text-lg font-semibold">Meeting ID</h2>
-          <p className="text-sm text-gray-700">{meetingId}</p>
+       <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 p-4 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg mb-4 flex justify-between items-center">
+          <div>
+            <h2 className="text-lg font-semibold text-amber-800 dark:text-amber-200">Meeting ID</h2>
+            <div className="flex items-center mt-1">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mr-2">{meetingId}</p>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(meetingId);
+                  toast.update("Copied!");
+                }}
+                className="text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+              >
+                <ClipboardCopy className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex-grow bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+          <MeetingView />
         </div>
       </div>
     </MeetingProvider>
