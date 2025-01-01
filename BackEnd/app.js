@@ -16,8 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the API');
+app.get("/", (req, res) => {
+  res.send("Welcome to the API");
 });
 
 app.use("/api/user", userRoutes);
@@ -26,7 +26,6 @@ app.use("/api/getArticle", getArticleRoutes);
 app.use("/api/colab", colaborationRoutes);
 app.use("/api/call", callRoutes);
 
-
 app.post("/api/fetch-quiz", async (req, res) => {
   const { topic, content } = req.body;
   if (!topic) {
@@ -34,37 +33,41 @@ app.post("/api/fetch-quiz", async (req, res) => {
   }
 
   try {
-    const browser = await puppet.launch();
+    const browser = await puppet.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: true,
+    });
     const page = await browser.newPage();
     await page.goto("https://chintan.42web.io/AiQuizAPI.php");
     await page.waitForSelector("body");
     const cookies = await page.cookies();
-    const testCookie = cookies.find(cookie => cookie.name === '__test');
+    const testCookie = cookies.find((cookie) => cookie.name === "__test");
 
-    if (!testCookie) 
-    {
+    if (!testCookie) {
       await browser.close();
       return res.status(400).send("Failed to retrieve __test cookie");
     }
-    const response = await page.evaluate(async (cookieValue,topic, content) => {
-      const res = await fetch('https://chintan.42web.io/AiQuizAPI.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cookie': `__test=${cookieValue};`
-        },
-        body: JSON.stringify({ topic: topic, content: content }),
-      });
-      return res.json();
-    }, testCookie.value, topic, content);
+    const response = await page.evaluate(
+      async (cookieValue, topic, content) => {
+        const res = await fetch("https://chintan.42web.io/AiQuizAPI.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `__test=${cookieValue};`,
+          },
+          body: JSON.stringify({ topic: topic, content: content }),
+        });
+        return res.json();
+      },
+      testCookie.value,
+      topic,
+      content
+    );
 
     await browser.close();
     // console.log("Fetched quiz:", response);
     res.json(response);
-  } 
-
-  catch (error) 
-  {  
+  } catch (error) {
     console.error("Error fetching quiz:", error.message);
     res.status(500).send("Internal Server Error");
   }
