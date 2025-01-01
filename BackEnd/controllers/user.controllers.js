@@ -27,7 +27,11 @@ async function createUser(data) {
 }
 async function findUser(id) {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id)
+    .populate('articles')
+    .populate('contributions.articleId')
+    .populate('readArticles')
+    .populate('lastRead');
     return user;
   } catch (error) {
     return null;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BookOpen, Users, Lightbulb, ArrowRight, Search } from 'lucide-react';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import LastRead from '../components/ui/LastRead';
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [, setIsSearchFocused] = useState(false);
@@ -15,6 +16,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-amber-50 dark:bg-gray-800">
+      <LastRead />
       <main className="container mx-auto px-6 py-16 md:px-12 lg:px-24 lg:py-24">
         <section className="text-center mb-20">
           <div className="inline-flex mb-8 opacity-90">

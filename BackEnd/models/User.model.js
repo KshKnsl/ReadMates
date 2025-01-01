@@ -41,21 +41,34 @@ userSchema.pre("save", async function (next)
   
   const user = this;
   const newBadges = [];
-
-  if (user.articles.length == 1 && !user.badges.includes("Rising Blogger"))
+  if (user.articles.length == 1 && !user.badges.includes("Rising Blogger")) {
     newBadges.push("Rising Blogger");
-  if (user.articles.length >= 10 && !user.badges.includes("Pro Contributor"))
+    user.points += 50;
+  }
+  if (user.articles.length >= 10 && !user.badges.includes("Pro Contributor")) {
     newBadges.push("Pro Contributor");
-  if (user.articles.length >= 25 && !user.badges.includes("Tech Guru"))
+    user.points += 100;
+  }
+  if (user.articles.length >= 25 && !user.badges.includes("Tech Guru")) {
     newBadges.push("Tech Guru");
-  if (user.readArticles.length >= 5 && !user.badges.includes("Avid Reader"))
+    user.points += 200;
+  }
+  if (user.readArticles.length >= 5 && !user.badges.includes("Avid Reader")) {
     newBadges.push("Avid Reader");
-  if (user.readArticles.length >= 10 && !user.badges.includes("Deep Diver")) 
+    user.points += 30;
+  }
+  if (user.readArticles.length >= 10 && !user.badges.includes("Deep Diver")) {
     newBadges.push("Deep Diver");
-  if (user.contributions.length >= 10 && !user.badges.includes("Top Critic"))
+    user.points += 60;
+  }
+  if (user.contributions.length >= 10 && !user.badges.includes("Top Critic")) {
     newBadges.push("Top Critic");
-  if (user.contributions.length >= 5 && !user.badges.includes("Community Builder"))
+    user.points += 80;
+  }
+  if (user.contributions.length >= 5 && !user.badges.includes("Community Builder")) {
     newBadges.push("Community Builder");
+    user.points += 40;
+  }
   user.badges = [...user.badges, ...newBadges];
 
   next();
