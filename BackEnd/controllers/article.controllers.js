@@ -16,7 +16,6 @@ async function createArticle(data) {
       status: data.status || "draft",
     });
     await existingArticle.save();
-    // console.log("Article Updated successfully");
     return {
       success: true,
       message: "Article Updated successfully",
@@ -248,14 +247,8 @@ response must be completely in plain text without any code formatting or languag
       }),
     });
 
-    // if (!response.ok) {
-    //   throw new Error(`HTTP error! status: ${response}`);
-    // }
-
     const jsonResponse = await response.json();
-    // console.log(jsonResponse);
     const generatedText = jsonResponse.candidates[0].content.parts[0].text;
-    // console.log("Generated text:", generatedText);
     const articleData = JSON.parse(generatedText);
     const newArticle = new Article({
       ...articleData,
@@ -267,7 +260,6 @@ response must be completely in plain text without any code formatting or languag
       article: newArticle,
     };
   } catch (error) {
-    console.error("Error generating AI article:", error);
     return {
       success: false,
       message: "Failed to generate AI article",

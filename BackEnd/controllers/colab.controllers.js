@@ -4,10 +4,7 @@ async function createColab(data)
 {
   const existingColab = await Colab.findOne({ sessionId: data.sessionId });
   if (existingColab) 
-  {
-    // console.log("Colab already exists");
     return existingColab;
-  }
   try 
   {
     const newColab = new Colab({
@@ -29,10 +26,7 @@ async function addContributor(data)
 {
   const colab = await Colab.findOne({ sessionId: data.sessionId });
   if (!colab) 
-  {
     return {message : "Colab not found"};
-  }
-  // console.log("Curent Collabs", colab.Contributor);
   let contributorExists = false;
   for (let i = 0; i < colab.Contributor.length; i++) 
     {
@@ -49,7 +43,6 @@ async function addContributor(data)
   try 
   {
     colab.Contributor.push(data.contributor);
-    // console.log("Adding colab");
     await colab.save();
     return colab;
   } 

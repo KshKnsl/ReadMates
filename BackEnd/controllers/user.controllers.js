@@ -40,7 +40,6 @@ async function findUser(id) {
 
 async function updateUser(data) 
 {
-  // console.log(data);
   const update = 
   {
     name: data.name,
@@ -50,11 +49,9 @@ async function updateUser(data)
     socialLinks: data.socialLinks || [],
     interests: data.interests || [],
   };
-  // console.log(update);
   try 
   {
     let result = await User.findByIdAndUpdate(data._id, update);
-    // console.log(result);
     return { success: true, message: "User updated successfully" };
   } 
   catch (error) 
@@ -106,7 +103,6 @@ async function googleLogin(token)
     });
 
     const payload = ticket.getPayload();
-    // console.log(payload);
     const email = payload.email;
     const name = payload.name;
     const avatar = payload.picture;
@@ -132,7 +128,6 @@ async function googleLogin(token)
     await sendMail(name, email, 'Login');
     return { success: true, token: jwtToken, user: userWithoutPassword };
   } catch (error) {
-    console.error("Error verifying Google token:", error);
     return { success: false, message: "Error during Google login" };
   }
 }

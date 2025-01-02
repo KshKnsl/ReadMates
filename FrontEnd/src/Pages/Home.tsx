@@ -111,7 +111,7 @@ const Home = () => {
               </a>
             </div>
             <div className="lg:w-1/2 w-full">
-              <div className="relative aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <iframe 
                   src="https://www.youtube.com/embed/RW4HIN-XAEA?autoplay=1&loop=1&playlist=RW4HIN-XAEA&mute=1&controls=0" 
                   title="ReadMates Demo" 

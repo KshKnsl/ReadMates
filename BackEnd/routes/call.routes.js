@@ -18,29 +18,24 @@ const options = {
     version: 2,
    };
 const token = jwt.sign(payload, SECRET, options);
-// console.log(token);
 res.json({ token });
 });
 
 
 route.post("/create-meeting/", (req, res) => {
     const { token } = req.body;
-    // console.log(token);
     const url = `https://api.videosdk.live/v2/rooms`;
     const options = {
       method: "POST",
       headers: { Authorization: token, "Content-Type": "application/json" },
       body: JSON.stringify({}),
     };
-    console.log(options);
     fetch(url, options)
       .then((response) => response.json())
       .then((result) => {
-        console.log("Meeting created successfully:", result);
         res.json(result);
       })
       .catch((error) => {
-        console.error("Error creating meeting:", error);
         res.status(500).json({ error: "Error creating meeting" });
       });
   });

@@ -65,7 +65,6 @@ app.post("/api/fetch-quiz", async (req, res) => {
     );
 
     await browser.close();
-    // console.log("Fetched quiz:", response);
     res.json(response);
   } catch (error) {
     console.error("Error fetching quiz:", error.message);

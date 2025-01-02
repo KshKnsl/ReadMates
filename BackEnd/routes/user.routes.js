@@ -28,10 +28,8 @@ router.post("/login", async (req, res) => {
 router.put("/updateUser", async (req, res) => {
   let result = await updateUser(req.body);
   if (result.success) {
-    // console.log(result);
     res.status(201).send(result);
   } else {
-    // console.log(result);
     res.status(400).send(result);
   }
 });
@@ -62,7 +60,6 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
     if (!foundUser || !req.file) 
       return res.status(404).send({ success: false, message: "Not found" });
     foundUser.avatar = await  uploadImage(`uploads/${req.params.id}_${req.file.originalname}`,req.params.id);
-    // console.log(foundUser.avatar);
     await updateUser(foundUser);
     res.status(200).send({success: true, message: "Avatar uploaded successfully",newAvatar : foundUser.avatar});
   } 

@@ -115,10 +115,7 @@ async function sendMail(name, toEmail, purpose) {
       subject: "ReadMates: " + purpose,
       html: content,
     });
-    // console.log("Email sent: " + info.response);
-  } catch (error) {
-    console.error("Error sending email: ", error);
-  }
+  } catch (error) {  }
 }
 
 
