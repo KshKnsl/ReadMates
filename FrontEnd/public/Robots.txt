@@ -1,3 +1,2 @@
 User-agent: *
-Disallow: 
-Sitemap: https://readmates.vercel.app/sitemap.xml
+Sitemap: https://readmates.vercel.app/sitemap2.xml
