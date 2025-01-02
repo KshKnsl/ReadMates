@@ -154,7 +154,6 @@ function Profile() {
   };
 
   async function updateEditData() {
-    // console.log("Updating user data with:", user);
     setEditMode(false);
     try {
       const res = await fetch(

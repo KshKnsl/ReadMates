@@ -13,7 +13,6 @@ const Footer = () => {
         "https://dummyjson.com/quotes/random"
       );
       const data = await response.json();
-      // console.log(data);
       setQuote(data.quote);
       setAuthor(data.author);
     } catch (error) {

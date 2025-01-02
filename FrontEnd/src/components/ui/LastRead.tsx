@@ -24,7 +24,7 @@ const LastRead = () => {
         } 
         catch (error) 
         {
-          console.log("Error fetching last read:", error);
+          console.error("Error fetching last read:", error);
           setLastRead(null);
           setIsVisible(false);
         }

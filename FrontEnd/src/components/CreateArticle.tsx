@@ -48,7 +48,6 @@ function CreateArticle() {
     const checkAuthAndSession = async () => {
       if (auth.loading) return;
       if (!auth.user) {
-        console.log("Redirecting to login because user is not authenticated.");
         navigate("/login");
         return;
       }
@@ -62,7 +61,6 @@ function CreateArticle() {
       } else if (sessionID.split("-").pop() === auth.user._id) {
         let id = sessionID.split("-").pop();
         let sesID = sessionID;
-        // console.log("Creating a new session with id:", sesID, id);
         const result = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/colab/createColab`,
           {
@@ -77,7 +75,6 @@ function CreateArticle() {
         {
           const resul = await result.json();
           setContributorData(resul);
-          // console.log(resul);
           toast.success("Session Joined Successfully as a author");
           setIsAuthor(true);
         }
@@ -100,7 +97,6 @@ function CreateArticle() {
         if (result.ok) 
         {
           const resul = await result.json();
-          // console.log(resul);
           setContributorData(resul.Colaborator);
           toast.success("Session Joined Successfully as a Contributor");
           setIsAuthor(false);
@@ -129,7 +125,6 @@ function CreateArticle() {
         );
         const data = await response.json();
         if (data.success) {
-          // console.log(data);
           setArticleData(data.article);
         } 
         else 
@@ -143,7 +138,7 @@ function CreateArticle() {
       } 
       catch (error) 
       {
-       console.log("Article Does not exists");
+       console.error("Article Does not exists");
       }
     };
 

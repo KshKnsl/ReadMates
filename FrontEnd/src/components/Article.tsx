@@ -49,7 +49,6 @@ const Article: React.FC = () => {
           sessionDocID: data.sessionDoc || null,
         };
         setArticle(articleData);
-        console.log(articleData);
       } catch (error) {
         console.error("Error fetching article:", error);
       } finally {
@@ -74,10 +73,9 @@ const Article: React.FC = () => {
       
       });
       const data = await response.json();
-      console.log(data);
       setQuizUrl(data.quizCode);
     } catch (error) {
-      console.log("Error fetching quiz:", error);
+      console.error("Error fetching quiz:", error);
     } finally {
       setQuizLoading(false);
     }

@@ -216,7 +216,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
       if (res.ok) 
       {
         const data = await res.json();
-        // console.log(data);
         setSaving(false);
         toast.success(data.message);
         setTimeout(() => {
@@ -231,7 +230,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
     else 
     {
       setSaving(false);
-      console.log("Error creating article");
     }
   };
 

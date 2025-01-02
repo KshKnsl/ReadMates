@@ -89,7 +89,6 @@ const SignUp = () => {
 
   const handleGoogleLogin = async (response: any) => {
     try {
-      // console.log(response);
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/google-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,7 +96,6 @@ const SignUp = () => {
       });
       if (res.ok) {
         const { token, ...rest } = await res.json();
-        // console.log(rest);
         login(token, rest.user._id, rest.user.email);
         toast.success("Google login successful!", {
           position: "top-right",

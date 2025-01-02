@@ -16,7 +16,6 @@ const Rewards = () => {
   useEffect(() => {
     if(auth.loading) return;
     if (!auth.user) {
-      console.log("Redirecting to login because user is not authenticated.");
       navigate("/login");
       return;
     }
@@ -31,7 +30,6 @@ const Rewards = () => {
         }
         const data = await response.json();
         setUserBadges(data.badges);
-        console.log("User data fetched successfully:", data);
       } 
       catch (err) 
       {

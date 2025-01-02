@@ -139,7 +139,7 @@ function ParticipantView({ participantId }: { participantId: string }) {
           width="100%"
           height="100%"
           onError={(err) => {
-            console.log(err, "participant video error");
+            console.error(err, "participant video error");
           }}
           className="object-cover"
         />
@@ -374,7 +374,6 @@ function Call() {
       }
     );
     const { roomId }: { roomId: string } = await res.json();
-    console.log("Meeting created with room id:", roomId);
     return roomId;
   };
 
@@ -404,7 +403,6 @@ function Call() {
           throw new Error("Failed to fetch token");
         }
         const data = await response.json();
-        console.log("Token fetched:", data.token);
         setToken(data.token);
       } catch (err) {
         console.error("Error fetching token:", err);
@@ -419,7 +417,6 @@ function Call() {
       return;
     }
     setMeetingId(id == null ? await createMeeting({ token }) : id);
-    // console.log("Creating meeting with token:", meetingId);
   };
 
   if (!token) {
