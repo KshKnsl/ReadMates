@@ -9,6 +9,7 @@ import Rewards from './Pages/Rewards'
 import Profile from './Pages/Profile'
 import Login from './Pages/Login'
 import SignUp from './Pages/SignUp'
+import NotFound from './Pages/NotFound'
 import { ThemeProvider } from './context/Theme'
 import { useEffect, useState } from 'react'
 // import Call from './Pages/Call'
@@ -47,6 +48,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<NotFound />} />
         {/* <Route path="/call" element={<Call />} /> */}
       </Routes>
       </div>
