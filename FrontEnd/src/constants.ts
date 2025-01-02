@@ -46,62 +46,62 @@ export const badges = [
       name: "Rising Blogger", 
       description: "Published your first article on ReadMates.", 
       category: "Writing",
-      file: "risingblogger.png"
+      file: "risingblogger_converted.webp"
     },
     { 
       name: "Pro Contributor", 
       description: "Published 10+ articles.", 
       points: 100,
       category: "Writing",
-      file: "procontributer.png"
+      file: "procontributer_converted.webp"
     },
     { 
       name: "Tech Guru", 
       description: "Published 25+ high-rated articles.", 
       category: "Writing",
-      file: "techguru.png"
+      file: "techguru_converted.webp"
     },
     { 
       name: "Avid Reader", 
       description: "Completed reading 5 articles.", 
       category: "Reading",
-      file: "avidreader.png"
+      file: "avidreader_converted.webp"
     },
     { 
       name: "Deep Diver", 
       description: "Spent 10+ hours reading.", 
       category: "Reading" ,
-      file: "deepdiver.png"
+      file: "deepdiver_converted.webp"
     },
     { 
       name: "Top Critic", 
       description: "Provided valuable feedback on 10+ articles.", 
       category: "Community",
-      file: "topcritic.png"
+      file: "topcritic_converted.webp"
     },
     { 
       name: "Community Builder", 
       description: "Started or engaged in 10+ discussions.", 
       category: "Community",
-      file: "communitybuilder.png"
+      file: "communitybuilder_converted.webp"
     },
     { 
       name: "Helper", 
       description: "Engaged with 5 'Ask the Author' queries.", 
       category: "Community",
-      file: "help.png"
+      file: "help_converted.webp"
     },
     { 
       name: "First Steps", 
       description: "Completed the onboarding process.", 
       category: "Milestone",
-      file: "firststeps.png"
+      file: "firststeps_converted.webp"
     },
     { 
       name: "Streak Keeper", 
       description: "Maintained a 7-day engagement streak.", 
       category: "Milestone",
-      file: "streakkeeper.png"
+      file: "streakkeeper_converted.webp"
     }
   ];
   
