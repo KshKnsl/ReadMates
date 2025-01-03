@@ -38,12 +38,12 @@ const NewPost = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="px-8 py-8 bg-amber-50 dark:bg-gray-800 min-h-screen">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
+                className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6"
             >
                 <h1 className="text-3xl font-bold text-indigo-800 dark:text-amber-300 mb-6">Create New Thread</h1>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -57,7 +57,7 @@ const NewPost = () => {
                             id="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-amber-300 dark:bg-gray-700 dark:text-white"
+                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-amber-300 dark:bg-gray-800 dark:text-white"
                             required
                         />
                     </div>
@@ -69,7 +69,7 @@ const NewPost = () => {
                             id="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-amber-300 dark:bg-gray-700 dark:text-white"
+                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-amber-300 dark:bg-gray-800 dark:text-white"
                             rows={6}
                             required
                         ></textarea>

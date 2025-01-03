@@ -43,7 +43,7 @@ const DiscussionForum = () => {
         return <div className="text-center py-10 text-red-500">{error}</div>;
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="mx-auto px-8 py-8 bg-amber-50 min-h-screen dark:bg-gray-800">
             <h1 className="text-3xl font-bold text-indigo-800 dark:text-amber-300 mb-6">Discussion Forum</h1>
             <Link
                 to="/new-thread"
@@ -55,7 +55,7 @@ const DiscussionForum = () => {
                 {threads.map((thread) => (
                     <motion.div
                         key={thread._id}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
+                        className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}

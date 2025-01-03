@@ -35,7 +35,7 @@ router.get('/threads/:id', async (req, res) => {
   {
     const thread = await Thread.findById(req.params.id)
       .populate('author', 'name')
-      .populate('comments.author', 'name');
+      .populate('comments');
     if (!thread) return res.status(404).json({ message: 'Thread not found' });
     res.json(thread);
   } 
