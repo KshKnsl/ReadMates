@@ -282,7 +282,6 @@ async function generateAiDesc(body) {
     const jsonResponse = await response.json();
     return jsonResponse.candidates[0].content.parts[0].text;
   } catch (error) {
-    console.log("Error:", error);
     return null;
   }
 }

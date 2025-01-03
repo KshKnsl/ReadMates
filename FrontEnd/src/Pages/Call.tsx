@@ -203,7 +203,6 @@ function MeetingView() {
   };
 
   useEffect(() => {
-    console.log("Participants updated:", participants);
     if (joined === "JOINED") {
       toast.done("Someone just joined the meeting.");
     }

@@ -50,7 +50,6 @@ router.post('/threads/:id/comments', async (req, res) => {
   {
     const thread = await Thread.findById(req.params.id);
     if (!thread) return res.status(404).json({ message: 'Thread not found' });
-    console.log(req.body);
     const comment = new Comment({
       content: req.body.content,
       author: req.body.userId,

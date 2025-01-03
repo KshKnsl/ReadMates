@@ -40,7 +40,6 @@ const ThreadDetail: React.FC = () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/forum/threads/${id}`);
         setThread(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError('Failed to load thread. Please try again later.');

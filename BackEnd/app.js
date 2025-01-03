@@ -80,4 +80,4 @@ connect()
       console.log(`Server running on port ${process.env.PORT || 3000}`);
     });
   })
-  .catch((error) => console.log(error.message));
+  .catch((error) => console.error(error.message));

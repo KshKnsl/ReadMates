@@ -10,7 +10,7 @@ module.exports =  async function uploadImage(localUrl,id)
     });
     
     let public_id = `${id}_${Date.now()}`;
-    await v2.uploader.upload(localUrl, { public_id: public_id, }).catch((error) => { console.log(error); });
+    await v2.uploader.upload(localUrl, { public_id: public_id, }).catch((error) => { console.error(error); });
     const autoCropUrl = v2.url(public_id, {
         crop: 'auto',
         gravity: 'auto',

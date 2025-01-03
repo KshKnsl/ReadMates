@@ -56,7 +56,6 @@ async function updateUser(data)
   } 
   catch (error) 
   {
-    console.log(error);
     return { success: false, message: `Error while updating user ${error}` };
   }
 }
