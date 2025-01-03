@@ -12,6 +12,9 @@ import SignUp from './Pages/SignUp'
 import NotFound from './Pages/NotFound'
 import { ThemeProvider } from './context/Theme'
 import { useEffect, useState } from 'react'
+import DiscussionForum from './Pages/DiscussionForum'
+import NewPost from './Pages/NewPost'
+import ThreadDetail from './components/ThreadDetail'
 // import Call from './Pages/Call'
 
 function App() {
@@ -48,7 +51,10 @@ function App() {
         <Route path="/profile/:id" element={<Profile/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />        
+        <Route path="/forum" element={<DiscussionForum />} />
+        <Route path="/thread/:id" element={<ThreadDetail />} />
+        <Route path="/new-thread" element={<NewPost />} />
         {/* <Route path="/call" element={<Call />} /> */}
       </Routes>
       </div>

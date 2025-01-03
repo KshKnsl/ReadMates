@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { UserCircle, BookOpen, PenTool, Users, Award, Menu, X, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { UserCircle, BookOpen, PenTool, Users, Award, Menu, X, LogIn, UserPlus, LogOut, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "../context/AuthContext";
 import LanguageSelector from "./LanguageSelector";
@@ -37,6 +37,7 @@ const Navbar = () => {
     { to: "/articles", icon: BookOpen, label: "Articles" },
     { to: "/create", icon: PenTool, label: "Create" },
     { to: "/rewards", icon: Award, label: "Rewards" },
+    { to: "/forum", icon: MessageCircle, label: "Discussion Forum" },
   ];
 
   const menuVariants = {
