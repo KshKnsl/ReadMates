@@ -8,7 +8,7 @@ const UserName = ({
 }: {
   userId: string;
   name?: string;
-  showAvatar: boolean;
+  showAvatar?: boolean;
 }) => {
   const [user, setUser] = useState<{
     avatar: string;
