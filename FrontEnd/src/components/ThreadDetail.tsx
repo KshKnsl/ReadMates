@@ -110,26 +110,26 @@ const ThreadDetail: React.FC = () => {
       <div className='rounded-lg overflow-hidden'>
       <AnimatePresence>
         {thread.comments.map((comment) => (
-          <motion.div
+            <motion.div
             key={comment._id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="bg-white dark:bg-gray-700 px-4 py-2"
-          >
+            className="bg-white dark:bg-gray-900 px-4 py-3"
+            >
             <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 text-sm">
               <div>
-                <UserName userId={comment.author} showAvatar={true}/>
+              <UserName userId={comment.author} showAvatar={true}/>
               </div>
               <div className="flex items-center">
-                <Clock size={14} className="mr-1" />
-                <span>{new Date(comment.createdAt).toLocaleString()}</span>
+              <Clock size={14} className="mr-1" />
+              <span>{new Date(comment.createdAt).toLocaleString()}</span>
               </div>
             </div>
-            <div className="text-gray-700 dark:text-gray-300">{comment.content}</div>
-            <hr className='mt-2'/>
-          </motion.div>
+            <div className="text-gray-700 dark:text-gray-300 mt-2">{comment.content}</div>
+            <hr className='mt-2 border-gray-300 dark:border-gray-700'/>
+            </motion.div>
         ))}
       </AnimatePresence>
       </div>
