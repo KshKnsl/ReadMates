@@ -9,6 +9,7 @@ const getArticleRoutes = require("./routes/getArticle.routes");
 const colaborationRoutes = require("./routes/colab.route");
 const callRoutes = require("./routes/call.routes");
 const puppet = require("puppeteer");
+const forumRoutes = require("./routes/forum.routes");
 
 // const {protect}= require("./middlewares/authMiddleware");
 
@@ -25,6 +26,7 @@ app.use("/api/article", articleRoutes);
 app.use("/api/getArticle", getArticleRoutes);
 app.use("/api/colab", colaborationRoutes);
 app.use("/api/call", callRoutes);
+app.use("/api/forum", forumRoutes);
 
 app.post("/api/fetch-quiz", async (req, res) => {
   const { topic, content } = req.body;
