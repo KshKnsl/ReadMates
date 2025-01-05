@@ -16,6 +16,7 @@ import DiscussionForum from './Pages/DiscussionForum'
 import NewPost from './Pages/NewPost'
 import ThreadDetail from './components/ThreadDetail'
 // import Call from './Pages/Call'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [themeMode, setThemeMode] = useState('light')
@@ -37,6 +38,7 @@ function App() {
     <ThemeProvider value={{themeMode, darkTheme, lightTheme}}>
     <div className='h-full w-full'>
       <Navbar/>
+      <Analytics/>
       <div className='h-full w-full mx-auto'>
       <Routes>
         <Route path="/" element={<Home />} />
