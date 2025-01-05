@@ -41,7 +41,7 @@ const UserName = ({
   }, [userId, name]);
 
   if (!user) {
-    return <div>Gemini</div>;
+    return <div></div>;
   }
 
   return (

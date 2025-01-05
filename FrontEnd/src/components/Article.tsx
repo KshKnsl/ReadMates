@@ -253,7 +253,7 @@ const Article: React.FC = () => {
                 ) : (
                   <div className="flex items-center">
                     <span className="text-sm text-amber-700 dark:text-amber-300 mr-1">
-                      Source:&nbsp;Gemini
+                      Source:&nbsp;Not Known
                     </span>
                   </div>
                 )}

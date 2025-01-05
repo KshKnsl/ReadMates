@@ -43,10 +43,10 @@ function JoinScreen({
       <div className="flex flex-col items-center">
         <VideoIcon className="w-16 h-16 text-amber-500 mb-4" />
         <h2 className="text-2xl font-bold text-amber-800 dark:text-amber-200 text-center">
-          Join or Create a Meeting
+          Join or Create a Video Session
         </h2>
         <p className="text-amber-700 dark:text-amber-300 text-center mt-2">
-          Enter a meeting ID to join an existing meeting or create a new one.
+          Enter a meeting ID to join an existing video colab session or create a new one.
         </p>
       </div>
 
@@ -70,7 +70,7 @@ function JoinScreen({
             className="w-full px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!meetingId}
           >
-            Join Meeting
+            Join Session
           </motion.button>
 
           <div className="relative">
@@ -87,7 +87,7 @@ function JoinScreen({
             className="w-full px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors flex items-center justify-center"
           >
             <PlusCircle className="w-5 h-5 mr-2" />
-            Create New Meeting
+            Create New Video Session
           </motion.button>
         </div>
       </div>

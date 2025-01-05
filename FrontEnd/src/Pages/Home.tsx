@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Users, Lightbulb, ArrowRight, Search, Play } from 'lucide-react';
+import { BookOpen, Users, Lightbulb, ArrowRight, Search, Play, Clock } from 'lucide-react';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import LastRead from '../components/ui/LastRead';
@@ -52,7 +52,7 @@ const Home = () => {
           </form>
         </section>
 
-        <section className="grid md:grid-cols-3 gap-8 mb-20">
+        <section className="grid md:grid-cols-4 gap-8 mb-20">
           {[
             {
               Icon: BookOpen,
@@ -68,22 +68,33 @@ const Home = () => {
               Icon: Lightbulb,
               title: "Explore Ideas",
               description: "Discover diverse perspectives and engage with contemporary issues through thoughtful discourse."
+            },
+            {
+              Icon: Clock,
+              title: "Weekly 12-Hour Readathons",
+              description: "Participate in our 12-hour readathons to challenge yourself and connect with fellow book lovers.",
+              comingSoon: true
             }
-          ].map(({ Icon, title, description }, index) => (
+          ].map(({ Icon, title, description, comingSoon }, index) => (
             <div
               key={index}
-              className="bg-white/70 dark:bg-gray-700 p-8 rounded-3xl border border-indigo-50 dark:border-gray-600 hover:bg-white/90 dark:hover:bg-gray-600 transition-all duration-300 hover:shadow-lg"
+              className="relative bg-white/70 dark:bg-gray-700 p-8 rounded-3xl border border-indigo-50 dark:border-gray-600 hover:bg-white/90 dark:hover:bg-gray-600 transition-all duration-300 hover:shadow-lg"
             >
+              {comingSoon && (
+          <span className="absolute top-2 right-2 bg-red-200 text-white text-xs font-semibold px-2 py-1 rounded-full">
+            Coming Soon
+          </span>
+              )}
               <div className="bg-indigo-50 dark:bg-gray-700 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
-                <Icon 
-                  className="w-8 h-8 text-indigo-600 dark:text-amber-300" 
-                />
+          <Icon 
+            className="w-8 h-8 text-indigo-600 dark:text-amber-300" 
+          />
               </div>
               <h2 className="text-xl font-semibold text-indigo-900 dark:text-amber-300 mb-3">
-                {title}
+          {title}
               </h2>
               <p className="text-indigo-800/70 dark:text-amber-300 text-base leading-relaxed">
-                {description}
+          {description}
               </p>
             </div>
           ))}
@@ -135,4 +146,3 @@ const Home = () => {
 };
 
 export default Home;
-
