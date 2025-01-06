@@ -64,7 +64,7 @@ const Article: React.FC = () => {
     const contentContainer = document.querySelector('.content-Container');
     const content = contentContainer ? contentContainer.textContent : '';
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-quiz`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL2}/api/fetch-quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
