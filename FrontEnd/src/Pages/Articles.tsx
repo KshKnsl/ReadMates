@@ -285,7 +285,7 @@ function Articles() {
               <p
                 className="text-center text-amber-700 text-lg dark:text-amber-300"
               >
-                No articles found matching your criteria.
+                Not able to reach the server please check your internat connections or try using some other connection.
               </p>
             )}
       <ToastContainer />
