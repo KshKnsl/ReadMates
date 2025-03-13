@@ -4,16 +4,8 @@
 
 ReadMates is a collaborative hub for tech enthusiasts, writers, and readers. Designed for real-time co-editing, interactive reading experiences, and robust community engagement, ReadMates redefines how people create, share, and consume technical and general articles.
 
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Development](#development)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+## Overview
+![image](https://github.com/user-attachments/assets/984c78c3-00e0-4dd4-9910-ca873ff9ff48)
 
 ## Features
 
@@ -47,9 +39,9 @@ ReadMates is a collaborative hub for tech enthusiasts, writers, and readers. Des
 
 ## Tech Stack
 
-- **Frontend:** React.js, Tiptap Editor, Socket.IO, Agora SDK/WebRTC, Redux
-- **Backend:** Node.js, Express.js, MongoDB, Mongoose, Redis
-- **Add-Ons:** Cloudinary/AWS S3 for media storage, JWT for authentication, Firebase Cloud Messaging for notifications
+- **Frontend:** React.js, Tiptap Editor, Socket.IO, WebRTC
+- **Backend:** Node.js, Express.js, MongoDB, Mongoose
+- **Add-Ons:** Cloudinary for media storage, JWT for authentication
 
 ## Installation
 
