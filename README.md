@@ -5,7 +5,7 @@
 ReadMates is a collaborative hub for tech enthusiasts, writers, and readers. Designed for real-time co-editing, interactive reading experiences, and robust community engagement, ReadMates redefines how people create, share, and consume technical and general articles.
 
 ## Overview
-![image](https://github.com/user-attachments/assets/984c78c3-00e0-4dd4-9910-ca873ff9ff48)
+![image](https://github.com/user-attachments/assets/faf5c1bf-cdde-42ba-b1c3-3b9d63803f62)
 
 ## Features
 
